@@ -14,7 +14,6 @@
 
 :root {
   --red: #EA1D3B;
-  --red-deep: #c4102b;
   --ink: #0C0B0B;
   --paper: #FFFDFA;
   --label: #5f5752;
@@ -25,7 +24,7 @@
 
   --gutter: clamp(16px, 4vw, 56px);
   --max: 1280px;
-  --nav-h: 72px;
+  --nav-h: 84px;
   --promo-h: 32px;
   --header-h: calc(var(--promo-h) + var(--nav-h));
   --wa: #25D366;
@@ -39,7 +38,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font: 400 17px/1.5 var(--font-body);
+  font: 400 17px/1.4 var(--font-body);
 }
 html, body { overflow-x: hidden; overflow-x: clip; }
 /* Grano de papel: textura física sin peso de imagen */
@@ -87,7 +86,7 @@ a { color: inherit; }
 }
 .btn:active { transform: scale(.97); }
 .btn--red { background: var(--red); color: #fff; }
-.btn--red:hover { background: var(--red-deep); border-color: var(--red-deep); }
+.btn--red:hover { background: var(--ink); border-color: var(--ink); }
 .btn--ghost { color: var(--red); background: transparent; }
 .btn--ghost:hover { background: var(--red); color: #fff; }
 .btn--white { background: #fff; border-color: #fff; color: var(--red); }
@@ -125,20 +124,9 @@ a { color: inherit; }
 }
 .nav__links a:hover::after { transform: scaleX(1); }
 
-/* Logo oficial. Glitch RGB cada ~9 s como en la tienda; también al pasar el cursor */
-.logo { display: block; height: 56px; width: auto; aspect-ratio: 1759 / 1001; color: #fff; animation: logo-glitch 9s steps(1) infinite; }
-.nav__logo:hover .logo { animation: logo-glitch-now 420ms steps(1) 1; }
-@keyframes logo-glitch {
-  0%, 95% { transform: none; filter: none; }
-  96% { transform: translate(-2px, 1px); filter: drop-shadow(3px 0 #00e1ff) drop-shadow(-3px 0 var(--ink)); }
-  97% { transform: translate(2px, -1px); filter: drop-shadow(-3px 0 #00e1ff) drop-shadow(3px 0 var(--ink)); }
-  98%, 100% { transform: none; filter: none; }
-}
-@keyframes logo-glitch-now {
-  0% { transform: translate(-2px, 1px); filter: drop-shadow(3px 0 #00e1ff) drop-shadow(-3px 0 var(--ink)); }
-  40% { transform: translate(2px, -1px); filter: drop-shadow(-3px 0 #00e1ff) drop-shadow(3px 0 var(--ink)); }
-  80%, 100% { transform: none; filter: none; }
-}
+/* Logo oficial, sin efectos (manual v07: no añadir texturas ni efectos). Mínimo en pantalla: 120 px de ancho */
+.logo { display: block; height: 70px; width: auto; aspect-ratio: 1759 / 1001; color: #fff; }
+.logo-lmn { display: none; height: 40px; width: auto; aspect-ratio: 695 / 582; color: #fff; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -273,14 +261,15 @@ a { color: inherit; }
 .manifesto__title span:nth-child(2) { padding-left: 8%; color: var(--ink); }
 .manifesto__title span:nth-child(3) { padding-left: 16%; }
 .manifesto__text { max-width: 30ch; margin: clamp(28px, 4vw, 48px) 0 0 16%; font-size: clamp(18px, 1.6vw, 22px); }
-.manifesto__ghost { position: absolute; right: calc(var(--gutter) + 4%); bottom: clamp(32px, 5vw, 64px); width: clamp(180px, 22vw, 300px); transform: rotate(-8deg); }
+.manifesto__ghost { position: absolute; right: calc(var(--gutter) + 4%); bottom: clamp(32px, 5vw, 64px); width: clamp(180px, 22vw, 300px); }
 
 /* ---------- Visítanos ---------- */
 .visit {
   max-width: var(--max); margin: 0 auto;
   padding: clamp(72px, 10vw, 128px) var(--gutter);
-  display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(32px, 6vw, 96px); align-items: center;
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center;
 }
+.visit__art { order: 2; }
 .visit__art img { width: 100%; max-width: 340px; margin-inline: auto; }
 .rows { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; border-top: 2px solid var(--ink); }
 .rows > li { border-bottom: 1px solid var(--line); }
@@ -308,9 +297,10 @@ a { color: inherit; }
 .footer__social a { text-decoration: none; }
 .footer__social a:hover { color: var(--ink); }
 .footer__legal { margin: 0; color: rgba(255, 255, 255, .8); font-size: 14px; }
+/* Supergráfico (manual v07, p. 20): logo grande recortado por abajo, dentro del 65 % permitido */
 .footer__mark {
-  display: block; width: min(86%, 760px); height: auto; aspect-ratio: 1759 / 1001;
-  margin: clamp(24px, 4vw, 48px) auto clamp(32px, 5vw, 64px); color: #fff;
+  display: block; width: min(96%, 1200px); height: auto; aspect-ratio: 1759 / 1001;
+  margin: clamp(24px, 4vw, 48px) auto -9%; color: #fff;
 }
 
 /* ---------- Flotantes, igual que en la tienda ---------- */
@@ -333,7 +323,8 @@ a { color: inherit; }
   :root { --nav-h: 60px; --promo-h: 28px; }
   .nav__promo { font-size: 12px; }
   .nav__links { display: none; }
-  .logo { height: 44px; }
+  .logo { display: none; }
+  .logo-lmn { display: block; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; padding-bottom: 0; gap: 0; }
   .hero__art { width: min(72%, 300px); margin: 24px 0 32px; justify-self: end; }
@@ -370,12 +361,12 @@ a { color: inherit; }
 
   .order-float {
     display: inline-flex; position: fixed; z-index: 60;
-    left: 50%; bottom: calc(20px + env(safe-area-inset-bottom));
-    min-width: 180px; transform: translate(-50%, 160%);
+    right: 16px; bottom: calc(20px + env(safe-area-inset-bottom));
+    min-width: 170px; transform: translateY(160%);
     box-shadow: 0 6px 18px rgba(12, 11, 11, .18);
     transition: transform 260ms var(--ease);
   }
-  .order-float.is-on { transform: translate(-50%, 0); }
+  .order-float.is-on { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
