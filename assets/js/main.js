@@ -6,27 +6,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // Nav: se esconde al bajar, vuelve al subir
   const nav = document.querySelector('[data-nav]');
   const dock = document.querySelector('[data-dock]');
-  const heroActions = document.querySelector('.hero__actions');
   let lastY = window.scrollY;
   let ticking = false;
 
   const onScroll = () => {
     const y = window.scrollY;
     nav.classList.toggle('is-scrolled', y > 8);
-    nav.classList.toggle('is-hidden', y > lastY && y > 240);
+    const hidden = y > lastY && y > 240;
+    nav.classList.toggle('is-hidden', hidden);
+    if (dock) dock.classList.toggle('is-on', hidden);
     lastY = y;
     ticking = false;
   };
   window.addEventListener('scroll', () => {
     if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
   }, { passive: true });
-
-  // Dock móvil: aparece cuando los botones del hero ya no se ven
-  if (dock && heroActions && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
-      dock.classList.toggle('is-on', !entry.isIntersecting && entry.boundingClientRect.top < 0);
-    }).observe(heroActions);
-  }
 
   // Fantasma: hace su truco al cargar y cada vez que lo tocas
   const ghost = document.querySelector('[data-ghost]');

@@ -284,7 +284,17 @@ a { color: inherit; }
   0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .45); }
   70%, 100% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
 }
-.order-float { display: none; }
+/* "Pide ahora" baja a la esquina inferior derecha cuando el header se esconde */
+.order-float {
+  position: fixed; z-index: 60;
+  right: clamp(16px, 3vw, 40px); bottom: calc(20px + env(safe-area-inset-bottom));
+  border: 2px solid var(--red);
+  box-shadow: 0 6px 18px rgba(12, 11, 11, .18);
+  translate: 0 calc(100% + 40px);
+  transition: translate 260ms var(--ease);
+}
+.order-float.is-on { translate: 0 0; }
+.order-float:not(.is-on) { animation: none; }
 
 /* ---------- Móvil ---------- */
 @media (max-width: 820px) {
@@ -316,15 +326,6 @@ a { color: inherit; }
 
   .footer { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 
-  .order-float {
-    display: inline-flex; position: fixed; z-index: 60;
-    right: 16px; bottom: calc(20px + env(safe-area-inset-bottom));
-    min-width: 170px; transform: translateY(160%);
-    box-shadow: 0 6px 18px rgba(12, 11, 11, .18);
-    transition: transform 260ms var(--ease);
-  }
-  .order-float.is-on { transform: none; }
-  .order-float:not(.is-on) { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
