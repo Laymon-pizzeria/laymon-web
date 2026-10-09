@@ -124,7 +124,7 @@ a { color: inherit; }
   padding: 0 var(--gutter);
   background: var(--red); color: #fff;
 }
-.nav__logo { text-decoration: none; margin-right: auto; }
+.nav__logo { text-decoration: none; margin-right: auto; position: relative; top: calc(var(--promo-h) / -2); } /* centrado en todo el bloque rojo (barra de envío + header), no solo en el header */
 .nav__links { display: flex; gap: 28px; }
 .nav__links a { text-decoration: none; font-size: 15px; position: relative; }
 .nav__links a::after {
