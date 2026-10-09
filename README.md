@@ -15,6 +15,7 @@ npx http-server -p 8080
 - `assets/js/main.js` — nav que se esconde, barra fija en móvil, truco del fantasma y parallax, playlist bajo demanda
 - `assets/fonts/` — Brick-Laymon (display) y Chelsea Market (texto), woff2
 - `assets/img/fantasma/` — fantasma skater, 6 cuadros SVG del mismo sprite que el intro de Justo
+- `assets/img/logo/` — logo oficial vectorizado (de Logo Blanco@4x.png en Drive) y favicons con el LMN
 - `assets/img/iconos/` — íconos de categoría (los mismos del menú de Justo)
 
 ## Publicar

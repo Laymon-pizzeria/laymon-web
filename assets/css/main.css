@@ -25,7 +25,7 @@
 
   --gutter: clamp(16px, 4vw, 56px);
   --max: 1280px;
-  --nav-h: 64px;
+  --nav-h: 72px;
   --promo-h: 32px;
   --header-h: calc(var(--promo-h) + var(--nav-h));
   --wa: #25D366;
@@ -125,27 +125,19 @@ a { color: inherit; }
 }
 .nav__links a:hover::after { transform: scaleX(1); }
 
-/* Wordmark provisional con glitch al pasar el cursor */
-.wordmark {
-  position: relative; display: inline-block;
-  font: 400 34px/1 var(--font-display); color: #fff;
+/* Logo oficial. Glitch RGB cada ~9 s como en la tienda; también al pasar el cursor */
+.logo { display: block; height: 56px; width: auto; aspect-ratio: 1759 / 1001; color: #fff; animation: logo-glitch 9s steps(1) infinite; }
+.nav__logo:hover .logo { animation: logo-glitch-now 420ms steps(1) 1; }
+@keyframes logo-glitch {
+  0%, 95% { transform: none; filter: none; }
+  96% { transform: translate(-2px, 1px); filter: drop-shadow(3px 0 #00e1ff) drop-shadow(-3px 0 var(--ink)); }
+  97% { transform: translate(2px, -1px); filter: drop-shadow(-3px 0 #00e1ff) drop-shadow(3px 0 var(--ink)); }
+  98%, 100% { transform: none; filter: none; }
 }
-.wordmark::before, .wordmark::after {
-  content: attr(data-text); position: absolute; inset: 0; opacity: 0;
-}
-.wordmark::before { color: var(--ink); }
-.wordmark::after { color: var(--paper); mix-blend-mode: difference; }
-.nav__logo:hover .wordmark::before { animation: glitch-a 360ms steps(2) 1; }
-.nav__logo:hover .wordmark::after { animation: glitch-b 360ms steps(2) 1; }
-@keyframes glitch-a {
-  0% { opacity: 1; transform: translate(-3px, 1px); clip-path: inset(0 0 60% 0); }
-  50% { opacity: 1; transform: translate(2px, -1px); clip-path: inset(55% 0 0 0); }
-  100% { opacity: 0; transform: none; }
-}
-@keyframes glitch-b {
-  0% { opacity: 1; transform: translate(3px, 0); clip-path: inset(40% 0 20% 0); }
-  50% { opacity: 1; transform: translate(-2px, 1px); clip-path: inset(0 0 70% 0); }
-  100% { opacity: 0; transform: none; }
+@keyframes logo-glitch-now {
+  0% { transform: translate(-2px, 1px); filter: drop-shadow(3px 0 #00e1ff) drop-shadow(-3px 0 var(--ink)); }
+  40% { transform: translate(2px, -1px); filter: drop-shadow(-3px 0 #00e1ff) drop-shadow(3px 0 var(--ink)); }
+  80%, 100% { transform: none; filter: none; }
 }
 
 /* ---------- Hero ---------- */
@@ -317,8 +309,8 @@ a { color: inherit; }
 .footer__social a:hover { color: var(--ink); }
 .footer__legal { margin: 0; color: rgba(255, 255, 255, .8); font-size: 14px; }
 .footer__mark {
-  margin: 8px 0 -.1em; text-align: center;
-  font: 400 clamp(96px, 26vw, 380px)/.8 var(--font-display); color: #fff;
+  display: block; width: min(86%, 760px); height: auto; aspect-ratio: 1759 / 1001;
+  margin: clamp(24px, 4vw, 48px) auto clamp(32px, 5vw, 64px); color: #fff;
 }
 
 /* ---------- Flotantes, igual que en la tienda ---------- */
@@ -338,10 +330,10 @@ a { color: inherit; }
 
 /* ---------- Móvil ---------- */
 @media (max-width: 820px) {
-  :root { --nav-h: 56px; --promo-h: 28px; }
+  :root { --nav-h: 60px; --promo-h: 28px; }
   .nav__promo { font-size: 12px; }
   .nav__links { display: none; }
-  .wordmark { font-size: 28px; }
+  .logo { height: 44px; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; padding-bottom: 0; gap: 0; }
   .hero__art { width: min(72%, 300px); margin: 24px 0 32px; justify-self: end; }
