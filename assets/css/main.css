@@ -291,8 +291,7 @@ a { color: inherit; }
   :root { --nav-h: 104px; --promo-h: 28px; }
   .nav__promo { font-size: 12px; }
   .nav__promo span { animation-duration: 11s; animation-delay: -3s; }
-  .nav__bar { gap: 16px; }
-  .nav__links a { font-size: 14px; }
+  .nav__links { display: none; }
   .logo { height: 76px; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; padding-bottom: 0; gap: 0; }
