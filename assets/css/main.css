@@ -26,7 +26,7 @@
   --max: 1280px;
   --nav-h: 128px;
   --promo-h: 32px;
-  --header-h: calc(var(--promo-h) + var(--nav-h));
+  --header-h: calc(var(--promo-h) + var(--nav-h) + env(safe-area-inset-top));
   --wa: #25D366;
   --ease: cubic-bezier(.2, .8, .2, 1);
   --fast: 180ms;
@@ -102,6 +102,9 @@ a { color: inherit; }
   transition: transform 260ms var(--ease);
 }
 .nav.is-hidden { transform: translateY(-100%); }
+/* Rojo extra arriba del header: tapa la franja de la barra de estado y el rebote de iOS */
+.nav { padding-top: env(safe-area-inset-top); background: var(--red); }
+.nav::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 120px; background: var(--red); }
 .nav__promo {
   margin: 0; height: var(--promo-h);
   display: flex; align-items: center; overflow: hidden;
@@ -149,9 +152,9 @@ a { color: inherit; }
 
 /* Botón "Pedir ahora": copia exacta del de Justo */
 .pedir {
-  font-family: var(--font-display); font-size: 32px; line-height: 1.2;
+  font-family: var(--font-display); font-size: 22px; line-height: 1.2;
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 48px; padding: 10px 22px; border-radius: 999px;
+  min-height: 34px; padding: 7px 15px; border-radius: 999px;
   background: #fff; color: var(--red); text-decoration: none; white-space: nowrap;
   animation: laymon-pedir-bounce 1.8s ease-in-out infinite;
 }
@@ -159,7 +162,7 @@ a { color: inherit; }
 .pedir:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
 .pedir__icon { width: .8em; height: .8em; margin-right: .3em; flex: none; }
 .pedir--red { background: var(--red); color: #fff; }
-@media (min-width: 1024px) { .pedir { font-size: 36px; } }
+@media (min-width: 1024px) { .pedir { font-size: 25px; } }
 @keyframes laymon-pedir-bounce {
   0%, 45%, 100% { transform: translateY(0) scale(1); }
   53% { transform: translateY(-14px) scale(1.04); }
