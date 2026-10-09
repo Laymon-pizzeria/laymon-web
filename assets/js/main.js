@@ -44,12 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
       let i = 0;
       const step = () => {
         frames.forEach((f, n) => f.classList.toggle('is-on', n === i));
-        if (++i < frames.length) setTimeout(step, 110);
+        if (++i < frames.length) setTimeout(step, 150);
         else playing = false;
       };
       step();
     };
-    setTimeout(trick, 500);
+    // Una vez al cargar, cuando el logo ya dejó de mecerse; luego solo al pasar el cursor o tocarlo
+    setTimeout(trick, 2200);
     ghost.addEventListener('click', trick);
     ghost.addEventListener('pointerenter', trick);
   }
