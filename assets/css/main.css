@@ -179,8 +179,9 @@ a { color: inherit; }
 .hero {
   position: relative; isolation: isolate; overflow: hidden;
   min-height: min(100svh, 900px);
-  padding: calc(var(--promo-h) + env(safe-area-inset-top)) max(var(--gutter), (100% - var(--max)) / 2) clamp(72px, 10vh, 120px);
-  display: grid; grid-template-columns: minmax(220px, .7fr) 1.3fr; align-items: start; gap: clamp(24px, 4vw, 64px);
+  /* Sin padding a la derecha: la columna del fantasma va del rectángulo al borde de la página */
+  padding: calc(var(--promo-h) + env(safe-area-inset-top)) 0 clamp(72px, 10vh, 120px) max(var(--gutter), (100% - var(--max)) / 2);
+  display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 0;
   background:
     radial-gradient(38% 46% at 78% 62%, rgba(234, 29, 59, .78), transparent 72%),
     radial-gradient(30% 34% at 96% 8%, rgba(234, 29, 59, .55), transparent 70%),
@@ -197,31 +198,35 @@ a { color: inherit; }
 .hero__side { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
 /* El logo baja colgando en su rectángulo rojo, con el mismo glitch */
 .hero__tag {
-  display: flex; align-items: flex-end; justify-content: center;
-  width: clamp(200px, 19vw, 260px); aspect-ratio: 5 / 6;
-  padding: 0 22px 26px; background: var(--red); color: #fff;
+  /* Mismo aire abajo y a los lados del logo (--tag-p); arriba un poco más, que es de donde cuelga */
+  --tag-p: clamp(18px, 1.8vw, 26px);
+  display: block;
+  width: clamp(200px, 19vw, 260px);
+  padding: calc(var(--tag-p) * 2.2) var(--tag-p) var(--tag-p); background: var(--red); color: #fff;
   box-shadow: 0 18px 40px rgba(12, 11, 11, .18);
   animation: tag-baja 900ms cubic-bezier(.3, 1.4, .5, 1) both;
 }
-.hero__tag .logo { width: 100%; height: auto; }
+.hero__tag .logo { display: block; width: 100%; height: auto; }
 @keyframes tag-baja { from { transform: translateY(-105%); } to { transform: none; } }
-.hero__where { margin: 6px 0 0; line-height: 1.5; }
-.hero__pedir { margin-top: 4px; }
+.hero__pedir { margin-top: 10px; }
 .hero__reserva { font-size: 15px; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); padding-bottom: 1px; }
-.hero__main { position: relative; z-index: 1; display: grid; justify-items: end; padding-top: clamp(40px, 8vh, 96px); }
+.hero__main {
+  position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: clamp(40px, 7vh, 88px) var(--gutter) 0;
+}
 .hero__title {
-  margin: 0; justify-self: start; position: relative; z-index: 2;
+  margin: clamp(16px, 3vh, 32px) 0 0; position: relative; z-index: 2;
   font: 400 clamp(48px, 6.4vw, 100px)/.92 var(--font-display);
   color: var(--red); text-wrap: balance;
 }
 .hero__lead {
-  display: block; margin-bottom: 14px;
+  display: block; margin-bottom: 14px; white-space: nowrap;
   font: 400 clamp(20px, 2vw, 26px)/1.2 var(--font-body);
   color: var(--ink);
 }
 
 /* Fantasma skater: cuadros del mismo sprite que el intro del menú de Justo */
-.hero__art { position: relative; z-index: 1; width: min(100%, 440px); margin-top: -24px; transition: transform 400ms var(--ease); }
+.hero__art { position: relative; z-index: 1; width: min(100%, 380px); transition: transform 400ms var(--ease); }
 .ghost {
   position: relative; display: block; width: 100%; aspect-ratio: 220 / 260;
   padding: 0; border: 0; background: none; cursor: pointer;
@@ -338,13 +343,12 @@ a { color: inherit; }
   .nav__cta { display: none; }
   .order-float, .order-float:not(.is-on) { translate: 0 0; animation: laymon-pedir-bounce 1.8s ease-in-out infinite; }
 
-  .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; padding-bottom: 72px; }
+  .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; padding: calc(var(--promo-h) + env(safe-area-inset-top)) var(--gutter) 72px; }
   .hero__side { align-items: center; text-align: center; }
-  .hero__tag { width: 190px; padding: 0 18px 22px; }
-  .hero__main { padding-top: 24px; }
-  .hero__main { justify-items: center; text-align: center; }
-  .hero__title { justify-self: center; font-size: clamp(40px, 11vw, 56px); }
-  .hero__art { width: min(70%, 280px); margin-top: 8px; }
+  .hero__tag { width: 190px; }
+  .hero__main { padding: 16px 0 0; }
+  .hero__title { font-size: clamp(40px, 11vw, 56px); }
+  .hero__art { width: min(70%, 280px); }
   .hero {
     background:
       radial-gradient(260px 240px at 85% 78%, rgba(234, 29, 59, .75), transparent 72%),
