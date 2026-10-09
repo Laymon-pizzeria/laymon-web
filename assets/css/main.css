@@ -157,6 +157,7 @@ a { color: inherit; }
 }
 .pedir:is(:hover, :focus-visible) { animation-play-state: paused; }
 .pedir:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
+.pedir__icon { width: .8em; height: .8em; margin-right: .3em; flex: none; }
 .pedir--red { background: var(--red); color: #fff; }
 @media (min-width: 1024px) { .pedir { font-size: 36px; } }
 @keyframes laymon-pedir-bounce {
@@ -290,7 +291,8 @@ a { color: inherit; }
   :root { --nav-h: 104px; --promo-h: 28px; }
   .nav__promo { font-size: 12px; }
   .nav__promo span { animation-duration: 11s; animation-delay: -3s; }
-  .nav__links { display: none; }
+  .nav__bar { gap: 16px; }
+  .nav__links a { font-size: 14px; }
   .logo { height: 76px; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; padding-bottom: 0; gap: 0; }
