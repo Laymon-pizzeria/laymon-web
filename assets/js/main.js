@@ -28,16 +28,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }).observe(heroActions);
   }
 
-  // Jaguar del hero: sigue al cursor apenas (solo escritorio)
-  const beast = document.querySelector('[data-parallax]');
-  if (beast && !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  // Fantasma: hace su truco al cargar y cada vez que lo tocas
+  const ghost = document.querySelector('[data-ghost]');
+  if (ghost && !reduceMotion) {
+    const frames = [...ghost.querySelectorAll('.ghost__frame')];
+    let playing = false;
+    const trick = () => {
+      if (playing) return;
+      playing = true;
+      let i = 0;
+      const step = () => {
+        frames.forEach((f, n) => f.classList.toggle('is-on', n === i));
+        if (++i < frames.length) setTimeout(step, 110);
+        else playing = false;
+      };
+      step();
+    };
+    setTimeout(trick, 500);
+    ghost.addEventListener('click', trick);
+    ghost.addEventListener('pointerenter', trick);
+  }
+
+  // Fantasma del hero: sigue al cursor apenas (solo escritorio)
+  const art = document.querySelector('[data-parallax]');
+  if (art && !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     let frame = 0;
     window.addEventListener('pointermove', (e) => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const x = (e.clientX / window.innerWidth - 0.5) * -14;
         const y = (e.clientY / window.innerHeight - 0.5) * -8;
-        beast.style.transform = `translate(${x}px, ${y}px)`;
+        art.style.transform = `translate(${x}px, ${y}px)`;
       });
     });
   }
