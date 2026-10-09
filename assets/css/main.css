@@ -102,6 +102,7 @@ a { color: inherit; }
   transition: transform 260ms var(--ease);
 }
 .nav.is-hidden { transform: translateY(-100%); }
+.nav.is-hero .nav__bar { height: 0; }
 /* Rojo extra arriba del header: tapa la franja de la barra de estado y el rebote de iOS */
 .nav { padding-top: env(safe-area-inset-top); background: var(--red); }
 .nav::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 120px; background: var(--red); }
@@ -122,7 +123,7 @@ a { color: inherit; }
   to { transform: translateX(-100%); }
 }
 .nav__bar {
-  height: var(--nav-h);
+  height: var(--nav-h); overflow: hidden; transition: height 300ms var(--ease);
   display: flex; align-items: center; gap: 32px;
   padding: 0 var(--gutter);
   background: var(--red); color: #fff;
@@ -174,28 +175,53 @@ a { color: inherit; }
 }
 
 /* ---------- Hero ---------- */
+/* Fondo difuminado tomado de la referencia de Luis, pasado a rojos; solo en el hero */
 .hero {
-  position: relative;
-  max-width: var(--max); margin: 0 auto;
-  min-height: min(100svh, 860px);
-  padding: calc(var(--header-h) + clamp(32px, 7vh, 88px)) var(--gutter) clamp(48px, 8vh, 96px);
-  display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 24px;
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: min(100svh, 900px);
+  padding: calc(var(--promo-h) + env(safe-area-inset-top)) max(var(--gutter), (100% - var(--max)) / 2) clamp(72px, 10vh, 120px);
+  display: grid; grid-template-columns: minmax(220px, .7fr) 1.3fr; align-items: start; gap: clamp(24px, 4vw, 64px);
+  background:
+    radial-gradient(38% 46% at 78% 62%, rgba(234, 29, 59, .78), transparent 72%),
+    radial-gradient(30% 34% at 96% 8%, rgba(234, 29, 59, .55), transparent 70%),
+    radial-gradient(34% 38% at 8% 92%, rgba(234, 29, 59, .42), transparent 72%),
+    radial-gradient(40% 40% at 45% 100%, rgba(255, 140, 158, .5), transparent 70%),
+    radial-gradient(26% 30% at 52% 22%, rgba(255, 170, 182, .45), transparent 72%),
+    var(--paper);
 }
-.hero__copy { position: relative; z-index: 2; }
+/* Grano fino encima del difuminado, como en la referencia */
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: .22; mix-blend-mode: multiply;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .05 0 0 0 0 .04 0 0 0 0 .04 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.hero__side { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
+/* El logo baja colgando en su rectángulo rojo, con el mismo glitch */
+.hero__tag {
+  display: flex; align-items: flex-end; justify-content: center;
+  width: clamp(200px, 19vw, 260px); aspect-ratio: 5 / 6;
+  padding: 0 22px 26px; background: var(--red); color: #fff;
+  box-shadow: 0 18px 40px rgba(12, 11, 11, .18);
+  animation: tag-baja 900ms cubic-bezier(.3, 1.4, .5, 1) both;
+}
+.hero__tag .logo { width: 100%; height: auto; }
+@keyframes tag-baja { from { transform: translateY(-105%); } to { transform: none; } }
+.hero__where { margin: 6px 0 0; line-height: 1.5; }
+.hero__pedir { margin-top: 4px; }
+.hero__reserva { font-size: 15px; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); padding-bottom: 1px; }
+.hero__main { position: relative; z-index: 1; display: grid; justify-items: end; padding-top: clamp(40px, 8vh, 96px); }
 .hero__title {
-  margin: 0;
-  font: 400 clamp(52px, 7.4vw, 108px)/.9 var(--font-display);
-  color: var(--red);
+  margin: 0; justify-self: start; position: relative; z-index: 2;
+  font: 400 clamp(48px, 6.4vw, 100px)/.92 var(--font-display);
+  color: var(--red); text-wrap: balance;
 }
 .hero__lead {
   display: block; margin-bottom: 14px;
   font: 400 clamp(20px, 2vw, 26px)/1.2 var(--font-body);
   color: var(--ink);
 }
-.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(28px, 5vh, 44px); }
 
 /* Fantasma skater: cuadros del mismo sprite que el intro del menú de Justo */
-.hero__art { position: relative; z-index: 1; justify-self: center; width: min(100%, 500px); transition: transform 400ms var(--ease); }
+.hero__art { position: relative; z-index: 1; width: min(100%, 440px); margin-top: -24px; transition: transform 400ms var(--ease); }
 .ghost {
   position: relative; display: block; width: 100%; aspect-ratio: 220 / 260;
   padding: 0; border: 0; background: none; cursor: pointer;
@@ -312,10 +338,22 @@ a { color: inherit; }
   .nav__cta { display: none; }
   .order-float, .order-float:not(.is-on) { translate: 0 0; animation: laymon-pedir-bounce 1.8s ease-in-out infinite; }
 
-  .hero { grid-template-columns: 1fr; min-height: 0; padding-bottom: 0; gap: 0; }
-  .hero__art { width: min(72%, 300px); margin: 24px 0 32px; justify-self: end; }
+  .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; padding-bottom: 72px; }
+  .hero__side { align-items: center; text-align: center; }
+  .hero__tag { width: 190px; padding: 0 18px 22px; }
+  .hero__main { padding-top: 24px; }
+  .hero__main { justify-items: center; text-align: center; }
+  .hero__title { justify-self: center; font-size: clamp(40px, 11vw, 56px); }
+  .hero__art { width: min(70%, 280px); margin-top: 8px; }
+  .hero {
+    background:
+      radial-gradient(260px 240px at 85% 78%, rgba(234, 29, 59, .75), transparent 72%),
+      radial-gradient(200px 200px at 100% 8%, rgba(234, 29, 59, .5), transparent 70%),
+      radial-gradient(220px 220px at 0% 50%, rgba(234, 29, 59, .38), transparent 72%),
+      radial-gradient(260px 200px at 30% 100%, rgba(255, 140, 158, .5), transparent 70%),
+      var(--paper);
+  }
   .eyebrow { font-size: 12px; letter-spacing: .08em; }
-  .hero__actions .btn { padding: 0 22px; flex: 1 1 auto; }
 
   .section-head { flex-direction: column; align-items: start; }
 
@@ -335,6 +373,9 @@ a { color: inherit; }
   .footer { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 
 }
+
+/* Mientras se ve el Pide ahora del hero, no hay botón flotante */
+body.en-hero .order-float.order-float { translate: 0 calc(100% + 40px); animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

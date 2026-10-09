@@ -7,13 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.querySelector('[data-nav]');
   const dock = document.querySelector('[data-dock]');
   let lastY = window.scrollY;
+  // Mientras el Pide ahora del hero se ve, el header muestra solo la barra de envío
+  const heroCta = document.querySelector('[data-hero-cta]');
+  let enHero = true;
+  if (heroCta && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      enHero = entry.isIntersecting || entry.boundingClientRect.top > 0;
+      onScroll();
+    }).observe(heroCta);
+  } else { enHero = false; }
   let ticking = false;
 
   const onScroll = () => {
     const y = window.scrollY;
     nav.classList.toggle('is-scrolled', y > 8);
-    const hidden = y > lastY && y > 240;
+    const hidden = !enHero && y > lastY && y > 240;
+    nav.classList.toggle('is-hero', enHero);
     nav.classList.toggle('is-hidden', hidden);
+    document.body.classList.toggle('en-hero', enHero);
     if (dock) dock.classList.toggle('is-on', hidden);
     lastY = y;
     ticking = false;
