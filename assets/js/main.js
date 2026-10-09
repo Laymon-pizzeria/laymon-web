@@ -66,6 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Playlist: el reproductor de Spotify solo se carga si lo piden
   const playlistBtn = document.querySelector('[data-playlist]');
   const playlist = document.getElementById('playlist');
+  document.querySelectorAll('[data-open-playlist]').forEach((link) => {
+    link.addEventListener('click', () => {
+      if (playlistBtn && playlistBtn.getAttribute('aria-expanded') !== 'true') playlistBtn.click();
+    });
+  });
   if (playlistBtn && playlist) {
     playlistBtn.addEventListener('click', () => {
       const open = playlistBtn.getAttribute('aria-expanded') === 'true';

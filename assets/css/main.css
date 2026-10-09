@@ -26,12 +26,15 @@
   --gutter: clamp(16px, 4vw, 56px);
   --max: 1280px;
   --nav-h: 64px;
+  --promo-h: 32px;
+  --header-h: calc(var(--promo-h) + var(--nav-h));
+  --wa: #25D366;
   --ease: cubic-bezier(.2, .8, .2, 1);
   --fast: 180ms;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
 body {
   margin: 0;
   background: var(--paper);
@@ -87,29 +90,37 @@ a { color: inherit; }
 .btn--red:hover { background: var(--red-deep); border-color: var(--red-deep); }
 .btn--ghost { color: var(--red); background: transparent; }
 .btn--ghost:hover { background: var(--red); color: #fff; }
+.btn--white { background: #fff; border-color: #fff; color: var(--red); }
+.btn--white:hover { color: var(--ink); }
 .btn--sm { min-height: 40px; padding: 0 20px; font-size: 15px; }
 
 .link-arrow { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); padding-bottom: 2px; }
 .link-arrow::after { content: " →"; color: var(--red); }
 
-/* ---------- Nav ---------- */
+/* ---------- Nav: encabezado rojo, igual que la tienda ---------- */
 .nav {
   position: fixed; inset: 0 0 auto; z-index: 50;
+  transition: transform 260ms var(--ease);
+}
+.nav.is-hidden { transform: translateY(-100%); }
+.nav__promo {
+  margin: 0; height: var(--promo-h);
+  display: grid; place-items: center;
+  background: var(--ink); color: var(--paper); font-size: 13px;
+}
+.nav__promo a { text-decoration: none; }
+.nav__bar {
   height: var(--nav-h);
   display: flex; align-items: center; gap: 32px;
   padding: 0 var(--gutter);
-  background: var(--paper);
-  border-bottom: 1px solid transparent;
-  transition: transform 260ms var(--ease), border-color var(--fast);
+  background: var(--red); color: #fff;
 }
-.nav.is-scrolled { border-bottom-color: var(--line); }
-.nav.is-hidden { transform: translateY(-100%); }
 .nav__logo { text-decoration: none; margin-right: auto; }
 .nav__links { display: flex; gap: 28px; }
 .nav__links a { text-decoration: none; font-size: 15px; position: relative; }
 .nav__links a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
-  background: var(--red); transform: scaleX(0); transform-origin: left;
+  background: #fff; transform: scaleX(0); transform-origin: left;
   transition: transform var(--fast) var(--ease);
 }
 .nav__links a:hover::after { transform: scaleX(1); }
@@ -117,13 +128,13 @@ a { color: inherit; }
 /* Wordmark provisional con glitch al pasar el cursor */
 .wordmark {
   position: relative; display: inline-block;
-  font: 400 34px/1 var(--font-display); color: var(--red);
+  font: 400 34px/1 var(--font-display); color: #fff;
 }
 .wordmark::before, .wordmark::after {
   content: attr(data-text); position: absolute; inset: 0; opacity: 0;
 }
 .wordmark::before { color: var(--ink); }
-.wordmark::after { color: var(--red); }
+.wordmark::after { color: var(--paper); mix-blend-mode: difference; }
 .nav__logo:hover .wordmark::before { animation: glitch-a 360ms steps(2) 1; }
 .nav__logo:hover .wordmark::after { animation: glitch-b 360ms steps(2) 1; }
 @keyframes glitch-a {
@@ -142,7 +153,7 @@ a { color: inherit; }
   position: relative;
   max-width: var(--max); margin: 0 auto;
   min-height: min(100svh, 860px);
-  padding: calc(var(--nav-h) + clamp(32px, 7vh, 88px)) var(--gutter) clamp(48px, 8vh, 96px);
+  padding: calc(var(--header-h) + clamp(32px, 7vh, 88px)) var(--gutter) clamp(48px, 8vh, 96px);
   display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 24px;
 }
 .hero__copy { position: relative; z-index: 2; }
@@ -181,27 +192,77 @@ a { color: inherit; }
   50% { transform: scaleX(.8); opacity: .07; }
 }
 
-/* ---------- Carta ---------- */
+/* ---------- Carta: tarjetas y categorías como en la tienda ---------- */
 .carta { max-width: var(--max); margin: 0 auto; padding: clamp(32px, 6vw, 72px) var(--gutter) clamp(72px, 10vw, 120px); }
 .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: clamp(28px, 4vw, 48px); }
+
+/* Fantasma que cruza los títulos cada 10 s, igual que en la tienda */
+.ghost-title { position: relative; width: fit-content; max-width: 100%; }
+.ghost-title::after {
+  content: ""; position: absolute; top: 50%; left: 0;
+  width: 1.5em; height: 1.93em; margin-top: -.96em;
+  background: url("../img/fantasma/titulo.svg") center / 100% 100% no-repeat;
+  mix-blend-mode: exclusion; opacity: 0;
+  animation: ghost-pasa 10s linear infinite;
+  pointer-events: none;
+}
+@keyframes ghost-pasa {
+  0% { left: 100vw; opacity: 0; }
+  4% { left: 100vw; opacity: 1; }
+  43% { left: calc(-100vw - 1.5em); opacity: 1; }
+  43.1%, 100% { left: calc(-100vw - 1.5em); opacity: 0; }
+}
+
+.products { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.product {
+  position: relative; height: 100%;
+  display: grid; grid-template-columns: 41% 1fr;
+  background: #fff; border: 1px solid #e6e3df; border-radius: 10px; overflow: hidden;
+  text-decoration: none; color: var(--ink);
+  transition: border-color var(--fast);
+}
+.product:hover { border-color: var(--red); }
+.product__img { width: 100%; height: 100%; aspect-ratio: 357 / 452; object-fit: cover; }
+.product__body { display: flex; flex-direction: column; gap: 6px; padding: 16px 16px 18px; min-width: 0; }
+.product__name { font-size: 19px; line-height: 1.15; }
+.product__desc {
+  font-size: 14px; line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.product__price { margin-top: auto; font-size: 16px; font-variant-numeric: tabular-nums; }
+.product__add {
+  position: absolute; right: 12px; bottom: 12px;
+  width: 36px; height: 36px; border-radius: 50%; background: var(--red);
+  transition: transform var(--fast) var(--ease);
+}
+.product__add::before, .product__add::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; margin: -1px 0 0 -7px; background: #fff;
+}
+.product__add::after { transform: rotate(90deg); }
+.product:hover .product__add { transform: scale(1.1); }
+
+.carta__more { margin: clamp(48px, 6vw, 72px) 0 16px; }
 .carta__list {
   list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(6, 1fr);
-  border-top: 2px solid var(--ink);
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
 }
 .carta__list a {
-  display: flex; flex-direction: column; align-items: center; gap: 14px;
-  padding: 28px 8px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 18px 8px 16px; border-radius: 16px;
   text-decoration: none; text-align: center;
-  border-right: 1px solid var(--line);
-  transition: background-color var(--fast);
+  transition: background-color var(--fast), color var(--fast);
 }
-.carta__list li:last-child a { border-right: 0; }
-.carta__list img { width: 80px; transition: transform 260ms var(--ease); }
+.carta__list img {
+  width: 76px; height: 76px; padding: 8px; border-radius: 50%; background: #fff;
+  transition: transform 260ms var(--ease);
+}
 .carta__list span { font-size: 16px; line-height: 1.2; }
-.carta__list a:hover { background: rgba(234, 29, 59, .06); }
-.carta__list a:hover img { animation: flicker 600ms ease-in-out infinite alternate; }
-.carta__list a:hover span { color: var(--red); }
+/* Pastilla roja con texto blanco al pasar, como el riel de categorías de la tienda */
+@media (hover: hover) {
+  .carta__list a:hover { background: var(--red); color: #fff; }
+  .carta__list a:hover img { animation: flicker 600ms ease-in-out infinite alternate; }
+}
+.carta__list a:active { background: var(--red); color: #fff; }
 @keyframes flicker {
   from { transform: rotate(-4deg) translateY(-2px); }
   to { transform: rotate(3deg) translateY(-4px); }
@@ -246,26 +307,39 @@ a { color: inherit; }
 .playlist iframe { display: block; width: 100%; height: 152px; border: 0; border-radius: 12px; }
 
 /* ---------- Footer ---------- */
-.footer { background: var(--ink); color: var(--paper); overflow: hidden; }
+.footer { background: var(--red); color: #fff; overflow: hidden; }
 .footer__top {
   max-width: var(--max); margin: 0 auto; padding: 40px var(--gutter) 0;
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px;
 }
 .footer__social { display: flex; gap: 24px; }
 .footer__social a { text-decoration: none; }
-.footer__social a:hover { color: var(--red); }
-.footer__legal { margin: 0; color: rgba(255, 253, 250, .55); font-size: 14px; }
+.footer__social a:hover { color: var(--ink); }
+.footer__legal { margin: 0; color: rgba(255, 255, 255, .8); font-size: 14px; }
 .footer__mark {
   margin: 8px 0 -.1em; text-align: center;
-  font: 400 clamp(96px, 26vw, 380px)/.8 var(--font-display); color: var(--red);
+  font: 400 clamp(96px, 26vw, 380px)/.8 var(--font-display); color: #fff;
 }
 
-/* ---------- Dock móvil ---------- */
-.dock { display: none; }
+/* ---------- Flotantes, igual que en la tienda ---------- */
+.wa-float {
+  position: fixed; left: 20px; bottom: calc(20px + env(safe-area-inset-bottom)); z-index: 60;
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--wa);
+  box-shadow: 0 0 0 0 rgba(37, 211, 102, .5);
+  animation: wa-pulse 2.6s ease-out infinite;
+}
+.wa-float svg { width: 28px; height: 28px; fill: #fff; }
+@keyframes wa-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, .45); }
+  70%, 100% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+}
+.order-float { display: none; }
 
 /* ---------- Móvil ---------- */
 @media (max-width: 820px) {
-  :root { --nav-h: 56px; }
+  :root { --nav-h: 56px; --promo-h: 28px; }
+  .nav__promo { font-size: 12px; }
   .nav__links { display: none; }
   .wordmark { font-size: 28px; }
 
@@ -275,14 +349,16 @@ a { color: inherit; }
   .hero__actions .btn { padding: 0 22px; flex: 1 1 auto; }
 
   .section-head { flex-direction: column; align-items: start; }
+  .products { grid-template-columns: 1fr; gap: 14px; }
+  .product { grid-template-columns: 38% 1fr; }
   .carta__list {
-    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 38%;
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 34%;
     overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
     margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter);
   }
   .carta__list::-webkit-scrollbar { display: none; }
   .carta__list li { scroll-snap-align: start; }
-  .carta__list img { width: 64px; }
+  .carta__list img { width: 64px; height: 64px; }
   .carta__list span { font-size: 15px; }
 
   .manifesto__title span:nth-child(n) { padding-left: 0; }
@@ -298,22 +374,16 @@ a { color: inherit; }
   .row__value { grid-column: 1; }
   .row__arrow { grid-column: 2; grid-row: 1 / 3; }
 
-  .footer { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .footer { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 
-  .dock {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-    display: flex; gap: 10px; align-items: center;
-    padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
-    background: var(--paper); border-top: 1px solid var(--line);
-    transform: translateY(110%); transition: transform 260ms var(--ease);
+  .order-float {
+    display: inline-flex; position: fixed; z-index: 60;
+    left: 50%; bottom: calc(20px + env(safe-area-inset-bottom));
+    min-width: 180px; transform: translate(-50%, 160%);
+    box-shadow: 0 6px 18px rgba(12, 11, 11, .18);
+    transition: transform 260ms var(--ease);
   }
-  .dock.is-on { transform: none; }
-  .dock__order { flex: 1; }
-  .dock__wa {
-    flex: 0 0 52px; height: 52px; border-radius: 50%;
-    display: grid; place-items: center; background: var(--ink);
-  }
-  .dock__wa svg { width: 24px; height: 24px; fill: #fff; }
+  .order-float.is-on { transform: translate(-50%, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
