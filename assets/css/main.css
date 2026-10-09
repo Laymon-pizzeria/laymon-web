@@ -306,6 +306,11 @@ a { color: inherit; }
   .nav__promo span { animation-duration: 11s; animation-delay: -3s; }
   .nav__links { display: none; }
   .logo { height: 76px; }
+  /* Celular: logo al centro; "Pide ahora" vive abajo a la derecha desde el inicio */
+  .nav__bar { justify-content: center; }
+  .nav__logo { margin: 0; }
+  .nav__cta { display: none; }
+  .order-float, .order-float:not(.is-on) { translate: 0 0; animation: laymon-pedir-bounce 1.8s ease-in-out infinite; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; padding-bottom: 0; gap: 0; }
   .hero__art { width: min(72%, 300px); margin: 24px 0 32px; justify-self: end; }
