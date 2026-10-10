@@ -280,14 +280,16 @@ a { color: inherit; }
 .manifesto__inner {
   position: relative;
   max-width: var(--max); margin: 0 auto;
-  padding: clamp(56px, 9vw, 120px) var(--gutter) clamp(220px, 26vw, 340px);
+  padding: clamp(56px, 9vw, 120px) var(--gutter) clamp(48px, 6vw, 88px);
 }
 .manifesto__title { margin: 0; font: 400 clamp(48px, 9vw, 132px)/.9 var(--font-display); }
 .manifesto__title span { display: block; }
 .manifesto__title span:nth-child(2) { padding-left: 8%; color: var(--ink); }
 .manifesto__title span:nth-child(3) { padding-left: 16%; }
-.manifesto__text { max-width: 30ch; margin: clamp(28px, 4vw, 48px) 0 0 16%; font-size: clamp(18px, 1.6vw, 22px); }
-.manifesto__ghost { position: absolute; right: calc(var(--gutter) + 4%); bottom: clamp(32px, 5vw, 64px); width: clamp(180px, 22vw, 300px); }
+.manifesto__row { display: flex; align-items: center; gap: 24px; margin-top: clamp(28px, 4vw, 48px); }
+.manifesto__ghostwrap { flex: 1; display: flex; justify-content: center; }
+.manifesto__ghost { display: block; width: clamp(170px, 17vw, 250px); height: auto; }
+.manifesto__text { flex: none; max-width: 30ch; margin: 0; text-align: right; font-size: clamp(18px, 1.6vw, 22px); }
 /* Foto a la izquierda, a sangre; se funde con el rojo por la derecha, arriba y abajo */
 .manifesto { --photo-w: min(40vw, 600px); }
 .manifesto__photo {
@@ -299,8 +301,15 @@ a { color: inherit; }
   mask-composite: intersect;
 }
 @media (min-width: 821px) {
+  /* La fila arranca en el borde de la foto: el fantasma queda centrado entre foto y frase */
   .manifesto__inner { max-width: none; padding-left: calc(var(--photo-w) + 2vw); }
   .manifesto__title { font-size: clamp(48px, 6.6vw, 104px); }
+  .manifesto__row { margin-left: calc(-2vw - var(--photo-w) * .25); }
+}
+/* Tablet: foto más chica y completa, centrada en vertical, para que el rojo la rodee */
+@media (min-width: 821px) and (max-width: 1100px) {
+  .manifesto { --photo-w: 32vw; }
+  .manifesto__photo { top: 50%; bottom: auto; height: auto; translate: 0 -50%; }
 }
 
 /* ---------- Visítanos ---------- */
@@ -397,16 +406,13 @@ a { color: inherit; }
 
   .section-head { flex-direction: column; align-items: start; }
 
-  .manifesto__photo {
-    position: relative; width: 100%; height: min(112vw, 520px);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 72%, transparent);
-    mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 72%, transparent);
-  }
+  /* Celular: foto más chica, a sangre por la izquierda y fundida por los otros tres lados */
+  .manifesto__photo { position: relative; width: 78%; height: auto; }
   .manifesto__inner { padding-top: 8px; }
   .manifesto__title span:nth-child(n) { padding-left: 0; }
-  .manifesto__text { margin-left: 0; }
-  .manifesto__inner { padding-bottom: 230px; }
-  .manifesto__ghost { width: 170px; right: var(--gutter); bottom: 24px; }
+  .manifesto__row { flex-direction: column-reverse; align-items: stretch; }
+  .manifesto__text { text-align: left; }
+  .manifesto__ghost { width: 180px; }
 
   .visit { grid-template-columns: 1fr; }
   .visit__art { order: 2; }
