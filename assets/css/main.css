@@ -235,10 +235,9 @@ a { color: inherit; }
 }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .hero__titulo { display: flex; align-items: center; gap: clamp(8px, 1.5vw, 24px); margin: 0; }
-.hero__best { width: clamp(80px, 8.5vw, 130px); height: auto; }
-.hero__spicy { width: clamp(220px, 25vw, 380px); height: auto; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .45)); }
+/* Solo "Best fuck'n pizzas", al tamaño que tenía "Spicy Honey" (vectorizado para que no se pixele) */
+.hero__best { width: clamp(220px, 25vw, 380px); height: auto; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .45)); }
 .hero__titulo img { animation: titulo-entra .6s cubic-bezier(.3, 1.4, .5, 1) calc(var(--intro-wait) + .5s) both; }
-.hero__best { animation-delay: calc(var(--intro-wait) + .8s) !important; }
 @keyframes titulo-entra {
   0% { transform: scale(.6) rotate(-6deg); opacity: 0; }
   100% { transform: none; opacity: 1; }
@@ -273,7 +272,7 @@ a { color: inherit; }
 /* Cambio de hero a sección: el rojo entra como pintura en aerosol (borde irregular que se deshace en motas) */
 .aerosol {
   position: absolute; left: 0; right: 0; bottom: 100%; margin-bottom: -1px;
-  height: clamp(90px, 12vw, 180px);
+  height: clamp(110px, 14vw, 200px);
   background: url("../img/aerosol.webp") 0 100% / auto 100% repeat-x;
 }
 .manifesto__inner {
@@ -394,8 +393,7 @@ a { color: inherit; }
   .hero { padding-bottom: 0; }
   .hero__main { align-self: start; min-height: 480px; padding: 16px 0 0; }
   .hero__titulo { justify-content: flex-start; }
-  .hero__best { width: 72px; }
-  .hero__spicy { width: 190px; }
+  .hero__best { width: 190px; }
   .hero__pizza {
     top: auto; bottom: 0; left: 6%; height: 560px;
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%);
