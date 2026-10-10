@@ -272,7 +272,7 @@ a { color: inherit; }
 /* Cambio de hero a sección: el rojo entra como pintura en aerosol (borde irregular que se deshace en motas) */
 .aerosol {
   position: absolute; left: 0; right: 0; bottom: 100%; margin-bottom: -1px;
-  height: clamp(110px, 14vw, 200px);
+  height: clamp(140px, 17vw, 250px);
   background: url("../img/aerosol.webp") 0 100% / auto 100% repeat-x;
 }
 .manifesto__inner {
