@@ -101,6 +101,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Carrusel: deslizable con el dedo (scroll-snap); flechas, puntos y avance solo cuando hay más de una imagen
+  document.querySelectorAll('[data-carrusel]').forEach((root) => {
+    const track = root.querySelector('[data-track]');
+    const slides = [...track.children];
+    if (slides.length < 2) return;
+    const navEl = root.querySelector('[data-nav-carrusel]');
+    const dotsEl = root.querySelector('[data-dots]');
+    navEl.hidden = false;
+    slides.forEach((s, i) => s.setAttribute('aria-label', `${i + 1} de ${slides.length}`));
+    const dots = slides.map((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('aria-label', `Imagen ${i + 1}`);
+      b.addEventListener('click', () => go(i));
+      dotsEl.appendChild(b); return b;
+    });
+    let cur = 0;
+    const go = (i) => { cur = (i + slides.length) % slides.length; track.scrollTo({ left: slides[cur].offsetLeft - track.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft), behavior: reduceMotion ? 'auto' : 'smooth' }); };
+    const mark = () => {
+      cur = Math.round(track.scrollLeft / slides[0].getBoundingClientRect().width);
+      dots.forEach((d, n) => d.setAttribute('aria-current', String(n === cur)));
+    };
+    track.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
+    root.querySelector('[data-prev]').addEventListener('click', () => go(cur - 1));
+    root.querySelector('[data-next]').addEventListener('click', () => go(cur + 1));
+    mark();
+    if (!reduceMotion) {
+      let timer = setInterval(() => go(cur + 1), 5000);
+      const stop = () => clearInterval(timer);
+      root.addEventListener('pointerenter', stop);
+      root.addEventListener('focusin', stop);
+      track.addEventListener('touchstart', stop, { passive: true });
+    }
+  });
+
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
 });
