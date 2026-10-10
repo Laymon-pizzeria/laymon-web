@@ -195,7 +195,7 @@ a { color: inherit; }
   padding-top: 20%; border-radius: 5px; overflow: hidden;
 }
 .pass__label { font-size: 11px; letter-spacing: .32em; text-transform: uppercase; opacity: .85; }
-.hero__tag .logo { display: block; width: 80%; height: auto; margin: auto 0; position: relative; left: calc(2% - 4px); top: -4%; }
+.hero__tag .logo { display: block; width: 80%; height: auto; margin: auto 0; position: relative; left: calc(2% - 3px); top: -4%; }
 @keyframes tag-viento {
   0% { transform: translateY(-105%) rotate(0deg); }
   22% { transform: translateY(0) rotate(5deg); }
