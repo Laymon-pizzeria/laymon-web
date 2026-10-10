@@ -177,12 +177,12 @@ a { color: inherit; }
   100% { transform: scale(1, 1.015) skewX(.5deg); }
 }
 .hero__pizza {
-  position: absolute; top: 0; bottom: 0; left: 42%;
-  height: 100%; aspect-ratio: 1404 / 1100;
+  position: absolute; top: -9%; left: 34%;
+  height: 118%; aspect-ratio: 1404 / 1100;
   animation: pizza-entra 1.3s cubic-bezier(.2, .8, .2, 1) var(--intro-wait) both;
 }
 .hero__pizza-img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
-@media (max-width: 1100px) { .hero__pizza { left: 50%; } }
+@media (max-width: 1100px) { .hero__pizza { left: 40%; } }
 @keyframes pizza-entra {
   0% { transform: translateX(40%) rotate(25deg); opacity: 0; }
   100% { transform: none; opacity: 1; }
@@ -192,6 +192,12 @@ a { color: inherit; }
 @keyframes asoma {
   0%, 100% { translate: 0 0; }
   50% { translate: -18% 4%; }
+}
+/* Hueco de humo oscuro en las llamas detrás del gafete, para que el rojo de la tarjeta no se pierda */
+.hero__side::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 42%; width: 230%; height: 120%;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, rgba(12, 11, 11, .95), rgba(12, 11, 11, .78) 45%, rgba(12, 11, 11, 0));
 }
 .hero__side { --pass-w: clamp(220px, 18vw, 276px); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
 /* Pase de backstage: foto del gafete (cordón rojo, mosquetón metálico, tarjeta) cortada por el borde de arriba.
@@ -398,15 +404,15 @@ a { color: inherit; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; padding: calc(var(--promo-h) + env(safe-area-inset-top)) var(--gutter) 72px; }
   .hero__side { align-items: center; text-align: center; }
-  .hero__side { --pass-w: 220px; }
+  .hero__side { --pass-w: 180px; }
   /* Celular: gafete arriba; abajo el título sobre las llamas y la pizza asomando por la derecha */
   .hero { padding-bottom: 0; }
-  .hero__main { align-self: start; min-height: 420px; padding: 20px 0 0; }
+  .hero__main { align-self: start; min-height: 480px; padding: 16px 0 0; }
   .hero__titulo { justify-content: flex-start; }
   .hero__best { width: 72px; }
   .hero__spicy { width: 190px; }
   .hero__pizza {
-    top: auto; bottom: 0; left: 30%; height: 440px;
+    top: auto; bottom: 0; left: 6%; height: 560px;
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%);
     mask-image: linear-gradient(to bottom, transparent, #000 22%);
   }
