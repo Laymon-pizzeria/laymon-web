@@ -3,6 +3,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Intro del fantasma: al terminar se quita del DOM; lo demás arranca cuando la ola destapa la página
+  const intro = document.querySelector('[data-intro]');
+  const introWait = reduceMotion || !intro ? 0 : 3800;
+  if (intro) {
+    if (reduceMotion) intro.remove();
+    else setTimeout(() => intro.remove(), 5400);
+  }
+
   // Nav: se esconde al bajar, vuelve al subir
   const nav = document.querySelector('[data-nav]');
   const dock = document.querySelector('[data-dock]');
@@ -50,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       step();
     };
     // Una vez al cargar, cuando el logo ya dejó de mecerse; luego solo al pasar el cursor o tocarlo
-    setTimeout(trick, 2200);
+    setTimeout(trick, introWait + 2200);
     ghost.addEventListener('click', trick);
     ghost.addEventListener('pointerenter', trick);
   }

@@ -20,6 +20,10 @@
   <script src="assets/js/main.js" defer></script>
 </head>
 <body class="en-hero">
+  <!-- Intro del fantasma skater, la misma del menú de Justo: papel, salto, expansión roja y ola que baja -->
+  <div class="intro" aria-hidden="true" data-intro>
+    <span class="intro__paper"></span><span class="intro__skater"></span><span class="intro__burst"></span><span class="intro__water"></span>
+  </div>
   <a class="skip" href="#contenido">Saltar al contenido</a>
 
   <!-- Logos oficiales vectorizados (Logo Blanco@4x.png y LMN del Drive). Manual v07: firma ≥ 120 px de ancho en pantalla; si no cabe, monograma LMN. -->
@@ -56,11 +60,19 @@
           </span>
         </a>
         <a class="pedir pedir--red hero__pedir" href="https://laymonpizzeria.getjusto.com/pedir" data-hero-cta><svg class="pedir__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.2l2.3 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7.5H6.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="19" r="1.6" fill="currentColor"/><circle cx="17" cy="19" r="1.6" fill="currentColor"/></svg>Pide ahora</a>
-        <a class="hero__reserva" href="https://laymonpizzeria.getjusto.com/reservas">o aparta tu mesa</a>
       </div>
       <div class="hero__main">
 
         <div class="hero__art" aria-hidden="true" data-parallax>
+          <!-- Iconos de la carta en media luna sobre el fantasma; laten uno por uno como en la barra de categorías de Justo -->
+          <div class="hero__icons">
+            <span class="food" style="--i:0"><img src="assets/img/iconos/pizza.png" width="96" height="96" alt=""></span>
+            <span class="food" style="--i:1"><img src="assets/img/iconos/hamburguesa.png" width="96" height="96" alt=""></span>
+            <span class="food" style="--i:2"><img src="assets/img/iconos/ensalada.png" width="96" height="96" alt=""></span>
+            <span class="food" style="--i:3"><img src="assets/img/iconos/baguette.png" width="96" height="96" alt=""></span>
+            <span class="food" style="--i:4"><img src="assets/img/iconos/burrito.png" width="96" height="96" alt=""></span>
+            <span class="food" style="--i:5"><img src="assets/img/iconos/bebida.png" width="96" height="96" alt=""></span>
+          </div>
           <button class="ghost" type="button" tabindex="-1" data-ghost>
             <img class="ghost__frame" src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt="">
             <img class="ghost__frame" src="assets/img/fantasma/skater-2.svg" width="220" height="260" alt="">

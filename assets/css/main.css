@@ -179,15 +179,14 @@ a { color: inherit; }
   content: ""; position: absolute; inset: 0; z-index: -1; opacity: .22; mix-blend-mode: multiply;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .05 0 0 0 0 .04 0 0 0 0 .04 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.hero__side { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
+.hero__side { --pass-w: clamp(220px, 18vw, 276px); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
 /* Pase de backstage: foto del gafete (cordón rojo, mosquetón metálico, tarjeta) cortada por el borde de arriba.
    El contenido va encima de la tarjeta, que ocupa del 36.8 % al final de la foto. Baja y se mece con el viento al cargar */
 .hero__tag {
-  --pass-w: clamp(220px, 18vw, 276px);
   position: relative; display: block; width: var(--pass-w); color: #fff; text-decoration: none;
   transform-origin: 50% 0;
   filter: drop-shadow(0 18px 22px rgba(12, 11, 11, .18));
-  animation: tag-viento 2.8s ease-out both;
+  animation: tag-viento 2.8s ease-out var(--intro-wait) both;
 }
 .pass__photo { display: block; width: 100%; height: auto; }
 .pass__card {
@@ -196,7 +195,7 @@ a { color: inherit; }
   padding-top: 20%; border-radius: 5px; overflow: hidden;
 }
 .pass__label { font-size: 11px; letter-spacing: .32em; text-transform: uppercase; opacity: .85; }
-.hero__tag .logo { display: block; width: 80%; height: auto; margin: auto 0; position: relative; left: 2%; top: -4%; }
+.hero__tag .logo { display: block; width: 80%; height: auto; margin: auto 0; position: relative; left: calc(2% - 4px); top: -4%; }
 @keyframes tag-viento {
   0% { transform: translateY(-105%) rotate(0deg); }
   22% { transform: translateY(0) rotate(5deg); }
@@ -206,8 +205,8 @@ a { color: inherit; }
   85% { transform: rotate(.6deg); }
   100% { transform: none; }
 }
-.hero__pedir { margin-top: 10px; }
-.hero__reserva { font-size: 15px; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--red); padding-bottom: 1px; }
+/* Mismo ancho que el gafete */
+.hero__pedir { margin-top: 10px; width: var(--pass-w); box-sizing: border-box; }
 .hero__main {
   position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
   padding: clamp(40px, 7vh, 88px) var(--gutter) 0;
@@ -224,7 +223,34 @@ a { color: inherit; }
 }
 
 /* Fantasma skater: cuadros del mismo sprite que el intro del menú de Justo */
-.hero__art { position: relative; z-index: 1; width: min(100%, 380px); transition: transform 400ms var(--ease); }
+.hero__art { position: relative; z-index: 1; width: min(100%, 380px); container-type: inline-size; transition: transform 400ms var(--ease); }
+
+/* Media luna de iconos sobre el fantasma: el arco va de -70° a 70°, centrado en el fantasma.
+   Pulso copiado de la barra de categorías de Justo (lm-pulse-icon / lm-pulse-ring, 3.6 s, 0.5 s entre icono e icono) */
+/* El fantasma baja 22cqw para dejar sitio al arco; el centro del arco cae en su cabeza */
+.hero__art .ghost { margin-top: 22cqw; }
+.hero__icons { position: absolute; left: 50%; top: 72cqw; width: 0; height: 0; z-index: 2; }
+.food {
+  --a: calc(-70deg + var(--i) * 28deg);
+  --s: clamp(40px, 15cqw, 60px);
+  position: absolute; left: 0; top: 0; width: var(--s); height: var(--s);
+  transform: translate(-50%, -50%) translate(calc(sin(var(--a)) * 62cqw), calc(cos(var(--a)) * -48cqw));
+}
+.food img { display: block; width: 100%; height: 100%; animation: lm-pulse-icon 3.6s ease-in-out infinite; animation-delay: calc(var(--i) * .5s); }
+.food::after {
+  content: ""; position: absolute; inset: -14%; border: 2px solid var(--red); border-radius: 50%;
+  opacity: 0; transform: scale(.55);
+  animation: lm-pulse-ring 3.6s ease-out infinite; animation-delay: calc(var(--i) * .5s);
+}
+@keyframes lm-pulse-icon {
+  0%, 16%, 100% { scale: 1; }
+  8% { scale: 1.24; }
+}
+@keyframes lm-pulse-ring {
+  0% { transform: scale(.55); opacity: 0; }
+  2% { opacity: .75; }
+  16%, 100% { transform: scale(1.5); opacity: 0; }
+}
 .ghost {
   position: relative; display: block; width: 100%; aspect-ratio: 220 / 260;
   padding: 0; border: 0; background: none; cursor: pointer;
@@ -341,7 +367,7 @@ a { color: inherit; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; padding: calc(var(--promo-h) + env(safe-area-inset-top)) var(--gutter) 72px; }
   .hero__side { align-items: center; text-align: center; }
-  .hero__tag { --pass-w: 220px; }
+  .hero__side { --pass-w: 220px; }
   .hero__main { padding: 16px 0 0; }
   .hero__title { font-size: clamp(40px, 11vw, 56px); }
   .hero__art { width: min(70%, 280px); }
@@ -377,7 +403,73 @@ a { color: inherit; }
 /* Mientras se ve el Pide ahora del hero, no hay botón flotante */
 body.en-hero .order-float.order-float { translate: 0 calc(100% + 40px); animation: none; }
 
+/* ---------- Intro skater (bloque del CSS maestro de Justo, 5.2 s, una vez por carga) ---------- */
+:root { --intro-time: 5.2s; --intro-wait: 3.8s; }  /* el pase baja cuando la ola ya destapó la página */
+.intro { position: fixed; inset: 0; z-index: 2147483600; overflow: hidden; pointer-events: none;
+  --intro-width: clamp(160px, 22vw, 210px); --intro-height: calc(var(--intro-width) * 1.181818); --intro-jump: clamp(64px, 12vh, 96px); }
+.intro > span { position: fixed; display: block; }
+.intro__paper { inset: -300px -4px -500px; background: #F7F2F0; animation: lm-intro-paper var(--intro-time) linear 1 both; }
+.intro__skater {
+  left: 50%; top: 44%; width: var(--intro-width); height: var(--intro-height);
+  margin-left: calc(var(--intro-width) / -2); margin-top: calc(var(--intro-height) / -2);
+  background: url("../img/intro/skater-sprite.svg") 0 0 / 600% 100% no-repeat;
+  transform-origin: 50% 84%;
+  animation: lm-intro-move var(--intro-time) linear 1 both, lm-intro-poses var(--intro-time) steps(1, end) 1 both, lm-intro-character-hide var(--intro-time) steps(1, end) 1 both;
+}
+.intro__burst {
+  left: 50%; top: 50%; width: 160vmax; height: 160vmax; border-radius: 50%; background: var(--red);
+  transform: translate(-50%, -50%) scale(0);
+  animation: lm-intro-burst var(--intro-time) linear 1 both;
+}
+.intro__water {
+  top: 0; left: -2%; width: 104%; height: calc(100vh + 160px); height: calc(100dvh + 160px);
+  background: url("../img/intro/agua.svg") center / 100% 100% no-repeat;
+  opacity: 0; transform: translateY(-160px);
+  animation: lm-intro-water var(--intro-time) linear 1 both;
+}
+@keyframes lm-intro-poses {
+  0% { background-position: 0% 0%; }
+  18% { background-position: 20% 0%; }
+  25% { background-position: 40% 0%; }
+  34% { background-position: 60% 0%; }
+  41% { background-position: 80% 0%; }
+  48% { background-position: 100% 0%; }
+  55%, 100% { background-position: 0% 0%; }
+}
+@keyframes lm-intro-move {
+  0% { transform: translate(calc(-50vw - 240px), 0); animation-timing-function: cubic-bezier(.15, .5, .2, 1); }
+  18% { transform: translate(-15px, 0); animation-timing-function: ease-out; }
+  23% { transform: translate(-10px, 7px) scale(1.02, .96); animation-timing-function: cubic-bezier(.16, .64, .32, 1); }
+  34% { transform: translate(4px, calc(var(--intro-jump) * -.92)); animation-timing-function: ease-out; }
+  40% { transform: translate(8px, calc(var(--intro-jump) * -1)); animation-timing-function: ease-in; }
+  48% { transform: translate(14px, -8px); animation-timing-function: ease-out; }
+  51% { transform: translate(17px, 5px) scale(1.04, .94); }
+  55% { transform: translate(20px, 0); }
+  64%, 100% { transform: translate(22px, 0); }
+}
+@keyframes lm-intro-character-hide {
+  0% { visibility: visible; opacity: 1; }
+  70%, 100% { visibility: hidden; opacity: 0; }
+}
+@keyframes lm-intro-paper {
+  0%, 71% { opacity: 1; visibility: visible; }
+  72%, 100% { opacity: 0; visibility: hidden; }
+}
+@keyframes lm-intro-burst {
+  0%, 61% { transform: translate(-50%, -50%) scale(0); opacity: 1; visibility: visible; }
+  72%, 74% { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; }
+  75%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; visibility: hidden; }
+}
+@keyframes lm-intro-water {
+  0%, 70% { opacity: 0; visibility: visible; transform: translateY(-160px); }
+  71%, 76% { opacity: 1; visibility: visible; transform: translateY(-160px); animation-timing-function: cubic-bezier(.42, 0, .76, .6); }
+  99.9% { opacity: 1; visibility: visible; transform: translateY(calc(100vh + 160px)); }
+  100% { opacity: 0; visibility: hidden; transform: translateY(calc(100vh + 160px)); }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  :root { --intro-wait: 0s; }
+  .intro { display: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
