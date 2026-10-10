@@ -180,38 +180,23 @@ a { color: inherit; }
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .05 0 0 0 0 .04 0 0 0 0 .04 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .hero__side { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
-/* Pase de backstage: cordón negro que baja del borde, mosquetón metálico y gafete vertical laminado.
-   Baja y se mece con el viento al cargar; el logo conserva su glitch */
+/* Pase de backstage: foto del gafete (cordón rojo, mosquetón metálico, tarjeta) cortada por el borde de arriba.
+   El contenido va encima de la tarjeta, que ocupa del 36.2 % al final de la foto. Baja y se mece con el viento al cargar */
 .hero__tag {
-  --pass-w: clamp(210px, 18vw, 250px);
-  display: flex; flex-direction: column; align-items: center;
-  width: var(--pass-w); color: #fff; text-decoration: none;
+  --pass-w: clamp(220px, 18vw, 256px);
+  position: relative; display: block; width: var(--pass-w); color: #fff; text-decoration: none;
   transform-origin: 50% 0;
+  filter: drop-shadow(0 18px 22px rgba(12, 11, 11, .18));
   animation: tag-viento 2.8s ease-out both;
 }
-.pass__lanyard { display: block; width: 52%; height: auto; position: relative; z-index: 2; }
-.pass__band { fill: var(--ink); }
-.pass__print { fill: var(--paper); font: 400 9px/1 var(--font-body); letter-spacing: .18em; }
+.pass__photo { display: block; width: 100%; height: auto; }
 .pass__card {
-  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-  width: 100%; aspect-ratio: 4 / 5; margin-top: calc(var(--pass-w) * -.075);
-  padding: calc(var(--pass-w) * .2) 0 0; border-radius: 12px; overflow: hidden;
-  background: var(--red);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .35) inset, 0 22px 40px rgba(12, 11, 11, .22);
-}
-/* Ojillo metálico donde entra el mosquetón */
-.pass__card::before {
-  content: ""; position: absolute; top: calc(var(--pass-w) * .045); left: 50%; translate: -50% 0;
-  width: 18px; height: 18px; border-radius: 50%; background: var(--paper);
-  box-shadow: 0 0 0 4px #c9c6c3, 0 0 0 5px #7d7a78, inset 0 2px 2px rgba(12, 11, 11, .3);
-}
-/* Brillo del plástico laminado */
-.pass__card::after {
-  content: ""; position: absolute; inset: 0; border-radius: inherit;
-  background: linear-gradient(115deg, rgba(255, 255, 255, .2) 0 16%, transparent 32% 64%, rgba(255, 255, 255, .08) 72%, transparent 84%);
+  position: absolute; left: .4%; right: .8%; top: 36.2%; bottom: .3%;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  padding-top: 20%; border-radius: 5px; overflow: hidden;
 }
 .pass__label { font-size: 11px; letter-spacing: .32em; text-transform: uppercase; opacity: .85; }
-.hero__tag .logo { display: block; width: 82%; height: auto; position: relative; left: 2%; }
+.hero__tag .logo { display: block; width: 80%; height: auto; position: relative; left: 2%; }
 .pass__foot {
   align-self: stretch; padding: 10px 0 11px;
   background: var(--ink); color: var(--paper);
@@ -361,7 +346,7 @@ a { color: inherit; }
 
   .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; padding: calc(var(--promo-h) + env(safe-area-inset-top)) var(--gutter) 72px; }
   .hero__side { align-items: center; text-align: center; }
-  .hero__tag { --pass-w: 210px; }
+  .hero__tag { --pass-w: 220px; }
   .hero__main { padding: 16px 0 0; }
   .hero__title { font-size: clamp(40px, 11vw, 56px); }
   .hero__art { width: min(70%, 280px); }
