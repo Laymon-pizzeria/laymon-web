@@ -197,7 +197,7 @@ a { color: inherit; }
 }
 /* Hueco de humo oscuro en las llamas detrás del gafete, para que el rojo de la tarjeta no se pierda */
 .hero__side::before {
-  content: ""; position: absolute; z-index: -1; left: 50%; top: 44%; width: 280%; height: 140%;
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 52%; width: 280%; height: 165%;
   translate: -50% -50%;
   background: radial-gradient(closest-side, rgba(12, 11, 11, .97), rgba(12, 11, 11, .9) 50%, rgba(12, 11, 11, .55) 75%, rgba(12, 11, 11, 0));
 }
@@ -270,7 +270,13 @@ a { color: inherit; }
 
 /* ---------- Manifiesto ---------- */
 .manifesto { position: relative; background: var(--red); color: #fff; }
-.wave { position: absolute; left: 0; bottom: 100%; width: 100%; height: clamp(36px, 6vw, 80px); fill: var(--red); margin-bottom: -1px; }
+/* Ola roja irregular: lomas de distinto ancho y alto; detrás, una ola más oscura que se mece despacio y da profundidad */
+.wave { position: absolute; left: 0; bottom: 100%; width: 100%; height: clamp(48px, 8vw, 110px); fill: var(--red); margin-bottom: -1px; overflow: hidden; }
+.wave__back { fill: #A9112A; animation: ola-mece 9s ease-in-out infinite alternate; }
+@keyframes ola-mece {
+  0% { transform: translateX(0) scaleX(1.04); }
+  100% { transform: translateX(-2%) scaleX(1.04) scaleY(1.08); }
+}
 .manifesto__inner {
   position: relative;
   max-width: var(--max); margin: 0 auto;
