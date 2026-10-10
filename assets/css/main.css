@@ -288,6 +288,20 @@ a { color: inherit; }
 .manifesto__title span:nth-child(3) { padding-left: 16%; }
 .manifesto__text { max-width: 30ch; margin: clamp(28px, 4vw, 48px) 0 0 16%; font-size: clamp(18px, 1.6vw, 22px); }
 .manifesto__ghost { position: absolute; right: calc(var(--gutter) + 4%); bottom: clamp(32px, 5vw, 64px); width: clamp(180px, 22vw, 300px); }
+/* Foto a la izquierda, a sangre; se funde con el rojo por la derecha, arriba y abajo */
+.manifesto { --photo-w: min(40vw, 600px); }
+.manifesto__photo {
+  position: absolute; left: 0; top: 0; bottom: 0; width: var(--photo-w); height: 100%;
+  object-fit: cover; object-position: 50% 45%;
+  -webkit-mask-image: linear-gradient(to right, #000 72%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 82%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, #000 72%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 82%, transparent);
+  mask-composite: intersect;
+}
+@media (min-width: 821px) {
+  .manifesto__inner { max-width: none; padding-left: calc(var(--photo-w) + 2vw); }
+  .manifesto__title { font-size: clamp(48px, 6.6vw, 104px); }
+}
 
 /* ---------- Visítanos ---------- */
 .visit {
@@ -383,6 +397,12 @@ a { color: inherit; }
 
   .section-head { flex-direction: column; align-items: start; }
 
+  .manifesto__photo {
+    position: relative; width: 100%; height: min(112vw, 520px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 72%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 72%, transparent);
+  }
+  .manifesto__inner { padding-top: 8px; }
   .manifesto__title span:nth-child(n) { padding-left: 0; }
   .manifesto__text { margin-left: 0; }
   .manifesto__inner { padding-bottom: 230px; }
