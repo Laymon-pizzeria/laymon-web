@@ -270,12 +270,11 @@ a { color: inherit; }
 
 /* ---------- Manifiesto ---------- */
 .manifesto { position: relative; background: var(--red); color: #fff; }
-/* Ola roja irregular: lomas de distinto ancho y alto; detrás, una ola más oscura que se mece despacio y da profundidad */
-.wave { position: absolute; left: 0; bottom: 100%; width: 100%; height: clamp(48px, 8vw, 110px); fill: var(--red); margin-bottom: -1px; overflow: hidden; }
-.wave__back { fill: #A9112A; animation: ola-mece 9s ease-in-out infinite alternate; }
-@keyframes ola-mece {
-  0% { transform: translateX(0) scaleX(1.04); }
-  100% { transform: translateX(-2%) scaleX(1.04) scaleY(1.08); }
+/* Cambio de hero a sección: el rojo entra como pintura en aerosol (borde irregular que se deshace en motas) */
+.aerosol {
+  position: absolute; left: 0; right: 0; bottom: 100%; margin-bottom: -1px;
+  height: clamp(90px, 12vw, 180px);
+  background: url("../img/aerosol.webp") 0 100% / auto 100% repeat-x;
 }
 .manifesto__inner {
   position: relative;
