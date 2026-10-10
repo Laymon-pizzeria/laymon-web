@@ -163,21 +163,35 @@ a { color: inherit; }
 .hero {
   position: relative; isolation: isolate; overflow: hidden;
   min-height: min(100svh, 900px);
-  /* Sin padding a la derecha: la columna del fantasma va del rectángulo al borde de la página */
   padding: calc(var(--promo-h) + env(safe-area-inset-top)) 0 clamp(72px, 10vh, 120px) max(var(--gutter), (100% - var(--max)) / 2);
   display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 0;
-  background:
-    radial-gradient(38% 46% at 78% 62%, rgba(234, 29, 59, .78), transparent 72%),
-    radial-gradient(30% 34% at 96% 8%, rgba(234, 29, 59, .55), transparent 70%),
-    radial-gradient(34% 38% at 8% 92%, rgba(234, 29, 59, .42), transparent 72%),
-    radial-gradient(40% 40% at 45% 100%, rgba(255, 140, 158, .5), transparent 70%),
-    radial-gradient(26% 30% at 52% 22%, rgba(255, 170, 182, .45), transparent 72%),
-    var(--paper);
+  background: var(--ink); color: #fff;
 }
-/* Grano fino encima del difuminado, como en la referencia */
-.hero::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; opacity: .22; mix-blend-mode: multiply;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .05 0 0 0 0 .04 0 0 0 0 .04 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* Capas: fondo de papel negro, llamas a la izquierda y abajo, pizza a sangre a la derecha */
+.hero__layers { position: absolute; inset: 0; z-index: 0; }
+.hero__fondo, .hero__llamas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: left bottom; }
+.hero__llamas { transform-origin: 0 100%; animation: llamas 3.2s ease-in-out infinite alternate; }
+@keyframes llamas {
+  0% { transform: scale(1, 1) skewX(0deg); }
+  50% { transform: scale(1.01, 1.035) skewX(-.6deg); }
+  100% { transform: scale(1, 1.015) skewX(.5deg); }
+}
+.hero__pizza {
+  position: absolute; top: 0; bottom: 0; left: 42%;
+  height: 100%; aspect-ratio: 1404 / 1100;
+  animation: pizza-entra 1.3s cubic-bezier(.2, .8, .2, 1) var(--intro-wait) both;
+}
+.hero__pizza-img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
+@media (max-width: 1100px) { .hero__pizza { left: 50%; } }
+@keyframes pizza-entra {
+  0% { transform: translateX(40%) rotate(25deg); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+/* Fantasma escondido detrás de la orilla: se ve la mitad */
+.ghost.hero__ghost { position: absolute; z-index: 0; left: -2%; top: 3%; width: 14%; rotate: -22deg; animation: asoma 4s ease-in-out calc(var(--intro-wait) + 1.3s) infinite; }
+@keyframes asoma {
+  0%, 100% { translate: 0 0; }
+  50% { translate: -18% 4%; }
 }
 .hero__side { --pass-w: clamp(220px, 18vw, 276px); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
 /* Pase de backstage: foto del gafete (cordón rojo, mosquetón metálico, tarjeta) cortada por el borde de arriba.
@@ -208,49 +222,21 @@ a { color: inherit; }
 /* Mismo ancho que el gafete */
 .hero__pedir { margin-top: 10px; width: var(--pass-w); box-sizing: border-box; }
 .hero__main {
-  position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: clamp(40px, 7vh, 88px) var(--gutter) 0;
+  position: relative; z-index: 3; align-self: center;
+  padding: 0 var(--gutter) 0 clamp(16px, 3vw, 56px);
 }
-.hero__title {
-  margin: clamp(16px, 3vh, 32px) 0 0; position: relative; z-index: 2;
-  font: 400 clamp(48px, 6.4vw, 100px)/.92 var(--font-display);
-  color: var(--red); text-wrap: balance;
-}
-.hero__lead {
-  display: block; margin-bottom: 14px; white-space: nowrap;
-  font: 400 clamp(20px, 2vw, 26px)/1.2 var(--font-body);
-  color: var(--ink);
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.hero__titulo { display: flex; align-items: center; gap: clamp(8px, 1.5vw, 24px); margin: 0; }
+.hero__best { width: clamp(80px, 8.5vw, 130px); height: auto; }
+.hero__spicy { width: clamp(220px, 25vw, 380px); height: auto; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .45)); }
+.hero__titulo img { animation: titulo-entra .6s cubic-bezier(.3, 1.4, .5, 1) calc(var(--intro-wait) + .5s) both; }
+.hero__best { animation-delay: calc(var(--intro-wait) + .8s) !important; }
+@keyframes titulo-entra {
+  0% { transform: scale(.6) rotate(-6deg); opacity: 0; }
+  100% { transform: none; opacity: 1; }
 }
 
 /* Fantasma skater: cuadros del mismo sprite que el intro del menú de Justo */
-.hero__art { position: relative; z-index: 1; width: min(100%, 380px); container-type: inline-size; transition: transform 400ms var(--ease); }
-
-/* Media luna de iconos sobre el fantasma: el arco va de -70° a 70°, centrado en el fantasma.
-   Pulso copiado de la barra de categorías de Justo (lm-pulse-icon / lm-pulse-ring, 3.6 s, 0.5 s entre icono e icono) */
-/* El fantasma baja 22cqw para dejar sitio al arco; el centro del arco cae en su cabeza */
-.hero__art .ghost { margin-top: 22cqw; }
-.hero__icons { position: absolute; left: 50%; top: 72cqw; width: 0; height: 0; z-index: 2; }
-.food {
-  --a: calc(-70deg + var(--i) * 28deg);
-  --s: clamp(40px, 15cqw, 60px);
-  position: absolute; left: 0; top: 0; width: var(--s); height: var(--s);
-  transform: translate(-50%, -50%) translate(calc(sin(var(--a)) * 62cqw), calc(cos(var(--a)) * -48cqw));
-}
-.food img { display: block; width: 100%; height: 100%; animation: lm-pulse-icon 3.6s ease-in-out infinite; animation-delay: calc(var(--i) * .5s); }
-.food::after {
-  content: ""; position: absolute; inset: -14%; border: 2px solid var(--red); border-radius: 50%;
-  opacity: 0; transform: scale(.55);
-  animation: lm-pulse-ring 3.6s ease-out infinite; animation-delay: calc(var(--i) * .5s);
-}
-@keyframes lm-pulse-icon {
-  0%, 16%, 100% { scale: 1; }
-  8% { scale: 1.24; }
-}
-@keyframes lm-pulse-ring {
-  0% { transform: scale(.55); opacity: 0; }
-  2% { opacity: .75; }
-  16%, 100% { transform: scale(1.5); opacity: 0; }
-}
 .ghost {
   position: relative; display: block; width: 100%; aspect-ratio: 220 / 260;
   padding: 0; border: 0; background: none; cursor: pointer;
@@ -413,16 +399,16 @@ a { color: inherit; }
   .hero { grid-template-columns: 1fr; min-height: 0; gap: 8px; padding: calc(var(--promo-h) + env(safe-area-inset-top)) var(--gutter) 72px; }
   .hero__side { align-items: center; text-align: center; }
   .hero__side { --pass-w: 220px; }
-  .hero__main { padding: 16px 0 0; }
-  .hero__title { font-size: clamp(40px, 11vw, 56px); }
-  .hero__art { width: min(70%, 280px); }
-  .hero {
-    background:
-      radial-gradient(260px 240px at 85% 78%, rgba(234, 29, 59, .75), transparent 72%),
-      radial-gradient(200px 200px at 100% 8%, rgba(234, 29, 59, .5), transparent 70%),
-      radial-gradient(220px 220px at 0% 50%, rgba(234, 29, 59, .38), transparent 72%),
-      radial-gradient(260px 200px at 30% 100%, rgba(255, 140, 158, .5), transparent 70%),
-      var(--paper);
+  /* Celular: gafete arriba; abajo el título sobre las llamas y la pizza asomando por la derecha */
+  .hero { padding-bottom: 0; }
+  .hero__main { align-self: start; min-height: 420px; padding: 20px 0 0; }
+  .hero__titulo { justify-content: flex-start; }
+  .hero__best { width: 72px; }
+  .hero__spicy { width: 190px; }
+  .hero__pizza {
+    top: auto; bottom: 0; left: 30%; height: 440px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%);
+    mask-image: linear-gradient(to bottom, transparent, #000 22%);
   }
   .eyebrow { font-size: 12px; letter-spacing: .08em; }
 

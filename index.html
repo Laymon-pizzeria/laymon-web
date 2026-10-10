@@ -61,32 +61,29 @@
         </a>
         <a class="pedir pedir--red hero__pedir" href="https://laymonpizzeria.getjusto.com/pedir" data-hero-cta><svg class="pedir__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.2l2.3 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 7.5H6.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="19" r="1.6" fill="currentColor"/><circle cx="17" cy="19" r="1.6" fill="currentColor"/></svg>Pide ahora</a>
       </div>
-      <div class="hero__main">
-
-        <div class="hero__art" aria-hidden="true" data-parallax>
-          <!-- Iconos de la carta en media luna sobre el fantasma; laten uno por uno como en la barra de categorías de Justo -->
-          <div class="hero__icons">
-            <span class="food" style="--i:0"><img src="assets/img/iconos/blanco/pizza.png" width="96" height="96" alt=""></span>
-            <span class="food" style="--i:1"><img src="assets/img/iconos/blanco/hamburguesa.png" width="96" height="96" alt=""></span>
-            <span class="food" style="--i:2"><img src="assets/img/iconos/blanco/ensalada.png" width="96" height="96" alt=""></span>
-            <span class="food" style="--i:3"><img src="assets/img/iconos/blanco/baguette.png" width="96" height="96" alt=""></span>
-            <span class="food" style="--i:4"><img src="assets/img/iconos/blanco/burrito.png" width="96" height="96" alt=""></span>
-            <span class="food" style="--i:5"><img src="assets/img/iconos/blanco/bebida.png" width="96" height="96" alt=""></span>
-          </div>
-          <button class="ghost" type="button" tabindex="-1" data-ghost>
-            <img class="ghost__frame" src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt="">
-            <img class="ghost__frame" src="assets/img/fantasma/skater-2.svg" width="220" height="260" alt="">
-            <img class="ghost__frame" src="assets/img/fantasma/skater-3.svg" width="220" height="260" alt="">
-            <img class="ghost__frame" src="assets/img/fantasma/skater-4.svg" width="220" height="260" alt="">
-            <img class="ghost__frame" src="assets/img/fantasma/skater-5.svg" width="220" height="260" alt="">
-            <img class="ghost__frame is-on" src="assets/img/fantasma/skater-6.svg" width="220" height="260" alt="">
+      <!-- Capas del arte de Luis (fondo, llamas, pizza); la pizza entra cuando la intro destapa la página -->
+      <div class="hero__layers" aria-hidden="true">
+        <img class="hero__fondo" src="assets/img/hero/fondo.webp" width="1920" height="909" alt="">
+        <img class="hero__llamas" src="assets/img/hero/llamas.webp" width="1920" height="909" alt="">
+        <div class="hero__pizza">
+          <!-- El fantasma se asoma por detrás de la orilla de la pizza -->
+          <button class="ghost hero__ghost" type="button" tabindex="-1" data-ghost>
+              <img class="ghost__frame is-on" src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt="">
+              <img class="ghost__frame" src="assets/img/fantasma/skater-2.svg" width="220" height="260" alt="">
+              <img class="ghost__frame" src="assets/img/fantasma/skater-3.svg" width="220" height="260" alt="">
+              <img class="ghost__frame" src="assets/img/fantasma/skater-4.svg" width="220" height="260" alt="">
+              <img class="ghost__frame" src="assets/img/fantasma/skater-5.svg" width="220" height="260" alt="">
+              <img class="ghost__frame" src="assets/img/fantasma/skater-6.svg" width="220" height="260" alt="">
           </button>
-          <span class="ghost__shadow"></span>
+          <img class="hero__pizza-img" src="assets/img/hero/pizza.webp" width="1404" height="1100" alt="">
         </div>
-        <h1 class="hero__title">
-          <span class="hero__lead">Laymon no es solo comida,</span>
-          es fuego, actitud y buena música.
-        </h1>
+      </div>
+      <div class="hero__main">
+        <h1 class="sr-only">Laymon no es solo comida, es fuego, actitud y buena música.</h1>
+        <p class="hero__titulo">
+          <img class="hero__best" src="assets/img/hero/best-pizzas.webp" width="289" height="310" alt="Best fuck'n pizzas:">
+          <img class="hero__spicy" src="assets/img/hero/spicy-honey.webp" width="872" height="818" alt="Spicy Honey">
+        </p>
       </div>
     </section>
 
