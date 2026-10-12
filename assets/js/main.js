@@ -479,20 +479,29 @@ document.addEventListener('DOMContentLoaded', () => {
       puntos.forEach((p, k) => p.setAttribute('aria-selected', String(k === actual)));
       slides.forEach((s, k) => { s.inert = k !== actual; });
     };
+    // Giro 360 completo: la que se va se ve hasta los 90°, la que llega entra volteada (180°) y se endereza a los 270°,
+    // así ninguna se ve al revés. dir 1 = siguiente (gira hacia la izquierda, como al deslizar).
+    const giro = escena.querySelector('[data-giro]');
+    let girando = false;
+    const suave = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
     const mostrar = (i, dir) => {
       i = (i + n) % n;
-      if (i === actual) return;
-      const antes = actual;
+      if (i === actual || girando) return;
+      const sale = slides[actual], entra = slides[i];
       actual = i;
-      const entra = slides[i];
-      // la que entra se coloca sin animación del lado correcto y luego gira al centro
-      entra.classList.add('sin-trans');
-      entra.dataset.pos = String(dir);
-      void entra.offsetWidth;
-      entra.classList.remove('sin-trans');
-      slides.forEach((s, k) => { if (k !== i) s.dataset.pos = k === antes ? String(-dir) : String(dir); });
-      entra.dataset.pos = '0';
-      pintar();
+      if (reduceMotion) { sale.dataset.pos = '1'; entra.dataset.pos = '0'; pintar(); return; }
+      girando = true;
+      let t0 = null, cambio = false;
+      const paso = (ts) => {
+        if (t0 === null) t0 = ts;
+        const t = Math.min(1, (ts - t0) / 1500), e = suave(t), a = 360 * e;
+        giro.style.transform = `rotateY(${-dir * a}deg) scale(${1 - 0.14 * Math.sin(Math.PI * e)})`;
+        if (a >= 90 && !cambio) { cambio = true; sale.dataset.pos = '1'; entra.dataset.pos = '0'; pintar(); }
+        entra.style.transform = cambio && a < 270 ? 'rotateY(180deg)' : '';
+        if (t < 1) requestAnimationFrame(paso);
+        else { giro.style.transform = ''; entra.style.transform = ''; girando = false; }
+      };
+      requestAnimationFrame(paso);
     };
     slides.forEach((s, k) => { s.dataset.pos = k === 0 ? '0' : '1'; });
     pintar();
