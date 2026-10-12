@@ -465,6 +465,40 @@ document.addEventListener('DOMContentLoaded', () => {
     ruta.classList.add('ruta--sinmapa');
   }
 
+  // Ensaladas poetas: deslizas (o tocas un nombre o una flecha) y la sección toma la vibra de esa ensalada
+  const poetas = document.querySelector('[data-poetas]');
+  if (poetas) {
+    const pista = poetas.querySelector('[data-pista]');
+    const slides = [...pista.children];
+    const tabs = [...poetas.querySelectorAll('[data-ir]')];
+    let actual = -1;
+    const marcar = (i) => {
+      if (i === actual) return;
+      actual = i;
+      poetas.dataset.vibra = slides[i].dataset.vibra;
+      tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
+      slides.forEach((s, k) => { s.inert = k !== i; });
+    };
+    const ir = (i) => {
+      const n = (i + slides.length) % slides.length;
+      pista.scrollTo({ left: n * pista.clientWidth, behavior: reduceMotion ? 'auto' : 'smooth' });
+      marcar(n);
+    };
+    let pend = 0;
+    pista.addEventListener('scroll', () => {
+      cancelAnimationFrame(pend);
+      pend = requestAnimationFrame(() => marcar(Math.round(pista.scrollLeft / pista.clientWidth)));
+    }, { passive: true });
+    tabs.forEach((t) => t.addEventListener('click', () => ir(+t.dataset.ir)));
+    poetas.querySelectorAll('[data-paso]').forEach((b) => b.addEventListener('click', () => ir(actual + +b.dataset.paso)));
+    pista.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); ir(actual + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); ir(actual - 1); }
+    });
+    window.addEventListener('resize', () => { pista.scrollLeft = actual * pista.clientWidth; });
+    marcar(0);
+  }
+
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
 });

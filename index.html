@@ -125,6 +125,49 @@
       </div>
     </section>
 
+    <!-- ENSALADAS: cada una lleva el nombre de un poeta; al deslizar cambia la vibra de la sección -->
+    <section class="poetas" id="ensaladas" aria-labelledby="poetas-title" data-poetas data-vibra="pizarnik">
+      <div class="poetas__fondo" aria-hidden="true"><span class="poetas__estrellas"></span><span class="poetas__rayos"></span><span class="poetas__grano"></span></div>
+      <div class="poetas__cabeza">
+        <h2 id="poetas-title" class="poetas__title">Ensaladas con nombre de poeta</h2>
+        <div class="poetas__nav" role="tablist" aria-label="Elige una ensalada">
+          <button type="button" role="tab" aria-selected="true" data-ir="0">Pizarnik</button>
+          <button type="button" role="tab" aria-selected="false" data-ir="1">Blake</button>
+          <button type="button" role="tab" aria-selected="false" data-ir="2">Artaud</button>
+        </div>
+      </div>
+      <div class="poetas__pista" data-pista tabindex="0" aria-label="Ensaladas: desliza para cambiar">
+        <article class="poeta" data-vibra="pizarnik" aria-roledescription="ensalada">
+          <p class="poeta__vibra">Fruta oscura · deseo · silencio · noche</p>
+          <h3 class="poeta__nombre">Pizarnik</h3>
+          <blockquote class="poeta__cita"><p>«He dado el salto de mí al alba.»</p><footer>Alejandra Pizarnik, <cite>Árbol de Diana</cite></footer></blockquote>
+          <p class="poeta__porque">Breve, oscura, delicada. Como la fruta roja: bella, frágil, intensa. No grita: susurra.</p>
+          <p class="poeta__lleva">Hojas verdes, fresa, blueberry, zarzamora y durazno, con queso de cabra, mix de semillas y aderezo. Dulce, ácida y profunda.</p>
+          <a class="poeta__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Pizarnik</a>
+        </article>
+        <article class="poeta" data-vibra="blake" aria-roledescription="ensalada">
+          <p class="poeta__vibra">Naturaleza viva · energía · abundancia</p>
+          <h3 class="poeta__nombre">Blake</h3>
+          <blockquote class="poeta__cita" lang="en"><p>«Every thing that lives is holy.»</p><footer lang="es">William Blake, <cite>El matrimonio del cielo y el infierno</cite></footer></blockquote>
+          <p class="poeta__porque">Blake veía la naturaleza sagrada y vibrante, nunca pasiva. Esta ensalada es vida en equilibrio, no dieta.</p>
+          <p class="poeta__lleva">Hojas verdes, fresa, uva, manzana y piña, con pechuga ahumada, queso manchego, mix de semillas y aderezo. Dulce y salada, completa.</p>
+          <a class="poeta__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Blake</a>
+        </article>
+        <article class="poeta" data-vibra="artaud" aria-roledescription="ensalada">
+          <p class="poeta__vibra">Cruda · raíz · cuerpo · verdad sin filtro</p>
+          <h3 class="poeta__nombre">Artaud</h3>
+          <blockquote class="poeta__cita"><p>«Acabar con las obras maestras.»</p><footer>Antonin Artaud, <cite>El teatro y su doble</cite></footer></blockquote>
+          <p class="poeta__porque">Rechazo al adorno. Comida directa, sin maquillaje, como Artaud quería el teatro.</p>
+          <p class="poeta__lleva">Hojas verdes, fresa, manzana, zanahoria y coles de Bruselas, con pechuga ahumada, queso de cabra, mix de semillas y aderezo. Verde, cruda y honesta.</p>
+          <a class="poeta__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Artaud</a>
+        </article>
+      </div>
+      <div class="poetas__flechas">
+        <button type="button" class="poetas__flecha" data-paso="-1" aria-label="Ensalada anterior">←</button>
+        <button type="button" class="poetas__flecha" data-paso="1" aria-label="Siguiente ensalada">→</button>
+      </div>
+    </section>
+
     <!-- MANIFIESTO -->
     <section class="manifesto" id="que-somos" aria-labelledby="manifesto-title">
       <!-- Foto de la caja (de Luis), con el fondo pasado al rojo Laymon y bordes difuminados hacia el rojo de la sección -->
