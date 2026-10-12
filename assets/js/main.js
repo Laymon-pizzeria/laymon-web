@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dónde va la tarjeta i en cada estado: desplazamiento (en cw/ch), escala, opacidad y orden
     const pose = (estado, i, activa) => {
+      if (estado === 'oculta') return { x: 0, y: 0, s: 0.5, o: 0, z: 100 - i, k: i };
       if (estado === 'sola' || estado === 'solaChica') {
         return { x: 0, y: 0, s: i === 0 ? (estado === 'sola' ? 1 : 0.5) : 0.5, o: i === 0 ? 1 : 0, z: 100 - i, k: i };
       }
@@ -203,19 +204,26 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(tick);
     };
 
+    // Cada vez que llegas a la sección la secuencia empieza de cero: la primera tarjeta crece desde la nada.
+    // Al salir se congela; al volver arranca otra vez desde el principio.
+    const reiniciar = () => {
+      estado = 'oculta'; activa = 0;
+      cards.forEach((li) => { li.style.transition = 'none'; });
+      aplicar(0);
+      escena.offsetHeight;
+      cards.forEach((li) => { li.style.transition = ''; });
+      idx = 0; reloj = 0; siguiente = 120;
+    };
     medir();
-    // Arranca sin transición en la tarjeta sola; el resto espera a que la sección se vea
-    cards.forEach((li) => { li.style.transition = 'none'; });
-    aplicar(0);
-    escena.offsetHeight;
-    cards.forEach((li) => { li.style.transition = ''; });
-    siguiente = CFG.inicio[0][2];
-    idx = 1;
+    reiniciar();
     requestAnimationFrame(tick);
 
     window.addEventListener('resize', () => { medir(); aplicar(0); });
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(([e]) => { enPantalla = e.isIntersecting; }, { threshold: 0.35 }).observe(escena);
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && !enPantalla) reiniciar();
+        enPantalla = e.isIntersecting;
+      }, { threshold: 0.35 }).observe(escena);
     } else enPantalla = true;
     escena.addEventListener('pointerover', (e) => { if (e.pointerType === 'mouse' && e.target.closest('li')) pausa = true; });
     escena.addEventListener('pointerout', (e) => {
