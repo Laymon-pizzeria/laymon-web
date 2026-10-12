@@ -11,35 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
     else setTimeout(() => intro.remove(), 5400);
   }
 
-  // Nav: se esconde al bajar, vuelve al subir
-  const nav = document.querySelector('[data-nav]');
+  // Sin header (Luis, 12 oct): pasando el Pide ahora del hero aparece el Pide ahora flotante
   const dock = document.querySelector('[data-dock]');
-  let lastY = window.scrollY;
-  // Mientras el Pide ahora del hero se ve, el header muestra solo la barra de envío
   const heroCta = document.querySelector('[data-hero-cta]');
-  let enHero = true;
+  const setHero = (enHero) => {
+    document.body.classList.toggle('en-hero', enHero);
+    if (dock) dock.classList.toggle('is-on', !enHero);
+  };
   if (heroCta && 'IntersectionObserver' in window) {
     new IntersectionObserver(([entry]) => {
-      enHero = entry.isIntersecting || entry.boundingClientRect.top > 0;
-      onScroll();
+      setHero(entry.isIntersecting || entry.boundingClientRect.top > 0);
     }).observe(heroCta);
-  } else { enHero = false; }
-  let ticking = false;
-
-  const onScroll = () => {
-    const y = window.scrollY;
-    nav.classList.toggle('is-scrolled', y > 8);
-    const hidden = !enHero && y > lastY && y > 240;
-    nav.classList.toggle('is-hero', enHero);
-    nav.classList.toggle('is-hidden', hidden);
-    document.body.classList.toggle('en-hero', enHero);
-    if (dock) dock.classList.toggle('is-on', hidden);
-    lastY = y;
-    ticking = false;
-  };
-  window.addEventListener('scroll', () => {
-    if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
-  }, { passive: true });
+  } else setHero(false);
 
   // Fantasma: hace su truco al cargar y cada vez que lo tocas
   const ghost = document.querySelector('[data-ghost]');
@@ -124,9 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
       visibles: 3,                   // cuántas se ven en cada pila
       // Tablet y escritorio: el reparto se mide contra la sección para que ninguna tarjeta quede cortada
       margen: 24,                    // px libres contra los bordes de la sección y el texto
-      activaEscala: 0.8,             // la activa del reparto, respecto a la tarjeta sola inicial
-      pilaEscala: 0.5,               // las apiladas
-      pilaPaso: 0.3,                 // separación dentro de una pila, en anchos de tarjeta apilada
+      activaEscala: 1.08,            // la activa del reparto, respecto a la tarjeta sola inicial (Luis: más grande)
+      pilaEscala: 0.4,               // las apiladas (Luis: más chicas)
+      pilaPaso: 0.34,                // separación dentro de una pila, en anchos de tarjeta apilada
+      pilaPasoY: 0.16,               // y en altos
       abanicoEscala: 0.7,
       abanicoInicio: [-0.18, -0.14], // la primera se mueve un poco arriba-izquierda al abrir el mazo
       abanicoPaso: [0.22, 0.17],
@@ -147,27 +131,35 @@ document.addEventListener('DOMContentLoaded', () => {
       geo = { cw, ch, cx: W * c[0] - cw / 2, cy: H * c[1] - ch / 2, slots: null };
       if (W <= 820) return; // en celular se vale que las pilas se salgan del cuadro
 
-      // Diagonal de esquina a esquina: la pila vieja toca el margen de arriba, la que viene el de abajo a la
-      // derecha, y la activa queda a la mitad. Se recorre a la derecha lo mínimo para no pisar el texto.
+      // Las pilas se pegan a las esquinas de la activa (arriba-izquierda las vistas, abajo-derecha las que
+      // vienen) y el grupo se acomoda dentro de la sección: completo, sin pisar el texto y lo más centrado
+      // posible. Si no cabe, la activa se achica de a poco hasta que quepa.
       const m = CFG.margen, V = CFG.visibles;
-      const sw = cw * CFG.pilaEscala, sh = ch * CFG.pilaEscala, aw = cw * CFG.activaEscala, ah = ch * CFG.activaEscala;
       const er = escena.getBoundingClientRect(), tr = escena.parentElement.querySelector('.pizzas__concepto').getBoundingClientRect();
       const texto = { l: tr.left - er.left - m, t: tr.top - er.top - m, r: tr.right - er.left + m, b: tr.bottom - er.top + m };
       const choca = (x, y, w, h) => x - w / 2 < texto.r && x + w / 2 > texto.l && y - h / 2 < texto.b && y + h / 2 > texto.t;
-      const fin = [W - m - sw / 2, H - m - sh / 2];
-      const armar = (x0) => {
-        const ini = [x0 + sw / 2, m + sh / 2];
-        const largo = Math.hypot(fin[0] - ini[0], fin[1] - ini[1]);
-        const dt = (sw * CFG.pilaPaso) / largo;
-        const en = (t) => [ini[0] + (fin[0] - ini[0]) * t, ini[1] + (fin[1] - ini[1]) * t];
-        const slots = { activa: en(0.5), atras: [], adelante: [] };
-        for (let n = 1; n <= V; n++) { slots.atras.push(en((V - n) * dt)); slots.adelante.push(en(1 - (V - n) * dt)); }
-        const libre = !choca(...slots.activa, aw, ah) &&
-          [...slots.atras, ...slots.adelante].every(([x, y]) => !choca(x, y, sw, sh));
-        return libre ? slots : null;
-      };
-      // Arranca alineada con el margen del texto, no pegada al borde
-      for (let x0 = Math.max(m, texto.l + m); x0 < W * 0.6 && !geo.slots; x0 += 8) geo.slots = armar(x0);
+      const dentro = (x, y, w, h) => x - w / 2 >= m && x + w / 2 <= W - m && y - h / 2 >= m && y + h / 2 <= H - m;
+      const sw = cw * CFG.pilaEscala, sh = ch * CFG.pilaEscala;
+      for (let ea = CFG.activaEscala; ea >= 0.7 && !geo.slots; ea -= 0.04) {
+        const aw = cw * ea, ah = ch * ea;
+        const off = (dir, n) => [
+          dir * (aw / 2 + sw * 0.12 + (n - 1) * sw * CFG.pilaPaso),
+          dir * (ah / 2 - sh * 0.32 + (n - 1) * sh * CFG.pilaPasoY),
+        ];
+        const ay = H / 2, ideal = (Math.max(texto.r, 0) + W) / 2; // centrado en el hueco a la derecha del texto
+        for (let d = 0; d < W && !geo.slots; d += 8) {
+          for (const ax of [ideal - d, ideal + d]) {
+            const cajas = [[ax, ay, aw, ah]];
+            const atras = [], adelante = [];
+            for (let n = 1; n <= V; n++) {
+              const p = off(-1, n), q = off(1, n);
+              atras.push([ax + p[0], ay + p[1]]); adelante.push([ax + q[0], ay + q[1]]);
+              cajas.push([ax + p[0], ay + p[1], sw, sh], [ax + q[0], ay + q[1], sw, sh]);
+            }
+            if (cajas.every((c) => dentro(...c) && !choca(...c))) { geo.slots = { activa: [ax, ay], atras, adelante, escala: ea }; break; }
+          }
+        }
+      }
     };
 
     // Dónde va la tarjeta i en cada estado: desplazamiento (en cw/ch), escala, opacidad y orden
@@ -190,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const n = Math.min(Math.abs(k), CFG.visibles);
         const c = k === 0 ? geo.slots.activa : (k < 0 ? geo.slots.atras : geo.slots.adelante)[n - 1];
         return {
-          abs: c, s: k === 0 ? CFG.activaEscala : CFG.pilaEscala,
+          abs: c, s: k === 0 ? geo.slots.escala : CFG.pilaEscala,
           o: Math.abs(k) <= CFG.visibles ? 1 : 0, z: 100 - Math.abs(k), k,
         };
       }
