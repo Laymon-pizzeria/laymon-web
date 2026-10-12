@@ -287,6 +287,107 @@ document.addEventListener('DOMContentLoaded', () => {
     escena.addEventListener('focusout', () => { pausa = false; });
   }
 
+  // Ven por una: mapa con Laymon; al llegar a la sección pide tu ubicación y dibuja la ruta en rojo hacia Laymon.
+  // Mapa: Leaflet (assets/vendor) con calles de CARTO; ruta: OSRM público. Sin llaves ni cuentas.
+  const ruta = document.querySelector('[data-ruta]');
+  if (ruta && window.L) {
+    const laymon = [+ruta.dataset.lat, +ruta.dataset.lng];
+    const msg = ruta.querySelector('[data-ruta-msg]');
+    const btn = ruta.querySelector('[data-ruta-btn]');
+    const decir = (t) => { msg.textContent = t; };
+    const mapa = L.map(ruta.querySelector('[data-ruta-mapa]'), {
+      center: laymon, zoom: 15, scrollWheelZoom: false, zoomControl: false,
+      dragging: !L.Browser.mobile, // en celular un dedo es para bajar la página; dos para mover el mapa
+      zoomAnimation: !reduceMotion, fadeAnimation: !reduceMotion, markerZoomAnimation: !reduceMotion,
+    });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd', maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    }).addTo(mapa);
+    L.control.zoom({ position: 'topright' }).addTo(mapa);
+    mapa.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
+    const pin = ruta.querySelector('[data-ruta-pin]').content.firstElementChild.outerHTML;
+    L.marker(laymon, {
+      icon: L.divIcon({ className: 'ruta__pin', html: pin, iconSize: [64, 76], iconAnchor: [32, 72] }),
+      keyboard: false, alt: 'Laymon',
+    }).addTo(mapa);
+
+    let capa = null, pidiendo = false;
+    const dibujar = (puntos) => {
+      if (capa) capa.remove();
+      const base = L.polyline(puntos, { className: 'ruta__base', weight: 9, interactive: false });
+      const luz = L.polyline(puntos, { className: 'ruta__luz', weight: 5, interactive: false });
+      const cometa = L.polyline(puntos, { className: 'ruta__cometa', weight: 5, interactive: false });
+      capa = L.layerGroup([base, luz, cometa]).addTo(mapa);
+      // pathLength fijo: la animación no depende del zoom (Leaflet redibuja el trazo al acercar)
+      [luz, cometa].forEach((l) => l.getElement().setAttribute('pathLength', 1000));
+      // arriba deja aire para el fantasma, que sobresale del punto de Laymon
+      mapa.fitBounds(L.latLngBounds(puntos), { paddingTopLeft: [56, 104], paddingBottomRight: [56, 40], animate: !reduceMotion });
+      if (reduceMotion) return;
+      const t = Math.min(4200, 1600 + puntos.length * 4);
+      luz.getElement().animate(
+        [{ strokeDashoffset: 1000 }, { strokeDashoffset: 0 }],
+        { duration: t, delay: 450, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'backwards' }
+      );
+      cometa.getElement().animate(
+        [{ strokeDashoffset: 60 }, { strokeDashoffset: -1000 }],
+        { duration: 2600, delay: t + 450, iterations: Infinity, easing: 'linear' }
+      );
+    };
+    const enRuta = (yo) => {
+      decir('Trazando el camino a Laymon…');
+      const url = `https://router.project-osrm.org/route/v1/driving/${yo[1]},${yo[0]};${laymon[1]},${laymon[0]}?overview=full&geometries=geojson`;
+      fetch(url).then((r) => r.json()).then((d) => {
+        const r = d.routes && d.routes[0];
+        if (!r) throw new Error('sin ruta');
+        dibujar(r.geometry.coordinates.map(([lng, lat]) => [lat, lng]));
+        L.circleMarker(yo, { radius: 7, className: 'ruta__yo', interactive: false }).addTo(capa);
+        const km = r.distance / 1000, min = Math.max(1, Math.round(r.duration / 60));
+        const dist = km < 1 ? `${Math.round(r.distance)} m` : `${km.toFixed(1)} km`;
+        decir(km > 80
+          ? `Estás a ${Math.round(km)} km. Es lejos, pero hay quien ha viajado más por menos.`
+          : `Estás a ${dist} de Laymon, unos ${min} min en coche. Ya nada te detiene.`);
+        btn.textContent = 'Volver a trazar';
+      }).catch(() => decir('No pudimos trazar el camino. Ábrelo en Google Maps y que él te lleve.'))
+        .finally(() => { pidiendo = false; });
+    };
+    const pedir = () => {
+      if (pidiendo) return;
+      if (!('geolocation' in navigator)) { decir('Tu navegador no comparte ubicación. Ábrelo en Google Maps.'); return; }
+      pidiendo = true;
+      decir('Buscándote en el mapa…');
+      navigator.geolocation.getCurrentPosition(
+        (p) => enRuta([p.coords.latitude, p.coords.longitude]),
+        (e) => {
+          pidiendo = false;
+          decir(e.code === 1
+            ? 'Sin tu ubicación no hay ruta. Si cambias de opinión, toca el botón; si no, ábrelo en Google Maps.'
+            : 'No te encontramos. Toca el botón para intentar de nuevo o ábrelo en Google Maps.');
+        },
+        { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 }
+      );
+    };
+    btn.addEventListener('click', pedir);
+
+    // Automático (Luis, 12 oct): la primera vez que el mapa entra en pantalla se pide la ubicación,
+    // salvo que el navegador ya la tenga bloqueada.
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        mapa.invalidateSize();
+        const q = navigator.permissions && navigator.permissions.query({ name: 'geolocation' });
+        (q || Promise.resolve({ state: 'prompt' })).then((s) => {
+          if (s.state === 'denied') decir('Tienes la ubicación bloqueada para este sitio. Ábrelo en Google Maps.');
+          else pedir();
+        }).catch(pedir);
+      }, { threshold: 0.5 });
+      io.observe(ruta.querySelector('[data-ruta-mapa]'));
+    }
+  } else if (ruta) {
+    ruta.classList.add('ruta--sinmapa');
+  }
+
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
 });

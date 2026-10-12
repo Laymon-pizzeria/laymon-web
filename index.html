@@ -16,7 +16,9 @@
   <meta property="og:url" content="https://www.laymonpizzeria.com/">
   <link rel="preload" href="assets/fonts/brick-laymon.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/fantasma/skater-6.svg" as="image">
+  <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="assets/css/main.css">
+  <script src="assets/vendor/leaflet/leaflet.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body class="en-hero">
@@ -115,11 +117,17 @@
 
     <!-- VISÍTANOS -->
     <section class="visit" id="visitanos" aria-labelledby="visit-title">
-      <div class="visit__art" aria-hidden="true">
-        <img src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt="" loading="lazy">
+      <h2 id="visit-title" class="display visit__title">Ven por una</h2>
+      <div class="ruta" data-ruta data-lat="19.6324866" data-lng="-99.1082052">
+        <div class="ruta__mapa" data-ruta-mapa role="region" aria-label="Mapa: Laymon en Coacalco"></div>
+        <div class="ruta__panel">
+          <button class="ruta__btn" type="button" data-ruta-btn>Trázame la ruta</button>
+          <p class="ruta__msg" data-ruta-msg aria-live="polite">Te pedimos tu ubicación solo para dibujar el camino. No la guardamos.</p>
+          <a class="ruta__gmaps" data-ruta-gmaps href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">Abrir en Google Maps</a>
+        </div>
+        <template data-ruta-pin><img class="ruta__fantasma" src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt=""></template>
       </div>
       <div class="visit__body">
-        <h2 id="visit-title" class="display">Ven por una</h2>
         <ul class="rows">
           <li><a class="row" href="https://maps.app.goo.gl/JotP1qxJnMBJTTzD9" target="_blank" rel="noopener">
             <span class="row__label">Ubicación</span><span class="row__value">Coacalco, Edo. Méx.</span><span class="row__arrow" aria-hidden="true">→</span></a></li>
