@@ -144,14 +144,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const choca = (x, y, w, h) => x - w / 2 < texto.r && x + w / 2 > texto.l && y - h / 2 < texto.b && y + h / 2 > texto.t;
       const dentro = (x, y, w, h) => x - w / 2 >= m && x + w / 2 <= W - m && y - h / 2 >= m && y + h / 2 <= H - m;
       const sw = cw * CFG.pilaEscala, sh = ch * CFG.pilaEscala;
-      for (let ea = CFG.activaEscala; ea >= 0.7 && !geo.slots; ea -= 0.04) {
+      // Se prueba de más a menos: activa grande y bien separada primero; si no cabe (tablet), se baja la
+      // separación, se sube o baja el grupo y al final se achica la activa
+      const ideal = (Math.max(texto.r, 0) + W) / 2; // centrado en el hueco a la derecha del texto
+      const probar = (ea, sep, ay) => {
         const aw = cw * ea, ah = ch * ea;
         const off = (dir, n) => [
-          dir * (aw / 2 + CFG.separacion + sw / 2 + (n - 1) * sw * CFG.pilaPaso),
+          dir * (aw / 2 + sep + sw / 2 + (n - 1) * sw * CFG.pilaPaso),
           dir * (ah / 2 - sh / 2 + (n - 1) * sh * CFG.pilaPasoY),
         ];
-        const ay = H / 2, ideal = (Math.max(texto.r, 0) + W) / 2; // centrado en el hueco a la derecha del texto
-        for (let d = 0; d < W && !geo.slots; d += 8) {
+        for (let d = 0; d < W; d += 8) {
           for (const ax of [ideal - d, ideal + d]) {
             const cajas = [[ax, ay, aw, ah]];
             const atras = [], adelante = [];
@@ -160,7 +162,18 @@ document.addEventListener('DOMContentLoaded', () => {
               atras.push([ax + p[0], ay + p[1]]); adelante.push([ax + q[0], ay + q[1]]);
               cajas.push([ax + p[0], ay + p[1], sw, sh], [ax + q[0], ay + q[1], sw, sh]);
             }
-            if (cajas.every((c) => dentro(...c) && !choca(...c))) { geo.slots = { activa: [ax, ay], atras, adelante, escala: ea }; break; }
+            if (cajas.every((c) => dentro(...c) && !choca(...c))) return { activa: [ax, ay], atras, adelante, escala: ea };
+          }
+        }
+        return null;
+      };
+      busca: for (let ea = CFG.activaEscala; ea >= 0.6; ea -= 0.04) {
+        for (const sep of [CFG.separacion, CFG.separacion / 2, 8]) {
+          for (let dy = 0; dy <= H * 0.2; dy += 8) {
+            for (const ay of [H / 2 - dy, H / 2 + dy]) {
+              geo.slots = probar(ea, sep, ay);
+              if (geo.slots) break busca;
+            }
           }
         }
       }
