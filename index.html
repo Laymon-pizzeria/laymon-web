@@ -97,6 +97,36 @@
       </div>
     </section>
 
+    <!-- VEN POR UNA: mapa con la ruta a Laymon (el fantasma la recorre) y por qué vale la pena venir -->
+    <section class="visit" id="visitanos" aria-labelledby="visit-title">
+      <h2 id="visit-title" class="display visit__title">Ven por una</h2>
+      <div class="ruta" data-ruta data-lat="19.6324866" data-lng="-99.1082052">
+        <div class="ruta__mapa" data-ruta-mapa role="region" aria-label="Mapa: Laymon en Coacalco"></div>
+        <div class="ruta__panel">
+          <button class="ruta__btn" type="button" data-ruta-btn>Trázame la ruta</button>
+          <p class="ruta__msg" data-ruta-msg aria-live="polite">Toca el botón y te dibujamos el camino desde donde estás. Tu ubicación no se guarda.</p>
+        </div>
+        <div class="ruta__ir">
+          <button class="ruta__enviar" type="button" data-ruta-enviar>Mándate la ruta al cel</button>
+          <span class="ruta__apps">Ábrela en
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener" data-ruta-gmaps>Google Maps</a> o
+            <a href="https://waze.com/ul?ll=19.6324866,-99.1082052&amp;navigate=yes" target="_blank" rel="noopener" data-ruta-waze>Waze</a></span>
+        </div>
+        <template data-ruta-pin><span class="ruta__logo"><svg viewBox="0 0 1759 1001" aria-hidden="true"><use href="#logo-laymon"/></svg></span></template>
+        <template data-ruta-rider><span class="ruta__bote"><img src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt=""></span></template>
+      </div>
+      <div class="visit__body">
+        <p class="visit__lead">La napolitana no viaja bien. Aquí te toca en su mejor minuto.</p>
+        <ul class="ventajas">
+          <li><span class="ventajas__t">Directo del horno a tu mesa</span> La orilla inflada y crujiente dura poco. En la caja, el vapor la aguada antes de que llegue a tu casa.</li>
+          <li><span class="ventajas__t">El queso todavía jala</span> Recién salida, el centro está suave y se dobla, como en Nápoles.</li>
+          <li><span class="ventajas__t">Otra ronda sin esperar</span> ¿Se acabó? Pides la siguiente y sale en minutos, sin repartidor perdido.</li>
+          <li><span class="ventajas__t">Fuego, actitud y buena música</span> La playlist la ponemos nosotros. La compañía, tú.</li>
+        </ul>
+        <a class="visit__reserva" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
     <!-- MANIFIESTO -->
     <section class="manifesto" id="que-somos" aria-labelledby="manifesto-title">
       <!-- Foto de la caja (de Luis), con el fondo pasado al rojo Laymon y bordes difuminados hacia el rojo de la sección -->
@@ -115,36 +145,6 @@
       </div>
     </section>
 
-    <!-- VISÍTANOS -->
-    <section class="visit" id="visitanos" aria-labelledby="visit-title">
-      <h2 id="visit-title" class="display visit__title">Ven por una</h2>
-      <div class="ruta" data-ruta data-lat="19.6324866" data-lng="-99.1082052">
-        <div class="ruta__mapa" data-ruta-mapa role="region" aria-label="Mapa: Laymon en Coacalco"></div>
-        <div class="ruta__panel">
-          <button class="ruta__btn" type="button" data-ruta-btn>Trázame la ruta</button>
-          <p class="ruta__msg" data-ruta-msg aria-live="polite">Te pedimos tu ubicación solo para dibujar el camino. No la guardamos.</p>
-          <a class="ruta__gmaps" data-ruta-gmaps href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">Abrir en Google Maps</a>
-        </div>
-        <template data-ruta-pin><img class="ruta__fantasma" src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt=""></template>
-      </div>
-      <div class="visit__body">
-        <ul class="rows">
-          <li><a class="row" href="https://maps.app.goo.gl/JotP1qxJnMBJTTzD9" target="_blank" rel="noopener">
-            <span class="row__label">Ubicación</span><span class="row__value">Coacalco, Edo. Méx.</span><span class="row__arrow" aria-hidden="true">→</span></a></li>
-          <li><a class="row" href="https://maps.app.goo.gl/jDNJ739aPyib1n9P8" target="_blank" rel="noopener">
-            <span class="row__label">Reseñas</span><span class="row__value">4.7 en Google</span><span class="row__arrow" aria-hidden="true">→</span></a></li>
-          <li><a class="row" href="https://laymonpizzeria.getjusto.com/reservas">
-            <span class="row__label">Reservas</span><span class="row__value">Aparta tu mesa</span><span class="row__arrow" aria-hidden="true">→</span></a></li>
-          <li><a class="row" href="https://api.whatsapp.com/send/?phone=525535023665" target="_blank" rel="noopener">
-            <span class="row__label">WhatsApp</span><span class="row__value">55 3502 3665</span><span class="row__arrow" aria-hidden="true">→</span></a></li>
-          <li>
-            <button class="row" type="button" id="playlist-btn" data-playlist aria-expanded="false" aria-controls="playlist">
-              <span class="row__label">Playlist</span><span class="row__value">Lo que suena en Laymon</span><span class="row__arrow" aria-hidden="true">+</span></button>
-            <div class="playlist" id="playlist" hidden></div>
-          </li>
-        </ul>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
