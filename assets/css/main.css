@@ -493,9 +493,44 @@ a { color: inherit; }
 .poetas__pista::-webkit-scrollbar { display: none; }
 .poeta {
   scroll-snap-align: start; min-width: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .75fr); align-items: center; column-gap: clamp(32px, 5vw, 88px);
   padding: clamp(28px, 4vw, 56px) max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))) 0;
+  --carta: var(--red); --carta-txt: var(--paper); --k: 1.45;
 }
-.poeta > * { max-width: 760px; }
+.poeta[data-vibra="blake"] { --carta: var(--paper); --carta-txt: var(--red); }
+.poeta[data-vibra="artaud"] { --carta: var(--ink); --carta-txt: var(--paper); }
+.poeta__texto { max-width: 760px; }
+
+/* La carta de cada ensalada con sus ingredientes flotando (como la referencia de Luis): gira al llegar y los ingredientes brotan */
+.poeta__plato { position: relative; justify-self: center; width: clamp(220px, 23vw, 330px); aspect-ratio: 3 / 4; perspective: 900px; margin: 56px 0; }
+.poeta__carta {
+  position: absolute; inset: 0; border-radius: 28px; background: var(--carta); color: var(--carta-txt);
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 16px 12px 18px;
+  box-shadow: 0 24px 50px rgba(12, 11, 11, .28);
+}
+.poeta__carta-arriba, .poeta__carta-abajo { font: 400 clamp(28px, 3vw, 46px)/1 var(--font-display); }
+.poeta__bowl { width: 64%; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 253, 250, .16); }
+.poeta[data-vibra="blake"] .poeta__bowl { background: rgba(234, 29, 59, .1); }
+.poeta__bowl img { width: 86%; height: auto; }
+.ing {
+  position: absolute; left: var(--x); top: var(--y); z-index: 2; width: calc(var(--s) * var(--k)); height: auto;
+  margin: calc(var(--s) * var(--k) / -2) 0 0 calc(var(--s) * var(--k) / -2); /* --x/--y marcan el centro */
+  rotate: var(--r); filter: drop-shadow(0 8px 10px rgba(12, 11, 11, .28));
+}
+.poeta:not(.activa) .ing { scale: 0; opacity: 0; }
+.poeta.activa .poeta__carta { animation: carta-gira .9s var(--ease) both; }
+.poeta.activa .ing {
+  animation:
+    ing-brota .55s cubic-bezier(.3, 1.5, .5, 1) calc(var(--i) * 70ms + 300ms) both,
+    ing-flota calc(2.6s + var(--i) * .35s) ease-in-out calc(var(--i) * 70ms + 900ms) infinite alternate;
+}
+@keyframes carta-gira { from { transform: rotateY(-55deg) scale(.88); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes ing-brota { from { scale: 0; opacity: 0; } to { scale: 1; opacity: 1; } }
+@keyframes ing-flota { from { translate: 0 0; } to { translate: 0 -11px; } }
+@media (max-width: 1100px) {
+  .poeta { grid-template-columns: 1fr; }
+  .poeta__plato { order: -1; width: 210px; margin: 56px auto 48px; --k: .95; }
+}
 .poeta__vibra { margin: 0; font-size: 15px; letter-spacing: .06em; color: var(--acento); transition: color .8s; }
 .poeta__nombre {
   margin: 6px 0 0; font: 400 clamp(76px, 13vw, 190px)/.9 var(--font-display); color: var(--nombre);
@@ -685,6 +720,7 @@ body.en-hero .order-float.order-float { translate: 0 calc(100% + 40px); animatio
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .poeta .ing { scale: 1; opacity: 1; }
   :root { --intro-wait: 0s; }
   .intro { display: none; }
   html { scroll-behavior: auto; }

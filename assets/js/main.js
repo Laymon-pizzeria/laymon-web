@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
       actual = i;
       poetas.dataset.vibra = slides[i].dataset.vibra;
       tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
-      slides.forEach((s, k) => { s.inert = k !== i; });
+      slides.forEach((s, k) => { s.inert = k !== i; s.classList.toggle('activa', k === i); });
     };
     const ir = (i) => {
       const n = (i + slides.length) % slides.length;
