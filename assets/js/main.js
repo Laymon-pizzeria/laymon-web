@@ -101,86 +101,136 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Pizzas en arco: las tarjetas corren por una curva y se detienen con el cursor (o el dedo) encima
-  const arco = document.querySelector('[data-arco]');
-  if (arco && !reduceMotion) {
-    const items = [...arco.querySelectorAll('li')];
-    const SPEED = 42; // px por segundo
-    let table = [], vis = 0, total = 0, offset = 0, paused = false, resumeT = 0, last = 0, onScreen = true;
+  // Pizzas en cascada diagonal (copiada del video de referencia de Luis):
+  // una tarjeta sola al centro → se abre un mazo en diagonal detrás → el mazo se reparte: la tarjeta activa
+  // grande al centro, las ya vistas apiladas arriba a la izquierda y las que vienen abajo a la derecha →
+  // avanza una por una → al final todo se junta en un mazo chico y la primera vuelve a crecer. Se detiene
+  // solo con el cursor encima de una tarjeta.
+  const escena = document.querySelector('[data-cascada]');
+  if (escena && !reduceMotion) {
+    const cards = [...escena.querySelectorAll('li')];
+    const N = cards.length;
 
-    // Recorrido de las tarjetas. Escritorio y tablet: un cuarto de elipse que orbita el texto de la esquina
-    // (entran por abajo a la derecha y salen por arriba a la izquierda). Celular: arcoíris de lado a lado.
-    const build = () => {
-      const W = arco.clientWidth, H = arco.clientHeight;
-      const cw = items[0].offsetWidth, ch = items[0].offsetHeight;
-      const movil = W <= 820;
-      const pts = [];
-      if (movil) {
-        const y0 = H - ch * 0.15, yc = (ch * 0.55 + 16 - 0.25 * y0) / 0.75;
-        const P = [[W + cw, y0], [W * 0.8, yc], [W * 0.2, yc], [-cw, y0]];
-        for (let i = 0; i <= 400; i++) {
-          const t = i / 400, u = 1 - t, a = u * u * u, b = 3 * u * u * t, c = 3 * u * t * t, d = t * t * t;
-          pts.push([a * P[0][0] + b * P[1][0] + c * P[2][0] + d * P[3][0], a * P[0][1] + b * P[1][1] + c * P[2][1] + d * P[3][1]]);
-        }
-      } else {
-        const cx = -cw * 0.2, cy = H + ch * 0.25;
-        const rx = W * 0.8 - cx, ry = cy - (ch * 0.62 + 18);
-        pts.push([cx + rx, H + ch]);
-        for (let i = 0; i <= 400; i++) {
-          const th = Math.PI / 2 * (1 - i / 400);
-          pts.push([cx + rx * Math.sin(th), cy - ry * Math.cos(th)]);
-        }
-        pts.push([cx - cw * 1.2, cy - ry]);
-      }
-      table = [];
-      let len = 0, prev = pts[0];
-      for (const p of pts) {
-        len += Math.hypot(p[0] - prev[0], p[1] - prev[1]);
-        table.push([len, p[0], p[1]]);
-        prev = p;
-      }
-      vis = len;
-      // Separación fija entre tarjetas; las que sobran esperan fuera de cuadro
-      total = Math.max(vis + cw, items.length * cw * (movil ? 1.25 : 1.32));
+    // Todo lo ajustable de la coreografía, en unidades del tamaño de la tarjeta grande (cw × ch)
+    const CFG = {
+      centro: [0.56, 0.47],          // centro de la tarjeta activa, en fracción del escenario
+      centroTablet: [0.66, 0.47],    // en tablet se corre a la derecha para no pisar el texto
+      centroMovil: [0.5, 0.45],
+      chica: 0.62,                   // escala de las tarjetas apiladas
+      atras: [-1.0, -0.56],          // la anterior inmediata, respecto a la activa
+      atrasPaso: [-0.25, -0.17],     // cada una más vieja se recorre esto
+      adelante: [1.08, 0.74],        // la siguiente inmediata
+      adelantePaso: [0.27, 0.17],
+      visibles: 3,                   // cuántas se ven en cada pila
+      abanicoEscala: 0.7,
+      abanicoInicio: [-0.18, -0.14], // la primera se mueve un poco arriba-izquierda al abrir el mazo
+      abanicoPaso: [0.22, 0.17],
+      escalonado: 40,                // ms de retraso entre tarjetas vecinas (cascada)
+      curva: 'cubic-bezier(.7, 0, .25, 1)',
+      curvaSuave: 'cubic-bezier(.22, 1, .36, 1)',
+      // Secuencia: [estado, duración de la transición, espera hasta el siguiente paso] en ms
+      inicio: [['sola', 800, 900], ['abanico', 650, 900]],
+      paso: [750, 1250],             // cada avance de tarjeta
+      cierre: [['junta', 650, 350], ['solaChica', 450, 250]], // y de ahí vuelve a 'sola'
     };
-    const at = (s) => {
-      let lo = 0, hi = table.length - 1;
-      while (lo < hi) { const m = (lo + hi) >> 1; if (table[m][0] < s) lo = m + 1; else hi = m; }
-      const p = table[lo], q = table[Math.max(lo - 1, 0)];
-      return [p[1], p[2], Math.atan2(q[2] - p[2], q[1] - p[1])];
+
+    let geo = null;
+    const medir = () => {
+      const W = escena.clientWidth, H = escena.clientHeight;
+      const ch = cards[0].offsetHeight, cw = cards[0].offsetWidth;
+      const c = W <= 820 ? CFG.centroMovil : W <= 1100 ? CFG.centroTablet : CFG.centro;
+      geo = { cw, ch, cx: W * c[0] - cw / 2, cy: H * c[1] - ch / 2 };
     };
-    const place = () => {
-      const gap = total / items.length;
-      items.forEach((li, i) => {
-        const s = ((offset + i * gap) % total + total) % total;
-        if (s > vis) { li.style.visibility = 'hidden'; return; }
-        const [x, y, ang] = at(s);
-        // Se inclinan con la curva, pero a medias para que no queden de lado
-        const rot = ang * 180 / Math.PI * 0.45;
-        li.style.visibility = '';
-        li.style.transform = `translate(${x - li.offsetWidth / 2}px, ${y - li.offsetHeight / 2}px) rotate(${rot}deg)`;
+
+    // Dónde va la tarjeta i en cada estado: desplazamiento (en cw/ch), escala, opacidad y orden
+    const pose = (estado, i, activa) => {
+      if (estado === 'sola' || estado === 'solaChica') {
+        return { x: 0, y: 0, s: i === 0 ? (estado === 'sola' ? 1 : 0.5) : 0.5, o: i === 0 ? 1 : 0, z: 100 - i, k: i };
+      }
+      if (estado === 'abanico' || estado === 'junta') {
+        const n = Math.min(i, CFG.visibles + 1);
+        const e = estado === 'junta' ? 0.55 : CFG.abanicoEscala;
+        const f = estado === 'junta' ? 0.55 : 1;
+        return {
+          x: (CFG.abanicoInicio[0] + n * CFG.abanicoPaso[0]) * f, y: (CFG.abanicoInicio[1] + n * CFG.abanicoPaso[1]) * f,
+          s: e, o: i <= CFG.visibles + 1 ? 1 : 0, z: 100 - i, k: i,
+        };
+      }
+      const k = i - activa;
+      if (k === 0) return { x: 0, y: 0, s: 1, o: 1, z: 100, k: 0 };
+      const n = Math.min(Math.abs(k), CFG.visibles + 1);
+      const [b, p] = k < 0 ? [CFG.atras, CFG.atrasPaso] : [CFG.adelante, CFG.adelantePaso];
+      return {
+        x: b[0] + (n - 1) * p[0], y: b[1] + (n - 1) * p[1], s: CFG.chica,
+        o: Math.abs(k) <= CFG.visibles ? 1 : 0, z: 100 - Math.abs(k), k,
+      };
+    };
+
+    let estado = 'sola', activa = 0;
+    const aplicar = (dur, curva = CFG.curva) => {
+      escena.style.setProperty('--dur', dur + 'ms');
+      escena.style.setProperty('--curva', curva);
+      cards.forEach((li, i) => {
+        const p = pose(estado, i, activa);
+        li.style.zIndex = p.z;
+        li.style.opacity = p.o;
+        li.style.transitionDelay = Math.min(Math.abs(p.k), CFG.visibles + 1) * CFG.escalonado + 'ms';
+        li.style.transform = `translate(${geo.cx + p.x * geo.cw}px, ${geo.cy + p.y * geo.ch}px) scale(${p.s})`;
       });
     };
+
+    // Lista de pasos de una vuelta completa
+    const pasos = [
+      ...CFG.inicio.map(([e, d, w]) => ({ e, d, w })),
+      ...cards.slice(1).map((_, i) => ({ e: 'diag', a: i + 1, d: CFG.paso[0], w: CFG.paso[1] })),
+      ...CFG.cierre.map(([e, d, w]) => ({ e, d, w })),
+    ];
+    let idx = 0, reloj = 0, siguiente = 0, last = 0, pausa = false, enPantalla = false;
+    const correr = () => {
+      const p = pasos[idx];
+      estado = p.e; activa = p.a ?? 0;
+      aplicar(p.d, p.e === 'sola' ? CFG.curvaSuave : CFG.curva);
+      siguiente = reloj + p.d + p.w;
+      idx = (idx + 1) % pasos.length;
+    };
     const tick = (now) => {
-      const dt = Math.min((now - (last || now)) / 1000, 0.1);
+      const dt = last ? Math.min(now - last, 100) : 0;
       last = now;
-      if (!paused && now > resumeT && onScreen) { offset += SPEED * dt; place(); }
+      if (!pausa && enPantalla) {
+        reloj += dt;
+        if (reloj >= siguiente) correr();
+      }
       requestAnimationFrame(tick);
     };
-    build(); place();
+
+    medir();
+    // Arranca sin transición en la tarjeta sola; el resto espera a que la sección se vea
+    cards.forEach((li) => { li.style.transition = 'none'; });
+    aplicar(0);
+    escena.offsetHeight;
+    cards.forEach((li) => { li.style.transition = ''; });
+    siguiente = CFG.inicio[0][2];
+    idx = 1;
     requestAnimationFrame(tick);
-    window.addEventListener('resize', () => { build(); place(); });
-    if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }).observe(arco);
-    arco.addEventListener('pointerover', (e) => { if (e.pointerType === 'mouse' && e.target.closest('li')) paused = true; });
-    arco.addEventListener('pointerout', (e) => { if (e.pointerType === 'mouse' && !e.relatedTarget?.closest?.('[data-arco] li')) paused = false; });
-    arco.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') resumeT = performance.now() + 2500; });
-    arco.addEventListener('focusin', (e) => {
-      // Con teclado, la tarjeta enfocada se acomoda en lo alto del arco
-      const i = items.indexOf(e.target.closest('li'));
-      if (i >= 0) { offset = vis / 2 - i * (total / items.length); place(); }
-      paused = true;
+
+    window.addEventListener('resize', () => { medir(); aplicar(0); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => { enPantalla = e.isIntersecting; }, { threshold: 0.35 }).observe(escena);
+    } else enPantalla = true;
+    escena.addEventListener('pointerover', (e) => { if (e.pointerType === 'mouse' && e.target.closest('li')) pausa = true; });
+    escena.addEventListener('pointerout', (e) => {
+      if (e.pointerType === 'mouse' && !e.relatedTarget?.closest?.('[data-cascada] li')) pausa = false;
     });
-    arco.addEventListener('focusout', () => { paused = false; });
+    escena.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') siguiente = Math.max(siguiente, reloj + 2500); });
+    // Con teclado: la tarjeta enfocada pasa al centro y todo espera
+    escena.addEventListener('focusin', (e) => {
+      const i = cards.indexOf(e.target.closest('li'));
+      if (i < 0) return;
+      pausa = true; estado = 'diag'; activa = i; aplicar(500);
+      idx = pasos.findIndex((p) => p.e === 'diag' && p.a === Math.min(i + 1, N - 1));
+      if (i === N - 1) idx = pasos.length - CFG.cierre.length;
+    });
+    escena.addEventListener('focusout', () => { pausa = false; });
   }
 
   const year = document.querySelector('[data-year]');
