@@ -465,38 +465,62 @@ document.addEventListener('DOMContentLoaded', () => {
     ruta.classList.add('ruta--sinmapa');
   }
 
-  // Ensaladas poetas: deslizas (o tocas un nombre o una flecha) y la sección toma la vibra de esa ensalada
-  const poetas = document.querySelector('[data-poetas]');
-  if (poetas) {
-    const pista = poetas.querySelector('[data-pista]');
-    const slides = [...pista.children];
-    const tabs = [...poetas.querySelectorAll('[data-ir]')];
-    let actual = -1;
-    const marcar = (i) => {
+  // Ensaladas: una carta por poeta. Deslizas (o tocas un punto, o flechas del teclado) y la carta gira a la siguiente;
+  // las fichas y los ingredientes brotan alrededor. Pasa sola mientras nadie la toca.
+  const ens = document.querySelector('[data-ensaladas]');
+  if (ens) {
+    const escena = ens.querySelector('[data-escena]');
+    const slides = [...escena.querySelectorAll('.es')];
+    const puntos = [...ens.querySelectorAll('[data-ir]')];
+    const n = slides.length;
+    let actual = 0, tocado = false, encima = false, visible = false;
+    const pintar = () => {
+      ens.dataset.vibra = slides[actual].dataset.vibra;
+      puntos.forEach((p, k) => p.setAttribute('aria-selected', String(k === actual)));
+      slides.forEach((s, k) => { s.inert = k !== actual; });
+    };
+    const mostrar = (i, dir) => {
+      i = (i + n) % n;
       if (i === actual) return;
+      const antes = actual;
       actual = i;
-      poetas.dataset.vibra = slides[i].dataset.vibra;
-      tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
-      slides.forEach((s, k) => { s.inert = k !== i; s.classList.toggle('activa', k === i); });
+      const entra = slides[i];
+      // la que entra se coloca sin animación del lado correcto y luego gira al centro
+      entra.classList.add('sin-trans');
+      entra.dataset.pos = String(dir);
+      void entra.offsetWidth;
+      entra.classList.remove('sin-trans');
+      slides.forEach((s, k) => { if (k !== i) s.dataset.pos = k === antes ? String(-dir) : String(dir); });
+      entra.dataset.pos = '0';
+      pintar();
     };
-    const ir = (i) => {
-      const n = (i + slides.length) % slides.length;
-      pista.scrollTo({ left: n * pista.clientWidth, behavior: reduceMotion ? 'auto' : 'smooth' });
-      marcar(n);
-    };
-    let pend = 0;
-    pista.addEventListener('scroll', () => {
-      cancelAnimationFrame(pend);
-      pend = requestAnimationFrame(() => marcar(Math.round(pista.scrollLeft / pista.clientWidth)));
-    }, { passive: true });
-    tabs.forEach((t) => t.addEventListener('click', () => ir(+t.dataset.ir)));
-    poetas.querySelectorAll('[data-paso]').forEach((b) => b.addEventListener('click', () => ir(actual + +b.dataset.paso)));
-    pista.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') { e.preventDefault(); ir(actual + 1); }
-      if (e.key === 'ArrowLeft') { e.preventDefault(); ir(actual - 1); }
+    slides.forEach((s, k) => { s.dataset.pos = k === 0 ? '0' : '1'; });
+    pintar();
+    const usuario = () => { tocado = true; };
+    puntos.forEach((p) => p.addEventListener('click', () => { usuario(); const i = +p.dataset.ir; mostrar(i, i > actual ? 1 : -1); }));
+    escena.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); usuario(); mostrar(actual + 1, 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); usuario(); mostrar(actual - 1, -1); }
     });
-    window.addEventListener('resize', () => { pista.scrollLeft = actual * pista.clientWidth; });
-    marcar(0);
+    let x0 = null;
+    escena.addEventListener('pointerdown', (e) => { x0 = e.clientX; });
+    escena.addEventListener('pointerup', (e) => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) < 40) return;
+      usuario();
+      mostrar(actual + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    });
+    escena.addEventListener('pointercancel', () => { x0 = null; });
+    escena.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') encima = true; });
+    escena.addEventListener('pointerleave', () => { encima = false; });
+    if (!reduceMotion) {
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.4 }).observe(escena);
+      }
+      setInterval(() => { if (visible && !tocado && !encima && !document.hidden) mostrar(actual + 1, 1); }, 5000);
+    }
   }
 
   const year = document.querySelector('[data-year]');

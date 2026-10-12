@@ -125,64 +125,51 @@
       </div>
     </section>
 
-    <!-- ENSALADAS: cada una lleva el nombre de un poeta; al deslizar cambia la vibra de la sección -->
-    <section class="poetas" id="ensaladas" aria-labelledby="poetas-title" data-poetas data-vibra="pizarnik">
-      <div class="poetas__fondo" aria-hidden="true"><span class="poetas__estrellas"></span><span class="poetas__rayos"></span><span class="poetas__grano"></span></div>
-      <div class="poetas__cabeza">
-        <h2 id="poetas-title" class="poetas__title">Ensaladas con nombre de poeta</h2>
-        <div class="poetas__nav" role="tablist" aria-label="Elige una ensalada">
-          <button type="button" role="tab" aria-selected="true" data-ir="0">Pizarnik</button>
-          <button type="button" role="tab" aria-selected="false" data-ir="1">Blake</button>
-          <button type="button" role="tab" aria-selected="false" data-ir="2">Artaud</button>
-        </div>
-      </div>
-      <div class="poetas__pista" data-pista tabindex="0" aria-label="Ensaladas: desliza para cambiar">
-        <article class="poeta" data-vibra="pizarnik" aria-roledescription="ensalada">
-          <div class="poeta__texto">
-            <p class="poeta__vibra">Fruta oscura · deseo · silencio · noche</p>
-            <h3 class="poeta__nombre">Pizarnik</h3>
-            <blockquote class="poeta__cita"><p>«He dado el salto de mí al alba.»</p><footer>Alejandra Pizarnik, <cite>Árbol de Diana</cite></footer></blockquote>
-            <p class="poeta__porque">Breve, oscura, delicada. Como la fruta roja: bella, frágil, intensa. No grita: susurra.</p>
-            <p class="poeta__lleva">Hojas verdes, fresa, blueberry, zarzamora y durazno, con queso de cabra, mix de semillas y aderezo. Dulce, ácida y profunda.</p>
-            <a class="poeta__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Pizarnik</a>
+    <!-- ENSALADAS: una carta por poeta, como la referencia de Luis (carrusel de perfiles); al deslizar gira la carta y cambia el tono -->
+    <section class="ensaladas" id="ensaladas" aria-labelledby="ensaladas-title" data-ensaladas data-vibra="pizarnik">
+      <h2 id="ensaladas-title" class="sr-only">Ensaladas con nombre de poeta</h2>
+      <div class="ensaladas__escena" data-escena tabindex="0" aria-roledescription="carrusel" aria-label="Ensaladas: desliza para cambiar">
+        <article class="es" data-vibra="pizarnik" aria-roledescription="ensalada" aria-label="Ensalada Pizarnik">
+          <div class="es__carta">
+            <span class="es__efecto" aria-hidden="true"></span>
+            <span class="es__nombre">Alejandra</span>
+            <span class="es__foto"><img src="assets/img/ingredientes/ensalada.svg" width="72" height="72" alt=""></span>
+            <span class="es__nombre">Pizarnik</span>
           </div>
-          <div class="poeta__plato" aria-hidden="true">
-            <div class="poeta__carta"><span class="poeta__carta-arriba">La</span><span class="poeta__bowl"><img src="assets/img/ingredientes/ensalada.svg" width="72" height="72" alt=""></span><span class="poeta__carta-abajo">Pizarnik</span></div>
-            <img class="ing" src="assets/img/ingredientes/hojas.svg" width="72" height="72" alt="" style="--x:-6%;--y:20%;--s:96px;--r:-12deg;--i:0"><img class="ing" src="assets/img/ingredientes/fresa.svg" width="72" height="72" alt="" style="--x:100%;--y:4%;--s:84px;--r:14deg;--i:1"><img class="ing" src="assets/img/ingredientes/zarzamora.svg" width="72" height="72" alt="" style="--x:108%;--y:46%;--s:70px;--r:-8deg;--i:2"><img class="ing" src="assets/img/ingredientes/blueberry.svg" width="72" height="72" alt="" style="--x:-8%;--y:62%;--s:74px;--r:10deg;--i:3"><img class="ing" src="assets/img/ingredientes/fresa.svg" width="72" height="72" alt="" style="--x:14%;--y:98%;--s:62px;--r:-20deg;--i:4"><img class="ing" src="assets/img/ingredientes/queso-cabra.svg" width="72" height="72" alt="" style="--x:92%;--y:92%;--s:88px;--r:6deg;--i:5"><img class="ing" src="assets/img/ingredientes/zarzamora.svg" width="72" height="72" alt="" style="--x:48%;--y:-6%;--s:52px;--r:18deg;--i:6">
-          </div>
+          <blockquote class="es__chip es__cita" style="--i:0"><p>«He dado el salto de mí al alba.»</p><footer><cite>Árbol de Diana</cite></footer></blockquote>
+          <p class="es__chip es__vibra" style="--i:1">fruta oscura · deseo · silencio · noche</p>
+          <a class="es__chip es__pedir" style="--i:2" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Pizarnik <span aria-hidden="true">→</span></a>
+          <span aria-hidden="true"><img class="es__ing" src="assets/img/ingredientes/fresa.svg" width="72" height="72" alt="" style="--x:100%;--y:4%;--s:78px;--r:14deg;--i:3"><img class="es__ing" src="assets/img/ingredientes/zarzamora.svg" width="72" height="72" alt="" style="--x:110%;--y:32%;--s:66px;--r:-10deg;--i:4"><img class="es__ing" src="assets/img/ingredientes/blueberry.svg" width="72" height="72" alt="" style="--x:-8%;--y:64%;--s:58px;--r:8deg;--i:5"><img class="es__ing" src="assets/img/ingredientes/queso-cabra.svg" width="72" height="72" alt="" style="--x:6%;--y:98%;--s:74px;--r:-8deg;--i:6"><img class="es__ing" src="assets/img/ingredientes/hojas.svg" width="72" height="72" alt="" style="--x:22%;--y:-5%;--s:70px;--r:-14deg;--i:7"></span>
         </article>
-        <article class="poeta" data-vibra="blake" aria-roledescription="ensalada">
-          <div class="poeta__texto">
-            <p class="poeta__vibra">Naturaleza viva · energía · abundancia</p>
-            <h3 class="poeta__nombre">Blake</h3>
-            <blockquote class="poeta__cita" lang="en"><p>«Every thing that lives is holy.»</p><footer lang="es">William Blake, <cite>El matrimonio del cielo y el infierno</cite></footer></blockquote>
-            <p class="poeta__porque">Blake veía la naturaleza sagrada y vibrante, nunca pasiva. Esta ensalada es vida en equilibrio, no dieta.</p>
-            <p class="poeta__lleva">Hojas verdes, fresa, uva, manzana y piña, con pechuga ahumada, queso manchego, mix de semillas y aderezo. Dulce y salada, completa.</p>
-            <a class="poeta__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Blake</a>
+        <article class="es" data-vibra="blake" aria-roledescription="ensalada" aria-label="Ensalada Blake">
+          <div class="es__carta">
+            <span class="es__efecto" aria-hidden="true"></span>
+            <span class="es__nombre">William</span>
+            <span class="es__foto"><img src="assets/img/ensaladas/blake.webp" width="420" height="420" alt="Ensalada Blake" loading="lazy"></span>
+            <span class="es__nombre">Blake</span>
           </div>
-          <div class="poeta__plato" aria-hidden="true">
-            <div class="poeta__carta"><span class="poeta__carta-arriba">La</span><span class="poeta__bowl"><img src="assets/img/ingredientes/ensalada.svg" width="72" height="72" alt=""></span><span class="poeta__carta-abajo">Blake</span></div>
-            <img class="ing" src="assets/img/ingredientes/pina.svg" width="72" height="72" alt="" style="--x:-6%;--y:18%;--s:96px;--r:-10deg;--i:0"><img class="ing" src="assets/img/ingredientes/fresa.svg" width="72" height="72" alt="" style="--x:102%;--y:4%;--s:74px;--r:12deg;--i:1"><img class="ing" src="assets/img/ingredientes/uva.svg" width="72" height="72" alt="" style="--x:106%;--y:48%;--s:86px;--r:-6deg;--i:2"><img class="ing" src="assets/img/ingredientes/manzana.svg" width="72" height="72" alt="" style="--x:-6%;--y:64%;--s:84px;--r:8deg;--i:3"><img class="ing" src="assets/img/ingredientes/manchego.svg" width="72" height="72" alt="" style="--x:90%;--y:94%;--s:92px;--r:-8deg;--i:4"><img class="ing" src="assets/img/ingredientes/pechuga.svg" width="72" height="72" alt="" style="--x:14%;--y:98%;--s:74px;--r:22deg;--i:5"><img class="ing" src="assets/img/ingredientes/hojas.svg" width="72" height="72" alt="" style="--x:50%;--y:-6%;--s:64px;--r:-14deg;--i:6">
-          </div>
+          <blockquote class="es__chip es__cita" style="--i:0"><p lang="en">«Every thing that lives is holy.»</p><footer><cite>El matrimonio del cielo y el infierno</cite></footer></blockquote>
+          <p class="es__chip es__vibra" style="--i:1">naturaleza viva · energía · abundancia</p>
+          <a class="es__chip es__pedir" style="--i:2" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Blake <span aria-hidden="true">→</span></a>
+          <span aria-hidden="true"><img class="es__ing" src="assets/img/ingredientes/pina.svg" width="72" height="72" alt="" style="--x:100%;--y:4%;--s:82px;--r:12deg;--i:3"><img class="es__ing" src="assets/img/ingredientes/uva.svg" width="72" height="72" alt="" style="--x:110%;--y:32%;--s:72px;--r:-8deg;--i:4"><img class="es__ing" src="assets/img/ingredientes/manzana.svg" width="72" height="72" alt="" style="--x:-8%;--y:64%;--s:62px;--r:10deg;--i:5"><img class="es__ing" src="assets/img/ingredientes/manchego.svg" width="72" height="72" alt="" style="--x:6%;--y:98%;--s:70px;--r:-10deg;--i:6"><img class="es__ing" src="assets/img/ingredientes/fresa.svg" width="72" height="72" alt="" style="--x:22%;--y:-5%;--s:62px;--r:-14deg;--i:7"></span>
         </article>
-        <article class="poeta" data-vibra="artaud" aria-roledescription="ensalada">
-          <div class="poeta__texto">
-            <p class="poeta__vibra">Cruda · raíz · cuerpo · verdad sin filtro</p>
-            <h3 class="poeta__nombre">Artaud</h3>
-            <blockquote class="poeta__cita"><p>«Acabar con las obras maestras.»</p><footer>Antonin Artaud, <cite>El teatro y su doble</cite></footer></blockquote>
-            <p class="poeta__porque">Rechazo al adorno. Comida directa, sin maquillaje, como Artaud quería el teatro.</p>
-            <p class="poeta__lleva">Hojas verdes, fresa, manzana, zanahoria y coles de Bruselas, con pechuga ahumada, queso de cabra, mix de semillas y aderezo. Verde, cruda y honesta.</p>
-            <a class="poeta__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Artaud</a>
+        <article class="es" data-vibra="artaud" aria-roledescription="ensalada" aria-label="Ensalada Artaud">
+          <div class="es__carta">
+            <span class="es__efecto" aria-hidden="true"></span>
+            <span class="es__nombre">Antonin</span>
+            <span class="es__foto"><img src="assets/img/ensaladas/artaud.webp" width="420" height="420" alt="Ensalada Artaud" loading="lazy"></span>
+            <span class="es__nombre">Artaud</span>
           </div>
-          <div class="poeta__plato" aria-hidden="true">
-            <div class="poeta__carta"><span class="poeta__carta-arriba">La</span><span class="poeta__bowl"><img src="assets/img/ingredientes/ensalada.svg" width="72" height="72" alt=""></span><span class="poeta__carta-abajo">Artaud</span></div>
-            <img class="ing" src="assets/img/ingredientes/col-bruselas.svg" width="72" height="72" alt="" style="--x:-6%;--y:18%;--s:76px;--r:-8deg;--i:0"><img class="ing" src="assets/img/ingredientes/zanahoria.svg" width="72" height="72" alt="" style="--x:98%;--y:2%;--s:96px;--r:24deg;--i:1"><img class="ing" src="assets/img/ingredientes/manzana.svg" width="72" height="72" alt="" style="--x:106%;--y:50%;--s:78px;--r:10deg;--i:2"><img class="ing" src="assets/img/ingredientes/col-bruselas.svg" width="72" height="72" alt="" style="--x:-4%;--y:64%;--s:58px;--r:14deg;--i:3"><img class="ing" src="assets/img/ingredientes/fresa.svg" width="72" height="72" alt="" style="--x:14%;--y:98%;--s:66px;--r:-16deg;--i:4"><img class="ing" src="assets/img/ingredientes/pechuga.svg" width="72" height="72" alt="" style="--x:92%;--y:92%;--s:80px;--r:-10deg;--i:5"><img class="ing" src="assets/img/ingredientes/queso-cabra.svg" width="72" height="72" alt="" style="--x:50%;--y:-6%;--s:70px;--r:12deg;--i:6">
-          </div>
+          <blockquote class="es__chip es__cita" style="--i:0"><p>«Acabar con las obras maestras.»</p><footer><cite>El teatro y su doble</cite></footer></blockquote>
+          <p class="es__chip es__vibra" style="--i:1">cruda · raíz · cuerpo · verdad sin filtro</p>
+          <a class="es__chip es__pedir" style="--i:2" href="https://laymonpizzeria.getjusto.com/pedir">Pide la Artaud <span aria-hidden="true">→</span></a>
+          <span aria-hidden="true"><img class="es__ing" src="assets/img/ingredientes/zanahoria.svg" width="72" height="72" alt="" style="--x:100%;--y:4%;--s:84px;--r:24deg;--i:3"><img class="es__ing" src="assets/img/ingredientes/col-bruselas.svg" width="72" height="72" alt="" style="--x:110%;--y:32%;--s:66px;--r:-8deg;--i:4"><img class="es__ing" src="assets/img/ingredientes/manzana.svg" width="72" height="72" alt="" style="--x:-8%;--y:64%;--s:60px;--r:10deg;--i:5"><img class="es__ing" src="assets/img/ingredientes/pechuga.svg" width="72" height="72" alt="" style="--x:6%;--y:98%;--s:66px;--r:-12deg;--i:6"><img class="es__ing" src="assets/img/ingredientes/col-bruselas.svg" width="72" height="72" alt="" style="--x:22%;--y:-5%;--s:52px;--r:12deg;--i:7"></span>
         </article>
       </div>
-      <div class="poetas__flechas">
-        <button type="button" class="poetas__flecha" data-paso="-1" aria-label="Ensalada anterior">←</button>
-        <button type="button" class="poetas__flecha" data-paso="1" aria-label="Siguiente ensalada">→</button>
+      <div class="ensaladas__puntos" role="tablist" aria-label="Elige una ensalada">
+        <button type="button" role="tab" aria-selected="true" aria-label="Pizarnik" data-ir="0"></button>
+        <button type="button" role="tab" aria-selected="false" aria-label="Blake" data-ir="1"></button>
+        <button type="button" role="tab" aria-selected="false" aria-label="Artaud" data-ir="2"></button>
       </div>
     </section>
 
