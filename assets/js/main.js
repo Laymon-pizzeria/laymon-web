@@ -122,6 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
       adelante: [1.08, 0.74],        // la siguiente inmediata
       adelantePaso: [0.27, 0.17],
       visibles: 3,                   // cuántas se ven en cada pila
+      // Tablet y escritorio: el reparto se mide contra la sección para que ninguna tarjeta quede cortada
+      margen: 24,                    // px libres contra los bordes de la sección y el texto
+      activaEscala: 0.8,             // la activa del reparto, respecto a la tarjeta sola inicial
+      pilaEscala: 0.5,               // las apiladas
+      pilaPaso: 0.3,                 // separación dentro de una pila, en anchos de tarjeta apilada
       abanicoEscala: 0.7,
       abanicoInicio: [-0.18, -0.14], // la primera se mueve un poco arriba-izquierda al abrir el mazo
       abanicoPaso: [0.22, 0.17],
@@ -139,7 +144,30 @@ document.addEventListener('DOMContentLoaded', () => {
       const W = escena.clientWidth, H = escena.clientHeight;
       const ch = cards[0].offsetHeight, cw = cards[0].offsetWidth;
       const c = W <= 820 ? CFG.centroMovil : W <= 1100 ? CFG.centroTablet : CFG.centro;
-      geo = { cw, ch, cx: W * c[0] - cw / 2, cy: H * c[1] - ch / 2 };
+      geo = { cw, ch, cx: W * c[0] - cw / 2, cy: H * c[1] - ch / 2, slots: null };
+      if (W <= 820) return; // en celular se vale que las pilas se salgan del cuadro
+
+      // Diagonal de esquina a esquina: la pila vieja toca el margen de arriba, la que viene el de abajo a la
+      // derecha, y la activa queda a la mitad. Se recorre a la derecha lo mínimo para no pisar el texto.
+      const m = CFG.margen, V = CFG.visibles;
+      const sw = cw * CFG.pilaEscala, sh = ch * CFG.pilaEscala, aw = cw * CFG.activaEscala, ah = ch * CFG.activaEscala;
+      const er = escena.getBoundingClientRect(), tr = escena.parentElement.querySelector('.pizzas__concepto').getBoundingClientRect();
+      const texto = { l: tr.left - er.left - m, t: tr.top - er.top - m, r: tr.right - er.left + m, b: tr.bottom - er.top + m };
+      const choca = (x, y, w, h) => x - w / 2 < texto.r && x + w / 2 > texto.l && y - h / 2 < texto.b && y + h / 2 > texto.t;
+      const fin = [W - m - sw / 2, H - m - sh / 2];
+      const armar = (x0) => {
+        const ini = [x0 + sw / 2, m + sh / 2];
+        const largo = Math.hypot(fin[0] - ini[0], fin[1] - ini[1]);
+        const dt = (sw * CFG.pilaPaso) / largo;
+        const en = (t) => [ini[0] + (fin[0] - ini[0]) * t, ini[1] + (fin[1] - ini[1]) * t];
+        const slots = { activa: en(0.5), atras: [], adelante: [] };
+        for (let n = 1; n <= V; n++) { slots.atras.push(en((V - n) * dt)); slots.adelante.push(en(1 - (V - n) * dt)); }
+        const libre = !choca(...slots.activa, aw, ah) &&
+          [...slots.atras, ...slots.adelante].every(([x, y]) => !choca(x, y, sw, sh));
+        return libre ? slots : null;
+      };
+      // Arranca alineada con el margen del texto, no pegada al borde
+      for (let x0 = Math.max(m, texto.l + m); x0 < W * 0.6 && !geo.slots; x0 += 8) geo.slots = armar(x0);
     };
 
     // Dónde va la tarjeta i en cada estado: desplazamiento (en cw/ch), escala, opacidad y orden
@@ -158,6 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
       }
       const k = i - activa;
+      if (geo.slots) {
+        const n = Math.min(Math.abs(k), CFG.visibles);
+        const c = k === 0 ? geo.slots.activa : (k < 0 ? geo.slots.atras : geo.slots.adelante)[n - 1];
+        return {
+          abs: c, s: k === 0 ? CFG.activaEscala : CFG.pilaEscala,
+          o: Math.abs(k) <= CFG.visibles ? 1 : 0, z: 100 - Math.abs(k), k,
+        };
+      }
       if (k === 0) return { x: 0, y: 0, s: 1, o: 1, z: 100, k: 0 };
       const n = Math.min(Math.abs(k), CFG.visibles + 1);
       const [b, p] = k < 0 ? [CFG.atras, CFG.atrasPaso] : [CFG.adelante, CFG.adelantePaso];
@@ -176,7 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
         li.style.zIndex = p.z;
         li.style.opacity = p.o;
         li.style.transitionDelay = Math.min(Math.abs(p.k), CFG.visibles + 1) * CFG.escalonado + 'ms';
-        li.style.transform = `translate(${geo.cx + p.x * geo.cw}px, ${geo.cy + p.y * geo.ch}px) scale(${p.s})`;
+        const [x, y] = p.abs ? [p.abs[0] - geo.cw / 2, p.abs[1] - geo.ch / 2] : [geo.cx + p.x * geo.cw, geo.cy + p.y * geo.ch];
+        li.style.transform = `translate(${x}px, ${y}px) scale(${p.s})`;
       });
     };
 
