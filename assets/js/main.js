@@ -330,9 +330,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }).addTo(mapa);
 
     let capa = null, viaje = 0, pidiendo = false;
-    // El fantasma va de tu punto a Laymon; en la primera vuelta el rojo se enciende detrás de él.
-    // Al llegar se desvanece y vuelve a salir de tu punto.
-    const recorrer = (puntos, luz, fantasma) => {
+    const caja = ruta.querySelector('[data-ruta-mapa]');
+    // Tramo por delante del fantasma: rojo con miniflechas que fluyen hacia Laymon; lo recorrido queda en negro.
+    // Al llegar, el fantasma se desvanece y vuelve a salir de tu punto (el rojo se recupera).
+    const recorrer = (puntos, luz, flechas, fantasma) => {
       const acum = [0];
       for (let i = 1; i < puntos.length; i++) acum.push(acum[i - 1] + mapa.distance(puntos[i - 1], puntos[i]));
       const total = acum[acum.length - 1] || 1;
@@ -343,28 +344,54 @@ document.addEventListener('DOMContentLoaded', () => {
         const f = Math.min(1, Math.max(0, (d - acum[i - 1]) / ((acum[i] - acum[i - 1]) || 1)));
         return { ll: [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f], este: b[1] > a[1] };
       };
-      const dur = Math.min(7000, Math.max(3800, total * 0.6));
-      const yo = viaje, el = fantasma.getElement(), trazo = luz.getElement();
-      let inicio = null, primera = true;
+      const dur = Math.min(9000, Math.max(5000, total * 0.8));
+      const yo = viaje, el = fantasma ? fantasma.getElement() : null, rojo = luz.getElement(), fl = flechas.getElement();
+      // Miniflechas: se calculan en pixeles del mapa en cada cuadro, desde el fantasma hasta Laymon
+      const PASO = 22, ALA = 5;
+      const dibujarFlechas = (frac, fase) => {
+        const pts = puntos.map((p) => mapa.latLngToLayerPoint(p));
+        const lar = [0];
+        for (let i = 1; i < pts.length; i++) lar.push(lar[i - 1] + pts[i].distanceTo(pts[i - 1]));
+        const largo = lar[lar.length - 1];
+        let d = '', i = 1;
+        for (let s = frac * largo + 14 + fase; s < largo - 30; s += PASO) {
+          while (i < lar.length - 1 && lar[i] < s) i++;
+          const a = pts[i - 1], b = pts[i], seg = (lar[i] - lar[i - 1]) || 1, f = (s - lar[i - 1]) / seg;
+          const ux = (b.x - a.x) / seg, uy = (b.y - a.y) / seg;
+          const x = a.x + (b.x - a.x) * f, y = a.y + (b.y - a.y) * f;
+          d += `M${(x - ux * ALA - uy * ALA).toFixed(1)} ${(y - uy * ALA + ux * ALA).toFixed(1)}L${x.toFixed(1)} ${y.toFixed(1)}L${(x - ux * ALA + uy * ALA).toFixed(1)} ${(y - uy * ALA - ux * ALA).toFixed(1)}`;
+        }
+        fl.setAttribute('d', d || 'M0 0');
+      };
+      const pintar = (e, fase) => {
+        const p = 1000 * e;
+        rojo.style.strokeDasharray = `${1000 - p} 1000`;
+        rojo.style.strokeDashoffset = -p;
+        dibujarFlechas(e, fase);
+      };
+      if (!fantasma) { // movimiento reducido: todo rojo, flechas quietas
+        pintar(0, 0);
+        mapa.on('zoomend moveend', () => { if (yo === viaje) pintar(0, 0); });
+        return;
+      }
+      let inicio = null, espera = 0, e = 0;
+      const t0 = performance.now();
       const paso = (now) => {
         if (yo !== viaje) return;
-        if (inicio === null) inicio = now;
-        const t = Math.min(1, (now - inicio) / dur);
-        const e = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
-        const p = en(e * total);
-        fantasma.setLatLng(p.ll);
-        el.classList.toggle('va-este', p.este);
-        if (primera) trazo.style.strokeDashoffset = 1000 * (1 - e);
-        if (t < 1) { requestAnimationFrame(paso); return; }
-        primera = false;
-        el.classList.add('llego');
-        setTimeout(() => {
-          if (yo !== viaje) return;
-          fantasma.setLatLng(puntos[0]);
-          el.classList.remove('llego');
-          inicio = null;
-          setTimeout(() => requestAnimationFrame(paso), 400);
-        }, 2000);
+        const fase = ((now - t0) * 0.03) % PASO; // las flechas avanzan hacia Laymon
+        if (espera) {
+          if (now >= espera) { espera = 0; inicio = null; fantasma.setLatLng(puntos[0]); el.classList.remove('llego'); e = 0; }
+        } else {
+          if (inicio === null) inicio = now;
+          const t = Math.min(1, (now - inicio) / dur);
+          e = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+          const p = en(e * total);
+          fantasma.setLatLng(p.ll);
+          el.classList.toggle('va-este', p.este);
+          if (t >= 1) { el.classList.add('llego'); espera = now + 2200; }
+        }
+        pintar(espera ? 1 : e, fase);
+        requestAnimationFrame(paso);
       };
       requestAnimationFrame(paso);
     };
@@ -372,21 +399,27 @@ document.addEventListener('DOMContentLoaded', () => {
       if (capa) capa.remove();
       viaje++;
       const base = L.polyline(puntos, { className: 'ruta__base', weight: 9, interactive: false });
-      const luz = L.polyline(puntos, { className: 'ruta__luz', weight: 5, interactive: false });
+      const luz = L.polyline(puntos, { className: 'ruta__luz', weight: 7, interactive: false });
+      const flechas = L.polyline(puntos, { className: 'ruta__flechas', weight: 2.2, interactive: false });
       const punto = L.circleMarker(yo, { radius: 7, className: 'ruta__yo', interactive: false });
-      capa = L.layerGroup([base, luz, punto]).addTo(mapa);
-      // pathLength fijo: el trazo encendido no depende del zoom (Leaflet redibuja la línea al acercar)
+      capa = L.layerGroup([base, luz, flechas, punto]).addTo(mapa);
+      // pathLength fijo: el tramo rojo no depende del zoom (Leaflet redibuja la línea al acercar)
       luz.getElement().setAttribute('pathLength', 1000);
       // arriba deja aire para el fantasma, que sobresale de la línea
       mapa.fitBounds(L.latLngBounds(puntos), { paddingTopLeft: [48, 96], paddingBottomRight: [48, 40], animate: !reduceMotion });
-      if (reduceMotion) return;
-      luz.getElement().style.strokeDashoffset = 1000;
-      const fantasma = L.marker(puntos[0], {
-        icon: L.divIcon({ className: 'ruta__rider', html: tpl('rider'), iconSize: [64, 76], iconAnchor: [32, 70] }),
-        interactive: false, keyboard: false, zIndexOffset: 1000,
-      });
-      capa.addLayer(fantasma);
-      setTimeout(() => recorrer(puntos, luz, fantasma), 600);
+      let fantasma = null;
+      if (!reduceMotion) {
+        fantasma = L.marker(puntos[0], {
+          icon: L.divIcon({ className: 'ruta__rider', html: tpl('rider'), iconSize: [64, 76], iconAnchor: [32, 70] }),
+          interactive: false, keyboard: false, zIndexOffset: 1000,
+        });
+        capa.addLayer(fantasma);
+      }
+      // Ruta lista: el mapa late (se hunde y regresa) y se queda con el glow rojo
+      caja.classList.remove('late');
+      void caja.offsetWidth;
+      caja.classList.add('late', 'lista');
+      setTimeout(() => recorrer(puntos, luz, flechas, fantasma), reduceMotion ? 0 : 700);
     };
     const enRuta = (yo) => {
       decir('Trazando el camino a Laymon…');
@@ -402,18 +435,20 @@ document.addEventListener('DOMContentLoaded', () => {
           : `Estás a ${dist} de Laymon, unos ${min} min en coche. Ya nada te detiene.`);
         btn.textContent = 'Volver a trazar';
       }).catch(() => decir('No pudimos trazar el camino. Ábrela en Google Maps o Waze y que ellos te lleven.'))
-        .finally(() => { pidiendo = false; });
+        .finally(() => { pidiendo = false; caja.classList.remove('pensando'); });
     };
     // Solo con el botón: pedir la ubicación al entrar hace que el navegador esconda la pregunta (Luis, 12 oct)
     btn.addEventListener('click', () => {
       if (pidiendo) return;
       if (!('geolocation' in navigator)) { decir('Tu navegador no comparte ubicación. Ábrela en Google Maps o Waze.'); return; }
       pidiendo = true;
+      caja.classList.add('pensando');
       decir('Buscándote en el mapa…');
       navigator.geolocation.getCurrentPosition(
         (p) => enRuta([p.coords.latitude, p.coords.longitude]),
         (e) => {
           pidiendo = false;
+          caja.classList.remove('pensando');
           decir(e.code === 1
             ? 'Sin tu ubicación no hay ruta. Si cambias de opinión, permite la ubicación y vuelve a tocar el botón.'
             : 'No te encontramos. Toca el botón otra vez o ábrela en Google Maps o Waze.');
