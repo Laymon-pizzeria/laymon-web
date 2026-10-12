@@ -87,8 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Pizzas en cascada diagonal (copiada del video de referencia de Luis):
   // una tarjeta sola al centro → se abre un mazo en diagonal detrás → el mazo se reparte: la tarjeta activa
   // grande al centro, las ya vistas apiladas arriba a la izquierda y las que vienen abajo a la derecha →
-  // avanza una por una → al final todo se junta en un mazo chico y la primera vuelve a crecer. Se detiene
-  // solo con el cursor encima de una tarjeta.
+  // avanza una por una y da vueltas sin fin (tras la última viene la primera). El mazo se abre solo al
+  // entrar a la sección. Se detiene solo con el cursor encima de una tarjeta.
   const escena = document.querySelector('[data-cascada]');
   if (escena && !reduceMotion) {
     const cards = [...escena.querySelectorAll('li')];
@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
       margen: 24,                    // px libres contra los bordes de la sección y el texto
       activaEscala: 1.08,            // la activa del reparto, respecto a la tarjeta sola inicial (Luis: más grande)
       pilaEscala: 0.4,               // las apiladas (Luis: más chicas)
+      separacion: 40,                // px de aire entre la activa y cada pila (Luis: que no vayan pegadas)
       pilaPaso: 0.34,                // separación dentro de una pila, en anchos de tarjeta apilada
       pilaPasoY: 0.16,               // y en altos
       abanicoEscala: 0.7,
@@ -117,10 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
       escalonado: 40,                // ms de retraso entre tarjetas vecinas (cascada)
       curva: 'cubic-bezier(.7, 0, .25, 1)',
       curvaSuave: 'cubic-bezier(.22, 1, .36, 1)',
-      // Secuencia: [estado, duración de la transición, espera hasta el siguiente paso] en ms
+      // Secuencia: [estado, duración de la transición, espera hasta el siguiente paso] en ms.
+      // El mazo se abre una sola vez al entrar a la sección; luego la cascada da vueltas sin cortes
+      // (después de la última pizza viene la primera), para que no se note un reinicio.
       inicio: [['sola', 800, 900], ['abanico', 650, 900]],
       paso: [750, 1250],             // cada avance de tarjeta
-      cierre: [['junta', 650, 350], ['solaChica', 450, 250]], // y de ahí vuelve a 'sola'
     };
 
     let geo = null;
@@ -131,9 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
       geo = { cw, ch, cx: W * c[0] - cw / 2, cy: H * c[1] - ch / 2, slots: null };
       if (W <= 820) return; // en celular se vale que las pilas se salgan del cuadro
 
-      // Las pilas se pegan a las esquinas de la activa (arriba-izquierda las vistas, abajo-derecha las que
-      // vienen) y el grupo se acomoda dentro de la sección: completo, sin pisar el texto y lo más centrado
-      // posible. Si no cabe, la activa se achica de a poco hasta que quepa.
+      // Las pilas van separadas de la activa: las vistas arriba a la izquierda (alineadas con su borde de
+      // arriba) y las que vienen abajo a la derecha (alineadas con su borde de abajo). El grupo se acomoda
+      // dentro de la sección: completo, sin pisar el texto y lo más centrado posible. Si no cabe, la activa
+      // se achica de a poco hasta que quepa.
       const m = CFG.margen, V = CFG.visibles;
       const er = escena.getBoundingClientRect(), tr = escena.parentElement.querySelector('.pizzas__concepto').getBoundingClientRect();
       const texto = { l: tr.left - er.left - m, t: tr.top - er.top - m, r: tr.right - er.left + m, b: tr.bottom - er.top + m };
@@ -143,8 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let ea = CFG.activaEscala; ea >= 0.7 && !geo.slots; ea -= 0.04) {
         const aw = cw * ea, ah = ch * ea;
         const off = (dir, n) => [
-          dir * (aw / 2 + sw * 0.12 + (n - 1) * sw * CFG.pilaPaso),
-          dir * (ah / 2 - sh * 0.32 + (n - 1) * sh * CFG.pilaPasoY),
+          dir * (aw / 2 + CFG.separacion + sw / 2 + (n - 1) * sw * CFG.pilaPaso),
+          dir * (ah / 2 - sh / 2 + (n - 1) * sh * CFG.pilaPasoY),
         ];
         const ay = H / 2, ideal = (Math.max(texto.r, 0) + W) / 2; // centrado en el hueco a la derecha del texto
         for (let d = 0; d < W && !geo.slots; d += 8) {
@@ -165,25 +168,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dónde va la tarjeta i en cada estado: desplazamiento (en cw/ch), escala, opacidad y orden
     const pose = (estado, i, activa) => {
       if (estado === 'oculta') return { x: 0, y: 0, s: 0.5, o: 0, z: 100 - i, k: i };
-      if (estado === 'sola' || estado === 'solaChica') {
-        return { x: 0, y: 0, s: i === 0 ? (estado === 'sola' ? 1 : 0.5) : 0.5, o: i === 0 ? 1 : 0, z: 100 - i, k: i };
-      }
-      if (estado === 'abanico' || estado === 'junta') {
+      if (estado === 'sola') return { x: 0, y: 0, s: i === 0 ? 1 : 0.5, o: i === 0 ? 1 : 0, z: 100 - i, k: i };
+      if (estado === 'abanico') {
         const n = Math.min(i, CFG.visibles + 1);
-        const e = estado === 'junta' ? 0.55 : CFG.abanicoEscala;
-        const f = estado === 'junta' ? 0.55 : 1;
         return {
-          x: (CFG.abanicoInicio[0] + n * CFG.abanicoPaso[0]) * f, y: (CFG.abanicoInicio[1] + n * CFG.abanicoPaso[1]) * f,
-          s: e, o: i <= CFG.visibles + 1 ? 1 : 0, z: 100 - i, k: i,
+          x: CFG.abanicoInicio[0] + n * CFG.abanicoPaso[0], y: CFG.abanicoInicio[1] + n * CFG.abanicoPaso[1],
+          s: CFG.abanicoEscala, o: i <= CFG.visibles + 1 ? 1 : 0, z: 100 - i, k: i,
         };
       }
-      const k = i - activa;
+      // Posición en la fila, dando la vuelta: la última pizza va justo antes de la primera
+      let k = ((i - activa) % N + N) % N;
+      if (k > N / 2) k -= N;
+      // Las de atrás solo se muestran si ya pasaron por el centro desde que entraste a la sección
+      const oculta = k < 0 && !vistas.has(i);
       if (geo.slots) {
         const n = Math.min(Math.abs(k), CFG.visibles);
         const c = k === 0 ? geo.slots.activa : (k < 0 ? geo.slots.atras : geo.slots.adelante)[n - 1];
         return {
           abs: c, s: k === 0 ? geo.slots.escala : CFG.pilaEscala,
-          o: Math.abs(k) <= CFG.visibles ? 1 : 0, z: 100 - Math.abs(k), k,
+          o: Math.abs(k) <= CFG.visibles && !oculta ? 1 : 0, z: 100 - Math.abs(k), k,
         };
       }
       if (k === 0) return { x: 0, y: 0, s: 1, o: 1, z: 100, k: 0 };
@@ -191,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const [b, p] = k < 0 ? [CFG.atras, CFG.atrasPaso] : [CFG.adelante, CFG.adelantePaso];
       return {
         x: b[0] + (n - 1) * p[0], y: b[1] + (n - 1) * p[1], s: CFG.chica,
-        o: Math.abs(k) <= CFG.visibles ? 1 : 0, z: 100 - Math.abs(k), k,
+        o: Math.abs(k) <= CFG.visibles && !oculta ? 1 : 0, z: 100 - Math.abs(k), k,
       };
     };
 
@@ -209,19 +212,24 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
 
-    // Lista de pasos de una vuelta completa
-    const pasos = [
-      ...CFG.inicio.map(([e, d, w]) => ({ e, d, w })),
-      ...cards.slice(1).map((_, i) => ({ e: 'diag', a: i + 1, d: CFG.paso[0], w: CFG.paso[1] })),
-      ...CFG.cierre.map(([e, d, w]) => ({ e, d, w })),
-    ];
+    // Pasos: la entrada (sola → mazo) una vez, y después avances sin fin
+    const pasos = CFG.inicio.map(([e, d, w]) => ({ e, d, w }));
+    const vistas = new Set();
     let idx = 0, reloj = 0, siguiente = 0, last = 0, pausa = false, enPantalla = false;
     const correr = () => {
-      const p = pasos[idx];
-      estado = p.e; activa = p.a ?? 0;
-      aplicar(p.d, p.e === 'sola' ? CFG.curvaSuave : CFG.curva);
-      siguiente = reloj + p.d + p.w;
-      idx = (idx + 1) % pasos.length;
+      let d, w;
+      if (idx < pasos.length) {
+        ({ e: estado, d, w } = pasos[idx]);
+        activa = 0;
+        idx++;
+      } else {
+        vistas.add(activa);
+        activa = estado === 'diag' ? (activa + 1) % N : 1;
+        estado = 'diag';
+        [d, w] = CFG.paso;
+      }
+      aplicar(d, estado === 'sola' ? CFG.curvaSuave : CFG.curva);
+      siguiente = reloj + d + w;
     };
     const tick = (now) => {
       const dt = last ? Math.min(now - last, 100) : 0;
@@ -241,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
       aplicar(0);
       escena.offsetHeight;
       cards.forEach((li) => { li.style.transition = ''; });
-      idx = 0; reloj = 0; siguiente = 120;
+      idx = 0; reloj = 0; siguiente = 120; vistas.clear();
     };
     medir();
     reiniciar();
@@ -263,9 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     escena.addEventListener('focusin', (e) => {
       const i = cards.indexOf(e.target.closest('li'));
       if (i < 0) return;
-      pausa = true; estado = 'diag'; activa = i; aplicar(500);
-      idx = pasos.findIndex((p) => p.e === 'diag' && p.a === Math.min(i + 1, N - 1));
-      if (i === N - 1) idx = pasos.length - CFG.cierre.length;
+      pausa = true; idx = pasos.length; estado = 'diag'; activa = i; aplicar(500);
     });
     escena.addEventListener('focusout', () => { pausa = false; });
   }
