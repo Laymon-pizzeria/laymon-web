@@ -128,12 +128,11 @@
     <!-- ENSALADAS: una carta por poeta, como la referencia de Luis (carrusel de perfiles). Todo gira junto al cambiar; el fondo es la esencia del poeta -->
     <section class="ensaladas" id="ensaladas" aria-labelledby="ensaladas-title" data-ensaladas data-vibra="pizarnik">
       <h2 id="ensaladas-title" class="sr-only">Ensaladas con nombre de poeta</h2>
-      <div class="ensaladas__fondo" aria-hidden="true"><span class="ef ef--noche"></span><span class="ef ef--luz"></span><span class="ef ef--crudo"></span></div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="aerosol" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="ruido"/><feDisplacementMap in="SourceGraphic" in2="ruido" scale="7" xChannelSelector="R" yChannelSelector="G" result="mov"/><feGaussianBlur in="mov" stdDeviation=".7"/></filter></svg>
       <div class="ensaladas__escena" data-escena tabindex="0" aria-roledescription="carrusel" aria-label="Ensaladas: desliza para cambiar">
         <div class="es__giro" data-giro>
         <article class="es" data-vibra="pizarnik" aria-roledescription="ensalada" aria-label="Ensalada Pizarnik">
-          <div class="es__carta"><span class="es__llamas" aria-hidden="true"></span></div>
-          <img class="es__poeta" src="assets/img/poetas/pizarnik.webp" width="560" height="437" alt="" loading="lazy">
+          <div class="es__poeta" style="--ar: 560 / 437"><img src="assets/img/poetas/pizarnik.webp" width="560" height="437" alt="" loading="lazy"><svg class="es__grafiti" viewBox="0 0 560 437" aria-hidden="true"><g class="es__trazos"><ellipse cx="300" cy="34" rx="168" ry="34" transform="rotate(-6 300 34)" pathLength="1"/><path d="M150 170 C 80 150, 30 190, 14 262 M14 262 l-8 -34 M14 262 l26 -22" pathLength="1"/></g><text x="316" y="404" transform="rotate(-12 316 404)">¡NOCHE!</text></svg></div>
           <p class="es__nombre"><span>Alejandra</span> Pizarnik</p>
           <img class="es__plato" src="assets/img/ensaladas/pizarnik.webp" width="720" height="633" alt="Ensalada Pizarnik" loading="lazy">
           <blockquote class="es__chip es__cita"><p>«He dado el salto de mí al alba.»</p><footer><cite>Árbol de Diana</cite></footer></blockquote>
@@ -156,8 +155,7 @@
           </span>
         </article>
         <article class="es" data-vibra="blake" aria-roledescription="ensalada" aria-label="Ensalada Blake">
-          <div class="es__carta"><span class="es__llamas" aria-hidden="true"></span></div>
-          <img class="es__poeta" src="assets/img/poetas/blake.webp" width="560" height="453" alt="" loading="lazy">
+          <div class="es__poeta" style="--ar: 560 / 453"><img src="assets/img/poetas/blake.webp" width="560" height="453" alt="" loading="lazy"><svg class="es__grafiti" viewBox="0 0 560 453" aria-hidden="true"><g class="es__trazos"><ellipse cx="258" cy="24" rx="132" ry="28" transform="rotate(-5 258 24)" pathLength="1"/><path d="M168 210 C 110 220, 60 260, 34 318 M34 318 l-4 -34 M34 318 l28 -18" pathLength="1"/></g><text x="300" y="376" transform="rotate(-10 300 376)">¡SANTO!</text></svg></div>
           <p class="es__nombre"><span>William</span> Blake</p>
           <img class="es__plato" src="assets/img/ensaladas/blake.webp" width="720" height="580" alt="Ensalada Blake" loading="lazy">
           <blockquote class="es__chip es__cita"><p lang="en">«Every thing that lives is holy.»</p><footer><cite>El matrimonio del cielo y el infierno</cite></footer></blockquote>
@@ -180,8 +178,7 @@
           </span>
         </article>
         <article class="es" data-vibra="artaud" aria-roledescription="ensalada" aria-label="Ensalada Artaud">
-          <div class="es__carta"><span class="es__llamas" aria-hidden="true"></span></div>
-          <img class="es__poeta" src="assets/img/poetas/artaud.webp" width="560" height="591" alt="" loading="lazy">
+          <div class="es__poeta" style="--ar: 560 / 591"><img src="assets/img/poetas/artaud.webp" width="560" height="591" alt="" loading="lazy"><svg class="es__grafiti" viewBox="0 0 560 591" aria-hidden="true"><g class="es__trazos"><ellipse cx="350" cy="44" rx="196" ry="40" transform="rotate(-7 350 44)" pathLength="1"/><path d="M190 300 C 120 300, 60 340, 26 404 M26 404 l-2 -34 M26 404 l30 -16" pathLength="1"/></g><text x="250" y="572" transform="rotate(-9 250 572)">¡CRUDA!</text></svg></div>
           <p class="es__nombre"><span>Antonin</span> Artaud</p>
           <img class="es__plato" src="assets/img/ensaladas/artaud.webp" width="720" height="587" alt="Ensalada Artaud" loading="lazy">
           <blockquote class="es__chip es__cita"><p>«Acabar con las obras maestras.»</p><footer><cite>El teatro y su doble</cite></footer></blockquote>
