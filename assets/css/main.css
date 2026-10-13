@@ -433,7 +433,7 @@ a { color: inherit; }
 }
 
 .ensaladas__titulo { max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: center; color: var(--ink); font: 400 clamp(20px, 2.2vw, 30px)/1.2 var(--font-body); }
-.ensaladas__titulo span { display: block; color: var(--rosa); font: 400 clamp(56px, 8vw, 120px)/.9 var(--font-display); }
+.ensaladas__titulo span { display: block; color: var(--red); font: 400 clamp(56px, 8vw, 120px)/.9 var(--font-display); }
 .ensaladas__escena { position: relative; height: clamp(660px, 55vw, 800px); perspective: 1600px; outline: none; touch-action: pan-y; user-select: none; }
 .ensaladas__escena:focus-visible { outline: 3px solid currentColor; outline-offset: -6px; }
 
@@ -461,7 +461,7 @@ a { color: inherit; }
 }
 /* El nombre es una ficha más: calcomanía montada sobre la esquina de la carta */
 .es__nombre {
-  position: absolute; left: -42%; top: -22%; margin: 0; color: var(--red); white-space: nowrap;
+  position: absolute; left: -42%; top: -22%; margin: 0; color: var(--rosa); white-space: nowrap;
   font: 400 clamp(96px, 10vw, 156px)/.85 var(--font-display); transform: translateZ(140px); filter: drop-shadow(0 6px 0 var(--paper));
 }
 .es__nombre > span { display: block; margin-left: .1em; color: var(--ink); font-size: .32em; }
