@@ -500,7 +500,7 @@ a { color: inherit; }
 .es__ing:nth-child(2) { --x: 50%; --y: -10%; }
 .es__ing:nth-child(3) { --x: 70%; --y: -4%; }
 .es__ing:nth-child(4) { --x: 85%; --y: 5%; }
-.es__ing:nth-child(5) { --x: 96%; --y: 56%; }
+.es__ing:nth-child(5) { --x: 84%; --y: 38%; }
 .es__ing:nth-child(6) { --x: 78%; --y: 57%; }
 .es__ing:nth-child(7) { --x: 70%; --y: 83%; }
 .es__ing:nth-child(8) { --x: 63%; --y: 114%; }
