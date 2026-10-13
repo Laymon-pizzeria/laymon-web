@@ -428,11 +428,11 @@ a { color: inherit; }
 /* ---------- Ensaladas: una carta por poeta (referencia de Luis: carrusel de perfiles) ---------- */
 /* Estilo póster: papel limpio, poeta ilustrado en sticker rosa, ensalada al centro. */
 .ensaladas {
-  position: relative; overflow: hidden; isolation: isolate; background: var(--paper); color: var(--ink);
+  position: relative; overflow: hidden; isolation: isolate; background: var(--ink); color: var(--paper);
   padding: clamp(48px, 6vw, 88px) 0 clamp(40px, 5vw, 64px);
 }
 
-.ensaladas__titulo { max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: center; color: var(--ink); font: 400 clamp(20px, 2.2vw, 30px)/1.2 var(--font-body); }
+.ensaladas__titulo { max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: center; color: var(--paper); font: 400 clamp(20px, 2.2vw, 30px)/1.2 var(--font-body); }
 .ensaladas__titulo span { display: block; color: var(--red); font: 400 clamp(56px, 8vw, 120px)/.9 var(--font-display); }
 .ensaladas__escena { position: relative; height: clamp(660px, 55vw, 800px); perspective: 1600px; outline: none; touch-action: pan-y; user-select: none; }
 .ensaladas__escena:focus-visible { outline: 3px solid currentColor; outline-offset: -6px; }
@@ -450,7 +450,7 @@ a { color: inherit; }
 /* Por qué la ensalada es así (texto de Luis): texto suelto y ancho bajo la ensalada; el CTA va bajo el nombre */
 .es__desc {
   position: absolute; left: 50%; top: 138%; width: 190%; translate: -50% 0; margin: 0; padding: 0; box-sizing: border-box;
-  color: var(--ink); text-align: center; font-size: 20px; line-height: 1.5; transform: translateZ(110px);
+  color: var(--paper); text-align: center; font-size: 20px; line-height: 1.5; transform: translateZ(110px);
 }
 .es__desc p { margin: 0; }
 .es__desc .es__lema { margin-bottom: 6px; color: var(--red); font-size: 1.2em; }
@@ -462,16 +462,16 @@ a { color: inherit; }
 /* El nombre es una ficha más: calcomanía montada sobre la esquina de la carta */
 .es__nombre {
   position: absolute; left: -42%; top: -22%; margin: 0; color: var(--rosa); white-space: nowrap;
-  font: 400 clamp(96px, 10vw, 156px)/.85 var(--font-display); transform: translateZ(140px); filter: drop-shadow(0 6px 0 var(--paper));
+  font: 400 clamp(96px, 10vw, 156px)/.85 var(--font-display); transform: translateZ(140px); filter: drop-shadow(0 6px 0 var(--ink));
 }
-.es__nombre > span { display: block; margin-left: .1em; color: var(--ink); font-size: .32em; }
+.es__nombre > span { display: block; margin-left: .1em; color: var(--paper); font-size: .32em; }
 .es__chip, .es__ing { position: absolute; }
 .es__chip {
   margin: 0; padding: 10px 14px; border-radius: 16px; background: #fff; color: var(--ink);
   font-size: 15px; line-height: 1.35; box-shadow: 0 12px 28px rgba(12, 11, 11, .25); transform: translateZ(150px);
 }
 .es__pedir { display: table; margin-top: 18px; font-family: var(--font-body); line-height: 1.2; white-space: nowrap; background: var(--red); color: #fff; text-decoration: none; font-size: 18px; border-radius: 999px; padding: 13px 24px; }
-@media (hover: hover) { .es__pedir:hover { background: var(--ink); color: #fff; } }
+@media (hover: hover) { .es__pedir:hover { background: var(--paper); color: var(--ink); } }
 .es__pedir:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
 .es__ings { position: absolute; inset: 0; transform-style: preserve-3d; }
 .es__ing {
