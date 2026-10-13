@@ -434,24 +434,23 @@ a { color: inherit; }
 
 .ensaladas__titulo { max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: center; color: var(--ink); font: 400 clamp(20px, 2.2vw, 30px)/1.2 var(--font-body); }
 .ensaladas__titulo span { display: block; color: var(--red); font: 400 clamp(56px, 8vw, 120px)/.9 var(--font-display); }
-.ensaladas__escena { position: relative; height: clamp(600px, 52vw, 760px); perspective: 1600px; outline: none; touch-action: pan-y; user-select: none; }
+.ensaladas__escena { position: relative; height: clamp(740px, 63vw, 920px); perspective: 1600px; outline: none; touch-action: pan-y; user-select: none; }
 .ensaladas__escena:focus-visible { outline: 3px solid currentColor; outline-offset: -6px; }
 
 /* Giro 360 de verdad: todo (carta, nombre, plato, fichas, emojis) vive en .es__giro y gira completo.
    La que se va se ve hasta los 90°; la que llega entra volteada y se endereza a los 270° (main.js). Sin opacity aquí: aplana el 3D. */
 .es__giro { position: absolute; inset: 0; transform-style: preserve-3d; }
 .es {
-  position: absolute; left: 50%; top: 50%; width: clamp(480px, 42vw, 640px); aspect-ratio: 16 / 9; margin-top: -55px;
+  position: absolute; left: 50%; top: 50%; width: clamp(480px, 42vw, 640px); aspect-ratio: 16 / 9; margin-top: -135px;
   translate: -50% -50%; transform-style: preserve-3d; visibility: hidden;
 }
 .es[data-pos="0"] { visibility: visible; }
 .es__poeta { position: absolute; left: 90%; top: -24%; height: 100%; aspect-ratio: var(--ar); transform: translateZ(20px); transform-style: preserve-3d; }
 .es__poeta img { display: block; width: 100%; height: 100%; }
-/* Por qué la ensalada es así (texto de Luis): caja ancha bajo la ensalada */
+/* Por qué la ensalada es así (texto de Luis): texto suelto bajo la ensalada y el CTA aparte debajo */
 .es__desc {
-  position: absolute; left: 50%; top: 106%; width: 136%; translate: -50% 0; margin: 0; padding: 20px 26px 22px; box-sizing: border-box; display: flex; align-items: center; gap: 24px;
-  background: #fff; color: var(--ink); border-radius: 18px; box-shadow: 0 12px 28px rgba(12, 11, 11, .14);
-  font-size: 15px; line-height: 1.5; transform: translateZ(110px);
+  position: absolute; left: 50%; top: 138%; width: 120%; translate: -50% 0; margin: 0; padding: 0; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 22px;
+  color: var(--ink); text-align: center; font-size: 16px; line-height: 1.55; transform: translateZ(110px);
 }
 .es__desc p { margin: 0; flex: 1; }
 /* Grafiti de plumón en rojo y rosa Laymon encima del retrato (vandalismo de museo); se pinta al llegar */
@@ -520,9 +519,9 @@ a { color: inherit; }
   .es { width: 440px; }
   .es__poeta { left: 84%; top: -30%; bottom: auto; height: 80%; }
   .es__nombre { left: -28%; font-size: 84px; }
-  .ensaladas__escena { height: 620px; }
-  .es { margin-top: -80px; }
-  .es__desc { width: 150%; font-size: 14px; }
+  .ensaladas__escena { height: 720px; }
+  .es { margin-top: -130px; }
+  .es__desc { width: 150%; top: 124%; font-size: 15px; }
   .es__plato { left: 34%; width: 84%; }
   .es__ing:nth-child(6), .es__ing:nth-child(7) { display: none; }
 }
@@ -535,7 +534,7 @@ a { color: inherit; }
   .es__nombre { left: -14%; top: 16%; font-size: 64px; }
   .es__chip { font-size: 13px; padding: 8px 11px; }
   .es__pedir { font-size: 16px; align-self: center; }
-  .es__desc { flex-direction: column; gap: 16px; width: 142%; top: 98%; font-size: 14px; padding: 18px 20px; }
+  .es__desc { gap: 18px; width: 140%; top: 104%; font-size: 15px; padding: 0; }
   .es__ing:nth-child(6), .es__ing:nth-child(8), .es__ing:nth-child(12) { display: none; }
   .es__ing { --t: calc(var(--s) * .9); }
   .es__ing:nth-child(1) { --x: -12%; --y: 56%; }
