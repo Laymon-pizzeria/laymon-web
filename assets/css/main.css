@@ -489,9 +489,9 @@ a { color: inherit; }
   position: absolute; inset: 0; background: url("../img/hero/llamas.webp") left bottom / auto 125% no-repeat;
   transform-origin: 0 100%; animation: llamas 3.2s ease-in-out infinite alternate;
 }
-.es__poeta { position: absolute; right: -7%; bottom: 0; height: 100%; width: auto; opacity: .62; }
+.es__poeta { position: absolute; left: 68%; bottom: -14%; height: 136%; width: auto; transform: translateZ(20px); }
 .es__plato {
-  position: absolute; left: 35%; top: 46%; width: 64%; height: auto; translate: -50% -50%;
+  position: absolute; left: 42%; top: 48%; width: 82%; height: auto; translate: -50% -50%;
   transform: translateZ(70px); filter: drop-shadow(0 26px 24px rgba(12, 11, 11, .5));
 }
 /* El nombre es una ficha más: calcomanía montada sobre la esquina de la carta */
@@ -505,15 +505,15 @@ a { color: inherit; }
 .es__chip, .es__ing { position: absolute; }
 .es__chip {
   margin: 0; padding: 10px 14px; border-radius: 16px; background: #fff; color: var(--ink);
-  font-size: 15px; line-height: 1.35; box-shadow: 0 12px 28px rgba(12, 11, 11, .25); transform: translateZ(100px);
+  font-size: 15px; line-height: 1.35; box-shadow: 0 12px 28px rgba(12, 11, 11, .25); transform: translateZ(150px);
 }
-.es__cita { left: 84%; top: 60%; width: clamp(190px, 16vw, 250px); }
+.es__cita { right: 82%; top: 66%; width: clamp(190px, 16vw, 250px); }
 .es__cita p { margin: 0; font-size: 18px; }
 .es__cita footer { margin-top: 6px; font-size: 12px; color: var(--label); }
 .es__cita cite { font-style: normal; }
-.es__vibra { right: 86%; top: 46%; width: clamp(170px, 14vw, 210px); transform: translateZ(90px); }
+.es__vibra { right: 88%; top: 26%; width: clamp(170px, 14vw, 210px); transform: translateZ(150px); }
 .es__vibra::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; background: var(--red); }
-.es__pedir { left: 48%; top: 92%; white-space: nowrap; background: var(--red); color: #fff; text-decoration: none; font-size: 18px; border-radius: 999px; padding: 13px 24px; transform: translateZ(120px); }
+.es__pedir { left: 46%; top: 94%; white-space: nowrap; background: var(--red); color: #fff; text-decoration: none; font-size: 18px; border-radius: 999px; padding: 13px 24px; transform: translateZ(160px); }
 .es[data-vibra="blake"] .es__pedir { background: var(--paper); color: var(--ink); }
 @media (hover: hover) { .es__pedir:hover { background: var(--ink); color: #fff; } }
 .es__pedir:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
@@ -526,19 +526,19 @@ a { color: inherit; }
 }
 @keyframes es-flota { to { translate: 0 -10px; } }
 /* Emojis alrededor de la ensalada: unos dentro de la carta, otros fuera (% de la carta) */
-.es__ing:nth-child(1) { --x: -10%; --y: 32%; }
-.es__ing:nth-child(2) { --x: 40%; --y: -14%; }
-.es__ing:nth-child(3) { --x: 56%; --y: -16%; }
-.es__ing:nth-child(4) { --x: 98%; --y: -10%; }
-.es__ing:nth-child(5) { --x: 110%; --y: 30%; }
-.es__ing:nth-child(6) { --x: 96%; --y: 94%; }
-.es__ing:nth-child(7) { --x: 112%; --y: 96%; }
-.es__ing:nth-child(8) { --x: 36%; --y: 108%; }
-.es__ing:nth-child(9) { --x: 16%; --y: 104%; }
-.es__ing:nth-child(10) { --x: -8%; --y: 90%; }
-.es__ing:nth-child(11) { --x: 8%; --y: 26%; }
-.es__ing:nth-child(12) { --x: 10%; --y: 82%; }
-.es__ing:nth-child(13) { --x: 72%; --y: 80%; }
+.es__ing:nth-child(1) { --x: -10%; --y: 50%; }
+.es__ing:nth-child(2) { --x: 36%; --y: -14%; }
+.es__ing:nth-child(3) { --x: 56%; --y: -12%; }
+.es__ing:nth-child(4) { --x: 66%; --y: 6%; }
+.es__ing:nth-child(5) { --x: 22%; --y: 58%; }
+.es__ing:nth-child(6) { --x: 64%; --y: 86%; }
+.es__ing:nth-child(7) { --x: 78%; --y: 106%; }
+.es__ing:nth-child(8) { --x: 30%; --y: 110%; }
+.es__ing:nth-child(9) { --x: 24%; --y: 96%; }
+.es__ing:nth-child(10) { --x: -6%; --y: 112%; }
+.es__ing:nth-child(11) { --x: -14%; --y: 12%; }
+.es__ing:nth-child(12) { --x: 14%; --y: 40%; }
+.es__ing:nth-child(13) { --x: 70%; --y: 62%; }
 
 .ensaladas__puntos { display: flex; justify-content: center; gap: 12px; margin-top: 4px; }
 .ensaladas__puntos button {
@@ -548,37 +548,37 @@ a { color: inherit; }
 .ensaladas__puntos button:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
 @media (min-width: 821px) and (max-width: 1100px) {
   .es { width: 440px; }
-  .es__cita { left: 80%; top: 56%; width: 180px; }
+  .es__cita { right: 78%; width: 180px; }
   .es__cita p { font-size: 16px; }
-  .es__vibra { right: 80%; width: 160px; }
+  .es__vibra { right: 84%; width: 160px; }
 }
 /* Celular: carta vertical */
 @media (max-width: 820px) {
-  .ensaladas__escena { height: 600px; }
-  .es { width: 240px; aspect-ratio: 2 / 3; margin-top: -10px; }
+  .ensaladas__escena { height: 700px; }
+  .es { width: 240px; aspect-ratio: 2 / 3; margin-top: 50px; }
   .es__llamas { background-size: auto 70%; }
-  .es__poeta { right: auto; left: 50%; top: 0; bottom: auto; width: 112%; height: auto; translate: -50% 0; }
-  .es__plato { left: 50%; top: 68%; width: 120%; }
-  .es__nombre { left: -12%; top: -15%; font-size: 38px; padding: 8px 14px 10px; }
+  .es__poeta { left: 50%; bottom: auto; top: -46%; width: 116%; height: auto; translate: -50% 0; }
+  .es__plato { left: 50%; top: 58%; width: 138%; }
+  .es__nombre { left: -14%; top: 4%; font-size: 38px; padding: 8px 14px 10px; }
   .es__chip { font-size: 13px; padding: 8px 11px; }
-  .es__cita { left: 68%; top: 26%; width: 132px; }
+  .es__cita { left: 62%; top: 80%; right: auto; width: 132px; }
   .es__cita p { font-size: 15px; }
-  .es__vibra { right: 60%; top: 66%; width: 146px; }
-  .es__pedir { left: 50%; top: 102%; translate: -50% 0; font-size: 16px; }
+  .es__vibra { right: 56%; top: 84%; width: 146px; }
+  .es__pedir { left: 50%; top: 110%; translate: -50% 0; font-size: 16px; }
   .es__ing { --t: calc(var(--s) * .9); }
-  .es__ing:nth-child(1) { --x: 8%; --y: 8%; }
-  .es__ing:nth-child(2) { --x: 92%; --y: 6%; }
-  .es__ing:nth-child(3) { --x: 112%; --y: 18%; }
-  .es__ing:nth-child(4) { --x: -14%; --y: 30%; }
+  .es__ing:nth-child(1) { --x: 4%; --y: 30%; }
+  .es__ing:nth-child(2) { --x: 92%; --y: 30%; }
+  .es__ing:nth-child(3) { --x: 112%; --y: 40%; }
+  .es__ing:nth-child(4) { --x: -14%; --y: 46%; }
   .es__ing:nth-child(5) { --x: 114%; --y: 74%; }
   .es__ing:nth-child(6) { --x: 90%; --y: 96%; }
   .es__ing:nth-child(7) { --x: 110%; --y: 98%; }
   .es__ing:nth-child(8) { --x: -8%; --y: 98%; }
   .es__ing:nth-child(9) { display: none; }
-  .es__ing:nth-child(10) { --x: 12%; --y: 40%; }
-  .es__ing:nth-child(11) { --x: -14%; --y: 12%; }
-  .es__ing:nth-child(12) { --x: -16%; --y: 46%; }
-  .es__ing:nth-child(13) { --x: 72%; --y: -6%; }
+  .es__ing:nth-child(10) { --x: 12%; --y: 62%; }
+  .es__ing:nth-child(11) { --x: -14%; --y: 30%; }
+  .es__ing:nth-child(12) { --x: -16%; --y: 62%; }
+  .es__ing:nth-child(13) { --x: 84%; --y: 108%; }
 }
 
 /* ---------- Footer ---------- */
