@@ -432,32 +432,6 @@ a { color: inherit; }
   padding: clamp(48px, 6vw, 88px) 0 clamp(40px, 5vw, 64px);
 }
 
-/* Fondo de película vieja (referencia de Luis): grano, polvo y pelos que brincan cuadro a cuadro, parpadeo y una fuga de luz que barre en diagonal.
-   Va en tinta sobre el papel (multiply), detrás de todo. */
-.ensaladas__pelicula { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; animation: pel-parpadeo .42s steps(1) infinite; }
-.ensaladas__pelicula::before, .ensaladas__polvo, .ensaladas__luz { content: ""; position: absolute; }
-.ensaladas__pelicula::before {
-  inset: -120px; opacity: .1; mix-blend-mode: multiply; animation: pel-salto .5s steps(1) infinite;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.4 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-}
-.ensaladas__polvo { inset: -640px; opacity: .42; background: url(../img/ensaladas/polvo.svg) 0 0 / 640px; animation: pel-polvo .75s steps(1) infinite; }
-.ensaladas__luz {
-  top: -20%; bottom: -20%; left: -60%; width: 90%; opacity: .55; mix-blend-mode: multiply;
-  background: linear-gradient(110deg, transparent 20%, rgba(12, 11, 11, .07) 42%, rgba(12, 11, 11, .12) 50%, rgba(12, 11, 11, .07) 58%, transparent 80%);
-  animation: pel-luz 7s ease-in-out infinite alternate;
-}
-.ensaladas__pelicula::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 55%, rgba(12, 11, 11, .1)); }
-@keyframes pel-parpadeo { 0% { opacity: 1; } 25% { opacity: .82; } 50% { opacity: .95; } 75% { opacity: .78; } }
-@keyframes pel-salto { 0% { transform: translate(0, 0); } 25% { transform: translate(-37px, 21px); } 50% { transform: translate(52px, -44px); } 75% { transform: translate(-18px, -63px); } }
-@keyframes pel-polvo {
-  0% { transform: translate(0, 0); } 17% { transform: translate(-211px, 137px); } 33% { transform: translate(305px, -92px); }
-  50% { transform: translate(-96px, -288px); } 67% { transform: translate(174px, 251px); } 83% { transform: translate(-330px, -41px); }
-}
-@keyframes pel-luz { to { transform: translateX(190%); } }
-@media (prefers-reduced-motion: reduce) {
-  .ensaladas__pelicula, .ensaladas__pelicula::before, .ensaladas__polvo, .ensaladas__luz { animation: none; }
-}
-
 .ensaladas__titulo { max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: center; color: var(--ink); font: 400 clamp(20px, 2.2vw, 30px)/1.2 var(--font-body); }
 .ensaladas__titulo span { display: block; color: var(--red); font: 400 clamp(56px, 8vw, 120px)/.9 var(--font-display); }
 .ensaladas__escena { position: relative; height: clamp(740px, 63vw, 920px); perspective: 1600px; outline: none; touch-action: pan-y; user-select: none; }
