@@ -445,13 +445,20 @@ a { color: inherit; }
 .es[data-pos="0"] { visibility: visible; }
 .es__poeta { position: absolute; left: 64%; bottom: -14%; height: 140%; aspect-ratio: var(--ar); transform: translateZ(20px); transform-style: preserve-3d; }
 .es__poeta img { display: block; width: 100%; height: 100%; }
-/* Grafiti rojo en aerosol encima del retrato (aureola, flecha a la ensalada y una palabra); se pinta al llegar */
+/* Grafiti de plumón en rojo y rosa Laymon encima del retrato (vandalismo de museo); se pinta al llegar */
 .es__grafiti { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: url(#aerosol); transform: translateZ(70px); }
-.es__trazos { fill: none; stroke: var(--red); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+.ensaladas { --rosa: #E24586; }
+.es__trazos { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
 .es__trazos > * { stroke-dasharray: 1; }
-.es__grafiti text { fill: var(--red); font: 400 92px/1 var(--font-display); }
+.es__trazos .r { stroke: var(--red); }
+.es__trazos .p { stroke: var(--rosa); }
+.es__grafiti text { font: 400 92px/1 var(--font-display); }
+.es__grafiti text.r { fill: var(--red); }
+.es__grafiti text.p { fill: var(--rosa); }
 .es[data-pos="0"] .es__trazos > * { animation: es-pinta .7s cubic-bezier(.5, 0, .3, 1) .5s backwards; }
-.es[data-pos="0"] .es__trazos > :nth-child(2) { animation-delay: .9s; }
+.es[data-pos="0"] .es__trazos > :nth-child(2) { animation-delay: .75s; }
+.es[data-pos="0"] .es__trazos > :nth-child(3) { animation-delay: 1s; }
+.es[data-pos="0"] .es__trazos > :nth-child(n+4) { animation-delay: 1.2s; }
 .es[data-pos="0"] .es__grafiti text { animation: es-aparece .35s steps(3) 1.3s backwards; }
 @keyframes es-pinta { from { stroke-dashoffset: 1; } }
 @keyframes es-aparece { from { opacity: 0; } }
