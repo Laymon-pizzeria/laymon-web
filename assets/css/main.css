@@ -432,6 +432,8 @@ a { color: inherit; }
   padding: clamp(48px, 6vw, 88px) 0 clamp(40px, 5vw, 64px);
 }
 
+.ensaladas__titulo { max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: center; }
+.ensaladas__titulo span { display: block; color: var(--ink); font-size: .55em; }
 .ensaladas__escena { position: relative; height: clamp(560px, 46vw, 680px); perspective: 1600px; outline: none; touch-action: pan-y; user-select: none; }
 .ensaladas__escena:focus-visible { outline: 3px solid currentColor; outline-offset: -6px; }
 
@@ -443,8 +445,14 @@ a { color: inherit; }
   translate: -50% -50%; transform-style: preserve-3d; visibility: hidden;
 }
 .es[data-pos="0"] { visibility: visible; }
-.es__poeta { position: absolute; left: 70%; bottom: -6%; height: 104%; aspect-ratio: var(--ar); transform: translateZ(20px); transform-style: preserve-3d; }
+.es__poeta { position: absolute; left: 92%; bottom: -6%; height: 90%; aspect-ratio: var(--ar); transform: translateZ(20px); transform-style: preserve-3d; }
 .es__poeta img { display: block; width: 100%; height: 100%; }
+/* Quién fue y por qué es contracultura: escrito en rosa sobre la foto */
+.es__bio {
+  position: absolute; left: -4%; top: 102%; width: 108%; margin: 0; rotate: -3deg; transform: translateZ(80px);
+  color: var(--rosa); font: 400 clamp(15px, 1.15vw, 17px)/1.4 var(--font-body);
+}
+.es[data-pos="0"] .es__bio { animation: es-aparece .5s steps(4) 1.5s backwards; }
 /* Grafiti de plumón en rojo y rosa Laymon encima del retrato (vandalismo de museo); se pinta al llegar */
 .es__grafiti { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: url(#aerosol); transform: translateZ(70px); }
 .ensaladas { --rosa: #E24586; }
@@ -461,13 +469,13 @@ a { color: inherit; }
 @keyframes es-pinta { from { stroke-dashoffset: 1; } }
 @keyframes es-aparece { from { opacity: 0; } }
 .es__plato {
-  position: absolute; left: 42%; top: 54%; width: 100%; height: auto; translate: -50% -50%;
+  position: absolute; left: 46%; top: 54%; width: 100%; height: auto; translate: -50% -50%;
   transform: translateZ(70px); filter: drop-shadow(0 26px 24px rgba(12, 11, 11, .5));
 }
 /* El nombre es una ficha más: calcomanía montada sobre la esquina de la carta */
 .es__nombre {
-  position: absolute; left: -16%; top: -26%; margin: 0; color: var(--red); white-space: nowrap;
-  font: 400 clamp(96px, 10vw, 156px)/.85 var(--font-display); transform: translateZ(100px); filter: drop-shadow(0 6px 0 var(--paper));
+  position: absolute; left: -42%; top: -22%; margin: 0; color: var(--red); white-space: nowrap;
+  font: 400 clamp(96px, 10vw, 156px)/.85 var(--font-display); transform: translateZ(140px); filter: drop-shadow(0 6px 0 var(--paper));
 }
 .es__nombre span { display: block; margin-left: .1em; color: var(--ink); font-size: .32em; }
 .es__chip, .es__ing { position: absolute; }
@@ -511,16 +519,22 @@ a { color: inherit; }
 .ensaladas__puntos button:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
 @media (min-width: 821px) and (max-width: 1100px) {
   .es { width: 440px; }
-  .es__poeta { left: 64%; bottom: -4%; height: 92%; }
+  .es__poeta { left: 72%; bottom: 20%; height: 72%; }
+  .es__nombre { left: -28%; font-size: 84px; }
+  .es__pedir { left: 22%; }
+  .es__plato { left: 38%; width: 88%; }
+  .es__bio { left: 4%; top: 100%; width: 110%; }
+  .es__ing:nth-child(6), .es__ing:nth-child(7) { display: none; }
   .es__vibra { right: 84%; width: 160px; }
 }
 /* Celular: carta vertical */
 @media (max-width: 820px) {
-  .ensaladas__escena { height: 700px; }
-  .es { width: 240px; aspect-ratio: 2 / 3; margin-top: 50px; }
-  .es__poeta { left: 50%; bottom: auto; top: -52%; width: 112%; height: auto; translate: -50% 0; }
+  .ensaladas__escena { height: 860px; }
+  .es { width: 240px; aspect-ratio: 2 / 3; margin-top: 120px; }
+  .es__poeta { left: 60%; bottom: auto; top: -78%; width: 100%; height: auto; translate: -50% 0; }
+  .es__bio { left: -30%; top: 100%; width: 140%; font-size: 13px; rotate: -2deg; }
   .es__plato { left: 50%; top: 58%; width: 138%; }
-  .es__nombre { left: -14%; top: 8%; font-size: 64px; }
+  .es__nombre { left: -14%; top: 4%; font-size: 64px; }
   .es__chip { font-size: 13px; padding: 8px 11px; }
   .es__vibra { right: 56%; top: 84%; width: 146px; }
   .es__pedir { left: 50%; top: 110%; translate: -50% 0; font-size: 16px; }
