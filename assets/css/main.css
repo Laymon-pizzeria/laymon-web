@@ -426,14 +426,14 @@ a { color: inherit; }
 .playlist iframe { display: block; width: 100%; height: 152px; border: 0; border-radius: 12px; }
 
 /* ---------- Ensaladas: una carta por poeta (referencia de Luis: carrusel de perfiles) ---------- */
-/* Estilo póster: papel limpio, poeta en semitono negro con grafiti rojo en aerosol, ensalada al centro. */
+/* Estilo póster: papel limpio, poeta ilustrado en sticker rosa, ensalada al centro. */
 .ensaladas {
   position: relative; overflow: hidden; isolation: isolate; background: var(--paper); color: var(--ink);
   padding: clamp(48px, 6vw, 88px) 0 clamp(40px, 5vw, 64px);
 }
 
 .ensaladas__titulo { max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: center; color: var(--ink); font: 400 clamp(20px, 2.2vw, 30px)/1.2 var(--font-body); }
-.ensaladas__titulo span { display: block; color: var(--red); font: 400 clamp(56px, 8vw, 120px)/.9 var(--font-display); }
+.ensaladas__titulo span { display: block; color: var(--rosa); font: 400 clamp(56px, 8vw, 120px)/.9 var(--font-display); }
 .ensaladas__escena { position: relative; height: clamp(660px, 55vw, 800px); perspective: 1600px; outline: none; touch-action: pan-y; user-select: none; }
 .ensaladas__escena:focus-visible { outline: 3px solid currentColor; outline-offset: -6px; }
 
@@ -454,21 +454,7 @@ a { color: inherit; }
 }
 .es__desc p { margin: 0; }
 .es__desc .es__lema { margin-bottom: 6px; color: var(--red); font-size: 1.2em; }
-/* Grafiti de plumón en rojo y rosa Laymon encima del retrato (vandalismo de museo); se pinta al llegar */
-.es__grafiti { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: url(#aerosol); transform: translateZ(70px); }
 .ensaladas { --rosa: #E24586; }
-.es__trazos { fill: none; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
-.es__trazos > * { stroke-dasharray: 1; }
-.es__trazos .r { stroke: var(--red); }
-.es__trazos .p { stroke: var(--rosa); }
-.es__escrito { fill: var(--rosa); font: 400 54px/1 var(--font-display); }
-.es[data-pos="0"] .es__trazos > * { animation: es-pinta .7s cubic-bezier(.5, 0, .3, 1) .5s backwards; }
-.es[data-pos="0"] .es__trazos > :nth-child(2) { animation-delay: .75s; }
-.es[data-pos="0"] .es__trazos > :nth-child(3) { animation-delay: 1s; }
-.es[data-pos="0"] .es__trazos > :nth-child(n+4) { animation-delay: 1.2s; }
-.es[data-pos="0"] .es__escrito { animation: es-aparece .5s steps(4) 1.3s backwards; }
-@keyframes es-pinta { from { stroke-dashoffset: 1; } }
-@keyframes es-aparece { from { opacity: 0; } }
 .es__plato {
   position: absolute; left: 46%; top: 54%; width: 100%; height: auto; translate: -50% -50%;
   transform: translateZ(70px); filter: drop-shadow(0 26px 24px rgba(12, 11, 11, .5));
