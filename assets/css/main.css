@@ -428,7 +428,8 @@ a { color: inherit; }
 /* ---------- Ensaladas: una carta por poeta (referencia de Luis: carrusel de perfiles) ---------- */
 /* Estilo póster: papel limpio, poeta ilustrado en sticker rosa, ensalada al centro. */
 .ensaladas {
-  position: relative; overflow: hidden; isolation: isolate; background: var(--ink); color: var(--paper);
+  position: relative; overflow: hidden; isolation: isolate; color: var(--paper);
+  background: var(--ink) url(../img/ensaladas/papel-negro.webp) center / cover; /* papel negro arrugado (ref. de Luis) */
   padding: clamp(48px, 6vw, 88px) 0 clamp(40px, 5vw, 64px);
 }
 
