@@ -532,29 +532,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Cold Wave: portada de pulsos (homenaje a Unknown Pleasures de Joy Division). Cada malteada tiene su "señal":
-  // al señalarla (cursor, foco o toque) las líneas cambian de forma. Se mueve despacio; quieta si piden menos movimiento.
-  const ondas = document.querySelector('[data-ondas]');
+  // Cold Wave: las líneas de pulso (homenaje a Unknown Pleasures) y el escenario. Sin elegir, líneas tenues y escenario
+  // en negro; al elegir una Cold Wave (cursor, foco o toque) las líneas se levantan con su forma y se prende la luz sobre ella.
+  const cold = document.querySelector('[data-cold]');
+  const ondas = cold && cold.querySelector('[data-ondas]');
   if (ondas) {
-    const N = 34, W = 400, X0 = 60, X1 = 340, PASO = 4, NS = 'http://www.w3.org/2000/svg';
+    const N = 22, W = 400, VH = 220, X0 = 60, X1 = 340, PASO = 4, NS = 'http://www.w3.org/2000/svg';
     const lineas = Array.from({ length: N }, () => [0, 1].map((k) => { const p = ondas.appendChild(document.createElementNS(NS, 'path')); p.setAttribute('class', k ? 'raya' : 'tapa'); return p; }));
     const azar = (sem) => () => ((sem = (sem * 16807) % 2147483647) - 1) / 2147483646;
-    const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [r() * 120 - 60, 9 + r() * 16, 8 + r() * 30])); };
+    const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [r() * 120 - 60, 9 + r() * 16, 6 + r() * 22])); };
     const firmas = Array.from({ length: 6 }, (_, k) => firma(k));
-    let actual = firmas[0], destino = firmas[0], mezcla = 1, t = 0;
-    const fotos = ['bauhaus', 'human-tetris', 'joy-division', 'molchat-doma', 'motorama', 'soviet-soviet'];
-    const nombres = ['Bauhaus', 'Human Tetris', 'Joy Division', 'Molchat Doma', 'Motorama', 'Soviet Soviet Soviet'];
-    const foto = document.querySelector('[data-foto]'), etiqueta = document.querySelector('[data-etiqueta]');
-    const mostrarFoto = (k) => {
-      if (!foto) return;
-      if (etiqueta) etiqueta.textContent = nombres[k];
-      const cambio = () => { foto.src = `assets/img/coldwave/${fotos[k]}.webp`; foto.classList.remove('is-cambiando'); };
-      if (reduceMotion) return cambio();
-      foto.classList.add('is-cambiando'); setTimeout(cambio, 200);
-    };
+    let actual = firmas[0], destino = firmas[0], mezcla = 1, t = 0, amp = 0, ampMeta = 0, sel = null, puntero = 'mouse';
     const dibujar = () => {
       lineas.forEach(([tapa, raya], i) => {
-        const y0 = 70 + i * 8.4; let d = `M${X0 - 30} ${y0}`;
+        const y0 = 42 + i * ((VH - 52) / (N - 1)); let d = `M${X0 - 30} ${y0}`;
         for (let x = X0 - 30; x <= X1 + 30; x += PASO) {
           const c = (x - W / 2) / 70; let h = 0;
           if (x > X0 && x < X1) {
@@ -564,25 +555,42 @@ document.addEventListener('DOMContentLoaded', () => {
               const mu = a0 + (a1 - a0) * mezcla, sg = s0 + (s1 - s0) * mezcla, ht = h0 + (h1 - h0) * mezcla;
               h += ht * Math.exp(-(((x - W / 2 - mu) / sg) ** 2));
             }
-            h = h * env + Math.sin(x * .9 + i * 3 + t) * 1.2 * env;
+            h = (h * amp + Math.sin(x * .9 + i * 3 + t) * 1.2) * env;
           }
           d += ` L${x} ${(y0 - h).toFixed(1)}`;
         }
-        raya.setAttribute('d', d); tapa.setAttribute('d', d + ` L${X1 + 30} 400 L${X0 - 30} 400 Z`);
+        raya.setAttribute('d', d); tapa.setAttribute('d', d + ` L${X1 + 30} ${VH} L${X0 - 30} ${VH} Z`);
       });
     };
-    const cambiar = (k) => { actual = actual.map((fila, i) => fila.map((v, j) => v.map((x, n) => x + (destino[i][j][n] - x) * mezcla))); destino = firmas[k]; mezcla = 0; mostrarFoto(k); if (reduceMotion) { mezcla = 1; dibujar(); } };
-    document.querySelectorAll('.cold__lista li').forEach((li) => {
+    const items = [...cold.querySelectorAll('[data-lista] li')];
+    const fotos = [...cold.querySelectorAll('[data-escenario] img')];
+    const elegir = (k) => {
+      if (k === sel) return;
+      if (k !== null) { actual = actual.map((fila, i) => fila.map((v, j) => v.map((x, n) => x + (destino[i][j][n] - x) * mezcla))); destino = firmas[k]; mezcla = 0; }
+      sel = k; ampMeta = k === null ? 0 : 1;
+      cold.classList.toggle('is-on', k !== null);
+      items.forEach((li, i) => li.classList.toggle('is-on', i === k));
+      fotos.forEach((f, i) => f.classList.toggle('is-on', i === k));
+      if (reduceMotion) { mezcla = 1; amp = ampMeta; dibujar(); }
+    };
+    items.forEach((li, k) => {
       li.tabIndex = 0;
-      const on = () => { document.querySelectorAll('.cold__lista li').forEach((o) => o.classList.toggle('is-on', o === li)); cambiar(+li.dataset.onda); };
-      li.addEventListener('pointerenter', on); li.addEventListener('focus', on); li.addEventListener('click', on);
+      li.addEventListener('pointerdown', (e) => { puntero = e.pointerType; });
+      li.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') elegir(k); });
+      li.addEventListener('focus', () => elegir(k));
+      li.addEventListener('click', () => { if (puntero !== 'mouse' && sel === k) { li.blur(); elegir(null); } else elegir(k); });
+      li.addEventListener('keydown', (e) => { if (e.key === 'Escape') { li.blur(); elegir(null); } });
     });
-    document.querySelector('.cold__lista li[data-onda="0"]')?.classList.add('is-on');
+    cold.querySelector('[data-lista]').addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !cold.contains(document.activeElement)) elegir(null); });
+    cold.addEventListener('focusout', (e) => { if (!cold.contains(e.relatedTarget)) elegir(null); });
     dibujar();
     if (!reduceMotion) {
       let visible = false;
       new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(ondas);
-      const bucle = () => { if (visible) { t += .05; if (mezcla < 1) mezcla = Math.min(1, mezcla + .04); dibujar(); } requestAnimationFrame(bucle); };
+      const bucle = () => {
+        if (visible) { t += .05; if (mezcla < 1) mezcla = Math.min(1, mezcla + .04); amp += (ampMeta - amp) * .08; dibujar(); }
+        requestAnimationFrame(bucle);
+      };
       requestAnimationFrame(bucle);
     }
   }
