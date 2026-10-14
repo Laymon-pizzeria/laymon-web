@@ -541,7 +541,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const azar = (sem) => () => ((sem = (sem * 16807) % 2147483647) - 1) / 2147483646;
     const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [r() * 120 - 60, 9 + r() * 16, 8 + r() * 30])); };
     const firmas = Array.from({ length: 6 }, (_, k) => firma(k));
-    let actual = firmas[2], destino = firmas[2], mezcla = 1, t = 0;
+    let actual = firmas[0], destino = firmas[0], mezcla = 1, t = 0;
+    const fotos = ['bauhaus', 'human-tetris', 'joy-division', 'molchat-doma', 'motorama', 'soviet-soviet'];
+    const nombres = ['Bauhaus', 'Human Tetris', 'Joy Division', 'Molchat Doma', 'Motorama', 'Soviet Soviet Soviet'];
+    const foto = document.querySelector('[data-foto]'), etiqueta = document.querySelector('[data-etiqueta]');
+    const mostrarFoto = (k) => {
+      if (!foto) return;
+      if (etiqueta) etiqueta.textContent = nombres[k];
+      const cambio = () => { foto.src = `assets/img/coldwave/${fotos[k]}.webp`; foto.classList.remove('is-cambiando'); };
+      if (reduceMotion) return cambio();
+      foto.classList.add('is-cambiando'); setTimeout(cambio, 200);
+    };
     const dibujar = () => {
       lineas.forEach(([tapa, raya], i) => {
         const y0 = 70 + i * 8.4; let d = `M${X0 - 30} ${y0}`;
@@ -561,12 +571,13 @@ document.addEventListener('DOMContentLoaded', () => {
         raya.setAttribute('d', d); tapa.setAttribute('d', d + ` L${X1 + 30} 400 L${X0 - 30} 400 Z`);
       });
     };
-    const cambiar = (k) => { actual = actual.map((fila, i) => fila.map((v, j) => v.map((x, n) => x + (destino[i][j][n] - x) * mezcla))); destino = firmas[k]; mezcla = 0; if (reduceMotion) { mezcla = 1; dibujar(); } };
+    const cambiar = (k) => { actual = actual.map((fila, i) => fila.map((v, j) => v.map((x, n) => x + (destino[i][j][n] - x) * mezcla))); destino = firmas[k]; mezcla = 0; mostrarFoto(k); if (reduceMotion) { mezcla = 1; dibujar(); } };
     document.querySelectorAll('.cold__lista li').forEach((li) => {
       li.tabIndex = 0;
       const on = () => { document.querySelectorAll('.cold__lista li').forEach((o) => o.classList.toggle('is-on', o === li)); cambiar(+li.dataset.onda); };
       li.addEventListener('pointerenter', on); li.addEventListener('focus', on); li.addEventListener('click', on);
     });
+    document.querySelector('.cold__lista li[data-onda="0"]')?.classList.add('is-on');
     dibujar();
     if (!reduceMotion) {
       let visible = false;
