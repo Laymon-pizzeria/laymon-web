@@ -532,32 +532,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Cold Wave: las líneas de pulso (homenaje a Unknown Pleasures) y el escenario. Sin elegir, líneas tenues y escenario
-  // en negro; al elegir una Cold Wave (cursor, foco o toque) las líneas se levantan con su forma y se prende la luz sobre ella.
+  // Cold Wave: muchas líneas de pulso (homenaje a Unknown Pleasures) con seis franjas rojas encima (referencia: póster de Interpol).
+  // Sin elegir, líneas tenues y vasos en blanco y negro; al elegir (lista o franja) las líneas se levantan bajo esa franja y su vaso toma color.
   const cold = document.querySelector('[data-cold]');
   const ondas = cold && cold.querySelector('[data-ondas="atras"]');
   if (ondas) {
     // La base del vaso cae en la línea BASE: las anteriores van detrás de él y las siguientes enfrente
-    const N = 22, W = 400, VH = 500, Y0 = 270, Y1 = 488, BASE = 10, X0 = 40, X1 = 360, PASO = 4, NS = 'http://www.w3.org/2000/svg';
+    // Las franjas ocupan y 36–410 del viewBox: las líneas desde BASE pasan enfrente y les tapan el pie
+    const N = 60, W = 400, VH = 500, Y0 = 24, Y1 = 492, BASE = 48, X0 = 0, X1 = 400, PASO = 3, NS = 'http://www.w3.org/2000/svg';
     const frente = cold.querySelector('[data-ondas="frente"]');
     const lineas = Array.from({ length: N }, (_, i) => [0, 1].map((k) => { const p = (i < BASE ? ondas : frente).appendChild(document.createElementNS(NS, 'path')); p.setAttribute('class', k ? 'raya' : 'tapa'); return p; }));
     const azar = (sem) => () => ((sem = (sem * 16807) % 2147483647) - 1) / 2147483646;
-    const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [(r() < .5 ? -1 : 1) * (30 + r() * 80), 9 + r() * 16, 6 + r() * 26])); };
+    // Cada Cold Wave levanta las líneas bajo su franja (centro de la franja k: 16 + 63k + 26.5)
+    const firma = (k) => { const r = azar(9301 + k * 7919), c = 42.5 + 63 * k - W / 2; return Array.from({ length: N }, () => [0, 1, 2].map(() => [c + (r() * 2 - 1) * 20, 5 + r() * 9, 4 + r() * 18])); };
     const firmas = Array.from({ length: 6 }, (_, k) => firma(k));
     let actual = firmas[0], destino = firmas[0], mezcla = 1, t = 0, amp = 0, ampMeta = 0, sel = null, puntero = 'mouse';
     const dibujar = () => {
       lineas.forEach(([tapa, raya], i) => {
         const y0 = Y0 + i * ((Y1 - Y0) / (N - 1)); let d = `M${X0 - 30} ${y0}`;
         for (let x = X0 - 30; x <= X1 + 30; x += PASO) {
-          const c = (x - W / 2) / 120; let h = 0;
+          let h = 0;
           if (x > X0 && x < X1) {
-            const env = Math.exp(-c * c * 1.6);
+            const env = Math.min(1, (x - X0) / 24, (X1 - x) / 24);
             for (let j = 0; j < 3; j++) {
               const [a0, s0, h0] = actual[i][j], [a1, s1, h1] = destino[i][j];
               const mu = a0 + (a1 - a0) * mezcla, sg = s0 + (s1 - s0) * mezcla, ht = h0 + (h1 - h0) * mezcla;
               h += ht * Math.exp(-(((x - W / 2 - mu) / sg) ** 2));
             }
-            h = (h * amp + Math.sin(x * .9 + i * 3 + t) * 1.2) * env;
+            h = (h * amp + Math.sin(x * .9 + i * 3 + t) * .7) * env;
           }
           d += ` L${x} ${(y0 - h).toFixed(1)}`;
         }
@@ -565,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
     const items = [...cold.querySelectorAll('[data-lista] li')];
-    const fotos = [...cold.querySelectorAll('[data-escenario] img')];
+    const fotos = [...cold.querySelectorAll('[data-escenario] [data-k]')];
     const elegir = (k) => {
       if (k === sel) return;
       if (k !== null) { actual = actual.map((fila, i) => fila.map((v, j) => v.map((x, n) => x + (destino[i][j][n] - x) * mezcla))); destino = firmas[k]; mezcla = 0; }
@@ -583,6 +585,12 @@ document.addEventListener('DOMContentLoaded', () => {
       li.addEventListener('click', () => { if (puntero !== 'mouse' && sel === k) { li.blur(); elegir(null); } else elegir(k); });
       li.addEventListener('keydown', (e) => { if (e.key === 'Escape') { li.blur(); elegir(null); } });
     });
+    // Las franjas también eligen: cursor encima, o toque (un segundo toque la apaga)
+    fotos.forEach((f, k) => {
+      f.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') elegir(k); });
+      f.addEventListener('click', (e) => { if (e.pointerType !== 'mouse' && sel === k) elegir(null); else elegir(k); });
+    });
+    cold.querySelector('[data-escenario]').addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !cold.contains(document.activeElement)) elegir(null); });
     cold.querySelector('[data-lista]').addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !cold.contains(document.activeElement)) elegir(null); });
     cold.addEventListener('focusout', (e) => { if (!cold.contains(e.relatedTarget)) elegir(null); });
     dibujar();

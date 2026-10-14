@@ -203,22 +203,20 @@
     </section>
 
     <!-- COLD WAVE: nuestra bebida helada de la casa, cada una con nombre de banda de post-punk / cold wave.
-         Izquierda: título, qué es y la lista. Derecha: las líneas de pulso (homenaje a Unknown Pleasures) y un escenario
-         a oscuras; al elegir una Cold Wave las líneas se mueven y se prende la luz sobre ella. Sin elegir, todo en negro. -->
+         Izquierda: líneas de pulso (homenaje a Unknown Pleasures) con seis franjas rojas tipo póster de Interpol, un vaso en cada una,
+         en blanco y negro hasta elegirlo. Derecha: título, qué es y la lista. -->
     <section class="cold" id="cold-wave" aria-labelledby="cold-title" data-cold>
       <div class="cold__in">
         <div class="cold__texto">
           <p class="cold__kicker">Lado B</p>
           <h2 id="cold-title" class="cold__titulo">Cold Wave</h2>
-          <p class="cold__intro">Cold Wave es nuestra bebida de la casa: helada, espesa y cremosa, coronada con crema batida y bautizada como las bandas que suenan en la cocina. Elige una y prende el escenario.</p>
+          <p class="cold__intro">Cold Wave es nuestra bebida de la casa: helada, espesa y cremosa, coronada con crema batida y bautizada como las bandas que suenan en la cocina. Elige una y súbele el volumen.</p>
         </div>
-        <!-- La mesa: las líneas son el piso del escenario; el vaso se para entre ellas (las de atrás quedan detrás, las de enfrente lo tapan) -->
-        <div class="cold__mesa">
-          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" data-ondas="atras"><defs><linearGradient id="cold-luz" gradientUnits="userSpaceOnUse" x1="40" y1="0" x2="360" y2="0"><stop offset="0" stop-color="#FFFDFA" stop-opacity=".45"/><stop offset=".38" stop-color="#FFFDFA"/><stop offset=".62" stop-color="#EA1D3B"/><stop offset="1" stop-color="#EA1D3B" stop-opacity=".5"/></linearGradient></defs></svg>
-          <div class="cold__focos" aria-hidden="true"><span class="cold__rig"></span><span class="cold__foco" style="--x: 8%; --a: 142.0deg; --c: 234, 29, 59; --o: .26; --g: -4deg; --d: 3.4s; --p: 0.0s"></span><span class="cold__foco" style="--x: 22%; --a: 152.5deg; --c: 255, 241, 220; --o: .13; --g: 3deg; --d: 4.1s; --p: 0.1s"></span><span class="cold__foco" style="--x: 36%; --a: 165.4deg; --c: 234, 29, 59; --o: .26; --g: -5deg; --d: 3.7s; --p: 0.2s"></span><span class="cold__foco" style="--x: 50%; --a: 180.0deg; --c: 255, 241, 220; --o: .13; --g: 2deg; --d: 4.8s; --p: 0.3s"></span><span class="cold__foco" style="--x: 64%; --a: 194.6deg; --c: 234, 29, 59; --o: .26; --g: -5deg; --d: 3.9s; --p: 0.2s"></span><span class="cold__foco" style="--x: 78%; --a: 207.5deg; --c: 255, 241, 220; --o: .13; --g: 3deg; --d: 4.3s; --p: 0.1s"></span><span class="cold__foco" style="--x: 92%; --a: 218.0deg; --c: 234, 29, 59; --o: .26; --g: -4deg; --d: 3.5s; --p: 0.0s"></span></div>
-          <div class="cold__escenario" data-escenario><img src="assets/img/coldwave/bauhaus.webp" style="--cx: 49.7%" data-k="0" alt="Cold Wave Bauhaus" loading="lazy"><img src="assets/img/coldwave/human-tetris.webp" style="--cx: 49.7%" data-k="1" alt="Cold Wave Human Tetris" loading="lazy"><img src="assets/img/coldwave/joy-division.webp" style="--cx: 61.8%" data-k="2" alt="Cold Wave Joy Division" loading="lazy"><img src="assets/img/coldwave/molchat-doma.webp" style="--cx: 49.8%" data-k="3" alt="Cold Wave Molchat Doma" loading="lazy"><img src="assets/img/coldwave/motorama.webp" style="--cx: 49.8%" data-k="4" alt="Cold Wave Motorama" loading="lazy"><img src="assets/img/coldwave/soviet-soviet.webp" style="--cx: 52.4%" data-k="5" alt="Cold Wave Soviet Soviet Soviet" loading="lazy"></div>
-          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" data-ondas="frente"></svg>
-          <div class="cold__charco cold__charco--blanco" aria-hidden="true"></div><div class="cold__charco cold__charco--rojo" aria-hidden="true"></div>
+        <!-- La mesa: muchas líneas tipo Unknown Pleasures; encima, seis franjas rojas (referencia: póster de Interpol) con una Cold Wave cada una, en blanco y negro hasta elegirla. Las líneas de abajo pasan enfrente de las franjas -->
+        <div class="cold__mesa" aria-hidden="true">
+          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" data-ondas="atras"></svg>
+          <div class="cold__franjas" data-escenario><div class="cold__franja" data-k="0" style="--i: 0; --arriba: 16%; --abajo: 0%"><img src="assets/img/coldwave/bauhaus.webp" style="--cx: 49.7%" alt="" loading="lazy"></div><div class="cold__franja" data-k="1" style="--i: 1; --arriba: 0%; --abajo: 18%"><img src="assets/img/coldwave/human-tetris.webp" style="--cx: 49.7%" alt="" loading="lazy"></div><div class="cold__franja" data-k="2" style="--i: 2; --arriba: 9%; --abajo: 0%"><img src="assets/img/coldwave/joy-division.webp" style="--cx: 61.8%" alt="" loading="lazy"></div><div class="cold__franja" data-k="3" style="--i: 3; --arriba: 0%; --abajo: 10%"><img src="assets/img/coldwave/molchat-doma.webp" style="--cx: 49.8%" alt="" loading="lazy"></div><div class="cold__franja" data-k="4" style="--i: 4; --arriba: 22%; --abajo: 0%"><img src="assets/img/coldwave/motorama.webp" style="--cx: 49.8%" alt="" loading="lazy"></div><div class="cold__franja" data-k="5" style="--i: 5; --arriba: 5%; --abajo: 0%"><img src="assets/img/coldwave/soviet-soviet.webp" style="--cx: 52.4%" alt="" loading="lazy"></div></div>
+          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" data-ondas="frente"></svg>
         </div>
         <div class="cold__lado">
           <ol class="cold__lista" data-lista>
