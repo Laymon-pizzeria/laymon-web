@@ -532,75 +532,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Cold Wave: muchas líneas de pulso (homenaje a Unknown Pleasures) con seis franjas rojas encima (referencia: póster de Interpol).
-  // Sin elegir, líneas tenues y vasos en blanco y negro; al elegir (lista o franja) las líneas se levantan bajo esa franja y su vaso toma color.
+  // Cold Wave: líneas de pulso (homenaje a Unknown Pleasures) + sintonizador FM. Cada estación es una Cold Wave: al acercarse
+  // la aguja, las líneas toman su forma; sintonizada, su nombre sale en rojo entre las líneas y medio vaso entra con glitch
+  // por el borde derecho. Entre estaciones hay estática.
   const cold = document.querySelector('[data-cold]');
   const ondas = cold && cold.querySelector('[data-ondas="atras"]');
   if (ondas) {
-    // La base del vaso cae en la línea BASE: las anteriores van detrás de él y las siguientes enfrente
-    // Las franjas ocupan y 36–410 del viewBox: las líneas desde BASE pasan enfrente y les tapan el pie
-    const N = 60, W = 400, VH = 500, Y0 = 24, Y1 = 492, BASE = 48, X0 = 0, X1 = 400, PASO = 3, NS = 'http://www.w3.org/2000/svg';
+    // El nombre queda a media altura: las líneas desde BASE pasan enfrente y lo tapan cuando suben
+    const N = 48, W = 800, VH = 400, Y0 = 18, Y1 = 392, BASE = 27, PASO = 4, NS = 'http://www.w3.org/2000/svg';
     const frente = cold.querySelector('[data-ondas="frente"]');
     const lineas = Array.from({ length: N }, (_, i) => [0, 1].map((k) => { const p = (i < BASE ? ondas : frente).appendChild(document.createElementNS(NS, 'path')); p.setAttribute('class', k ? 'raya' : 'tapa'); return p; }));
+    const estaciones = [...cold.querySelectorAll('[data-estaciones] li')].map((li) => ({ f: +li.dataset.f, banda: li.dataset.banda, sabor: li.dataset.sabor }));
     const azar = (sem) => () => ((sem = (sem * 16807) % 2147483647) - 1) / 2147483646;
-    // Cada Cold Wave levanta las líneas bajo su franja (centro de la franja k: 16 + 63k + 26.5)
-    const firma = (k) => { const r = azar(9301 + k * 7919), c = 42.5 + 63 * k - W / 2; return Array.from({ length: N }, () => [0, 1, 2].map(() => [c + (r() * 2 - 1) * 20, 5 + r() * 9, 4 + r() * 18])); };
-    const firmas = Array.from({ length: 6 }, (_, k) => firma(k));
-    let actual = firmas[0], destino = firmas[0], mezcla = 1, t = 0, amp = 0, ampMeta = 0, sel = null, puntero = 'mouse';
+    const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [r() * 360 - 180, 12 + r() * 26, 6 + r() * 26])); };
+    const firmas = estaciones.map((_, k) => firma(k));
+    const dial = cold.querySelector('[data-dial]'), frecuencia = cold.querySelector('[data-frecuencia]');
+    const nombre = cold.querySelector('[data-nombre]'), ingredientes = cold.querySelector('[data-ingredientes]'), anuncio = cold.querySelector('[data-anuncio]');
+    const fotos = [...cold.querySelectorAll('[data-vaso] img')];
+    const TOL = 0.9; // MHz alrededor de cada estación donde ya se “oye” algo
+    let cerca = 0, senal = 0, sel = null, t = 0;
     const dibujar = () => {
+      const forma = firmas[cerca], estatica = (1 - senal) * 1.8;
       lineas.forEach(([tapa, raya], i) => {
-        const y0 = Y0 + i * ((Y1 - Y0) / (N - 1)); let d = `M${X0 - 30} ${y0}`;
-        for (let x = X0 - 30; x <= X1 + 30; x += PASO) {
+        const y0 = Y0 + i * ((Y1 - Y0) / (N - 1)); let d = `M0 ${y0}`;
+        for (let x = 0; x <= W; x += PASO) {
+          const env = Math.min(1, x / 40, (W - x) / 40), cx = (x - W / 2) / 260, foco = Math.exp(-cx * cx);
           let h = 0;
-          if (x > X0 && x < X1) {
-            const env = Math.min(1, (x - X0) / 24, (X1 - x) / 24);
-            for (let j = 0; j < 3; j++) {
-              const [a0, s0, h0] = actual[i][j], [a1, s1, h1] = destino[i][j];
-              const mu = a0 + (a1 - a0) * mezcla, sg = s0 + (s1 - s0) * mezcla, ht = h0 + (h1 - h0) * mezcla;
-              h += ht * Math.exp(-(((x - W / 2 - mu) / sg) ** 2));
-            }
-            h = (h * amp + Math.sin(x * .9 + i * 3 + t) * .7) * env;
-          }
-          d += ` L${x} ${(y0 - h).toFixed(1)}`;
+          for (const [mu, sg, ht] of forma[i]) h += ht * Math.exp(-(((x - W / 2 - mu) / sg) ** 2));
+          h = h * senal * foco + Math.sin(x * .7 + i * 3 + t) * .6 + (reduceMotion ? 0 : (Math.random() * 2 - 1) * estatica);
+          d += ` L${x} ${(y0 - h * env).toFixed(1)}`;
         }
-        raya.setAttribute('d', d); tapa.setAttribute('d', d + ` L${X1 + 30} ${VH} L${X0 - 30} ${VH} Z`);
+        raya.setAttribute('d', d); tapa.setAttribute('d', d + ` L${W} ${VH} L0 ${VH} Z`);
       });
     };
-    const items = [...cold.querySelectorAll('[data-lista] li')];
-    const fotos = [...cold.querySelectorAll('[data-escenario] [data-k]')];
-    const elegir = (k) => {
-      if (k === sel) return;
-      if (k !== null) { actual = actual.map((fila, i) => fila.map((v, j) => v.map((x, n) => x + (destino[i][j][n] - x) * mezcla))); destino = firmas[k]; mezcla = 0; }
-      sel = k; ampMeta = k === null ? 0 : 1;
-      cold.classList.toggle('is-on', k !== null);
-      items.forEach((li, i) => li.classList.toggle('is-on', i === k));
-      fotos.forEach((f, i) => f.classList.toggle('is-on', i === k));
-      if (reduceMotion) { mezcla = 1; amp = ampMeta; dibujar(); }
+    const sintonizar = () => {
+      const f = +dial.value;
+      frecuencia.textContent = `FM ${f.toFixed(1)}`;
+      cerca = estaciones.reduce((m, e, k) => (Math.abs(e.f - f) < Math.abs(estaciones[m].f - f) ? k : m), 0);
+      const df = Math.abs(estaciones[cerca].f - f);
+      senal = Math.max(0, 1 - df / TOL); senal = senal * senal * (3 - 2 * senal);
+      const k = df <= 0.35 ? cerca : null;
+      if (k !== sel) {
+        sel = k;
+        cold.classList.toggle('is-on', k !== null);
+        fotos.forEach((img, i) => img.classList.toggle('is-on', i === k));
+        if (k !== null) {
+          const e = estaciones[k];
+          nombre.textContent = e.banda; ingredientes.textContent = e.sabor;
+          dial.setAttribute('aria-valuetext', `FM ${f.toFixed(1)}: ${e.banda}`);
+          anuncio.textContent = `${e.banda}. ${e.sabor}`;
+          if (!reduceMotion) [nombre, fotos[k]].forEach((el) => { el.classList.remove('is-glitch'); void el.offsetWidth; el.classList.add('is-glitch'); });
+        } else {
+          dial.setAttribute('aria-valuetext', `FM ${f.toFixed(1)}: estática`);
+        }
+      }
+      if (reduceMotion) dibujar();
     };
-    items.forEach((li, k) => {
-      li.tabIndex = 0;
-      li.addEventListener('pointerdown', (e) => { puntero = e.pointerType; });
-      li.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') elegir(k); });
-      li.addEventListener('focus', () => elegir(k));
-      li.addEventListener('click', () => { if (puntero !== 'mouse' && sel === k) { li.blur(); elegir(null); } else elegir(k); });
-      li.addEventListener('keydown', (e) => { if (e.key === 'Escape') { li.blur(); elegir(null); } });
-    });
-    // Las franjas también eligen: cursor encima, o toque (un segundo toque la apaga)
-    fotos.forEach((f, k) => {
-      f.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') elegir(k); });
-      f.addEventListener('click', (e) => { if (e.pointerType !== 'mouse' && sel === k) elegir(null); else elegir(k); });
-    });
-    cold.querySelector('[data-escenario]').addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !cold.contains(document.activeElement)) elegir(null); });
-    cold.querySelector('[data-lista]').addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse' && !cold.contains(document.activeElement)) elegir(null); });
-    cold.addEventListener('focusout', (e) => { if (!cold.contains(e.relatedTarget)) elegir(null); });
-    dibujar();
+    dial.addEventListener('input', sintonizar);
+    // Al soltar cerca de una estación, la aguja se acomoda en ella
+    dial.addEventListener('change', () => { const e = estaciones[cerca]; if (Math.abs(e.f - dial.value) < TOL) { dial.value = e.f; sintonizar(); } });
+    sintonizar(); dibujar();
     if (!reduceMotion) {
       let visible = false;
       new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(cold.querySelector('.cold__mesa'));
-      const bucle = () => {
-        if (visible) { t += .05; if (mezcla < 1) mezcla = Math.min(1, mezcla + .04); amp += (ampMeta - amp) * .08; dibujar(); }
-        requestAnimationFrame(bucle);
-      };
+      const bucle = () => { if (visible) { t += .05; dibujar(); } requestAnimationFrame(bucle); };
       requestAnimationFrame(bucle);
     }
   }

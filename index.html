@@ -203,8 +203,9 @@
     </section>
 
     <!-- COLD WAVE: nuestra bebida helada de la casa, cada una con nombre de banda de post-punk / cold wave.
-         Izquierda: líneas de pulso (homenaje a Unknown Pleasures) con seis franjas rojas tipo póster de Interpol, al elegir una,
-         su vaso se asoma a la mitad desde el borde derecho. Derecha: título, qué es y la lista. -->
+         Arriba al centro el título y qué es. Debajo las líneas de pulso (homenaje a Unknown Pleasures) y un sintonizador de radio:
+         cada estación es una Cold Wave. Al sintonizarla, su nombre sale en rojo entre las líneas y la mitad del vaso se asoma
+         por el borde derecho de la pantalla con glitch, con sus ingredientes debajo. Entre estaciones, estática. -->
     <section class="cold" id="cold-wave" aria-labelledby="cold-title" data-cold>
       <div class="cold__in">
         <div class="cold__texto">
@@ -212,23 +213,28 @@
           <h2 id="cold-title" class="cold__titulo">Cold Wave</h2>
           <p class="cold__intro">Cold Wave es nuestra bebida de la casa: helada, espesa y cremosa, coronada con crema batida y bautizada como las bandas que suenan en la cocina. Elige una y prende el escenario.</p>
         </div>
-        <!-- La mesa: muchas líneas tipo Unknown Pleasures; encima, seis franjas rojas (referencia: póster de Interpol) con una Cold Wave cada una, en blanco y negro hasta elegirla. Las líneas de abajo pasan enfrente de las franjas -->
-        <div class="cold__mesa" aria-hidden="true">
-          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" data-ondas="atras"></svg>
-          <div class="cold__franjas" data-escenario><div class="cold__franja" data-k="0" style="--i: 0; --arriba: 16%; --abajo: 0%"><img src="assets/img/coldwave/bauhaus.webp" style="--cx: 49.7%" alt="" loading="lazy"></div><div class="cold__franja" data-k="1" style="--i: 1; --arriba: 0%; --abajo: 18%"><img src="assets/img/coldwave/human-tetris.webp" style="--cx: 49.7%" alt="" loading="lazy"></div><div class="cold__franja" data-k="2" style="--i: 2; --arriba: 9%; --abajo: 0%"><img src="assets/img/coldwave/joy-division.webp" style="--cx: 61.8%" alt="" loading="lazy"></div><div class="cold__franja" data-k="3" style="--i: 3; --arriba: 0%; --abajo: 10%"><img src="assets/img/coldwave/molchat-doma.webp" style="--cx: 49.8%" alt="" loading="lazy"></div><div class="cold__franja" data-k="4" style="--i: 4; --arriba: 22%; --abajo: 0%"><img src="assets/img/coldwave/motorama.webp" style="--cx: 49.8%" alt="" loading="lazy"></div><div class="cold__franja" data-k="5" style="--i: 5; --arriba: 5%; --abajo: 0%"><img src="assets/img/coldwave/soviet-soviet.webp" style="--cx: 52.4%" alt="" loading="lazy"></div></div>
-          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" data-ondas="frente"></svg>
+        <div class="cold__mesa">
+          <svg class="cold__ondas" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true" data-ondas="atras"></svg>
+          <p class="cold__nombre" aria-hidden="true" data-nombre></p>
+          <svg class="cold__ondas" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true" data-ondas="frente"></svg>
+          <div class="cold__vaso" data-vaso><img src="assets/img/coldwave/bauhaus.webp" style="--cx: 49.7%" alt="" loading="lazy"><img src="assets/img/coldwave/human-tetris.webp" style="--cx: 49.7%" alt="" loading="lazy"><img src="assets/img/coldwave/joy-division.webp" style="--cx: 61.8%" alt="" loading="lazy"><img src="assets/img/coldwave/molchat-doma.webp" style="--cx: 49.8%" alt="" loading="lazy"><img src="assets/img/coldwave/motorama.webp" style="--cx: 49.8%" alt="" loading="lazy"><img src="assets/img/coldwave/soviet-soviet.webp" style="--cx: 52.4%" alt="" loading="lazy"><p class="cold__ingredientes" aria-hidden="true" data-ingredientes></p></div>
         </div>
-        <div class="cold__lado">
-          <ol class="cold__lista" data-lista>
-          <li data-k="0"><span class="cold__n">01</span><span class="cold__banda">Bauhaus</span><span class="cold__sabor">Chocolate. Intensa, oscura y cremosa.</span></li>
-          <li data-k="1"><span class="cold__n">02</span><span class="cold__banda">Human Tetris</span><span class="cold__sabor">Galleta de chocolate. Cremosa y crujiente.</span></li>
-          <li data-k="2"><span class="cold__n">03</span><span class="cold__banda">Joy Division</span><span class="cold__sabor">Fresa. Dulce, fresca y cremosa.</span></li>
-          <li data-k="3"><span class="cold__n">04</span><span class="cold__banda">Molchat Doma</span><span class="cold__sabor">Café y vainilla. Intensa, aromática y suave.</span></li>
-          <li data-k="4"><span class="cold__n">05</span><span class="cold__banda">Motorama</span><span class="cold__sabor">Caramelo salado y pretzel. Dulce, salada y muy cremosa.</span></li>
-          <li data-k="5"><span class="cold__n">06</span><span class="cold__banda">Soviet Soviet Soviet</span><span class="cold__sabor">Vainilla. Suave, dulce y reconfortante.</span></li>
-          </ol>
-          <a class="cold__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide tu Cold Wave <span aria-hidden="true">→</span></a>
+        <div class="cold__radio">
+          <div class="cold__radio-top"><label for="cold-dial">Mueve el dial y encuentra tu Cold Wave</label><output for="cold-dial" class="cold__frecuencia" data-frecuencia>FM 90.8</output></div>
+          <input class="cold__dial" type="range" id="cold-dial" min="88" max="108" step="0.1" value="90.8" data-dial>
+          <div class="cold__escala" aria-hidden="true"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div>
+          <!-- Las estaciones (también es la lista para lectores de pantalla) -->
+          <ul class="sr-only" data-estaciones>
+            <li data-f="89.6" data-banda="Bauhaus" data-sabor="Chocolate. Intensa, oscura y cremosa.">Bauhaus: Chocolate. Intensa, oscura y cremosa.</li>
+            <li data-f="92.4" data-banda="Human Tetris" data-sabor="Galleta de chocolate. Cremosa y crujiente.">Human Tetris: Galleta de chocolate. Cremosa y crujiente.</li>
+            <li data-f="95.8" data-banda="Joy Division" data-sabor="Fresa. Dulce, fresca y cremosa.">Joy Division: Fresa. Dulce, fresca y cremosa.</li>
+            <li data-f="99.1" data-banda="Molchat Doma" data-sabor="Café y vainilla. Intensa, aromática y suave.">Molchat Doma: Café y vainilla. Intensa, aromática y suave.</li>
+            <li data-f="102.7" data-banda="Motorama" data-sabor="Caramelo salado y pretzel. Dulce, salada y muy cremosa.">Motorama: Caramelo salado y pretzel. Dulce, salada y muy cremosa.</li>
+            <li data-f="106.3" data-banda="Soviet Soviet Soviet" data-sabor="Vainilla. Suave, dulce y reconfortante.">Soviet Soviet Soviet: Vainilla. Suave, dulce y reconfortante.</li>
+          </ul>
+          <p class="sr-only" aria-live="polite" data-anuncio></p>
         </div>
+        <a class="cold__pedir" href="https://laymonpizzeria.getjusto.com/pedir">Pide tu Cold Wave <span aria-hidden="true">→</span></a>
       </div>
     </section>
 

@@ -425,57 +425,88 @@ a { color: inherit; }
 .playlist { padding: 0 0 20px; }
 .playlist iframe { display: block; width: 100%; height: 152px; border: 0; border-radius: 12px; }
 
-/* ---------- Cold Wave: a la izquierda las líneas de pulso (homenaje a Unknown Pleasures) con seis franjas rojas encima
-   (referencia: póster de Interpol); a la derecha título, descripción y lista ---------- */
-.cold { background: var(--ink); color: var(--paper); }
-.cold__in {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "mesa texto" "mesa lado";
-  column-gap: clamp(32px, 5vw, 80px); row-gap: 28px; max-width: 1240px; margin: 0 auto; padding: clamp(56px, 7vw, 104px) clamp(20px, 4vw, 48px);
-}
-.cold__texto { grid-area: texto; align-self: end; }
-.cold__mesa { grid-area: mesa; align-self: center; position: relative; aspect-ratio: 4 / 5; }
-.cold__lado { grid-area: lado; }
+/* ---------- Cold Wave: título al centro, líneas de pulso (homenaje a Unknown Pleasures) y un sintonizador de radio.
+   Cada estación es una Cold Wave: su nombre sale en rojo entre las líneas y medio vaso se asoma por el borde derecho ---------- */
+.cold { background: var(--ink); color: var(--paper); overflow-x: clip; }
+.cold__in { display: flex; flex-direction: column; align-items: center; max-width: 860px; margin: 0 auto; padding: clamp(56px, 7vw, 104px) clamp(20px, 4vw, 48px); text-align: center; }
 .cold__kicker { margin: 0 0 4px; font-size: 16px; letter-spacing: .08em; text-transform: uppercase; color: var(--red); }
 .cold__titulo { margin: 0; color: var(--red); font: 400 clamp(64px, 9vw, 132px)/.85 var(--font-display); }
-.cold__intro { margin: 16px 0 0; font-size: 18px; line-height: 1.5; max-width: 32em; }
-/* Líneas: sin elegir quedan casi planas y tenues; al elegir se levantan bajo la franja elegida */
-.cold__ondas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .45; transition: opacity .5s; }
+.cold__intro { margin: 16px auto 0; font-size: 18px; line-height: 1.5; max-width: 34em; }
+/* Las líneas: las de arriba van detrás del nombre y las de abajo enfrente, así el nombre sale entre ellas */
+.cold__mesa { position: relative; width: 100%; aspect-ratio: 2 / 1; margin-top: clamp(28px, 4vw, 48px); }
+.cold__ondas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .5; transition: opacity .4s; }
 .cold.is-on .cold__ondas { opacity: 1; }
 .cold__ondas .tapa { fill: var(--ink); }
 .cold__ondas .raya { fill: none; stroke: var(--paper); stroke-width: 1.1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-/* Franjas (en unidades del viewBox 400x500: x = 16 + 63·i, ancho 53, de y 36 a y 410).
-   Rojo con bloques blancos arriba/abajo de distinto alto, como el póster de Interpol */
-.cold__franjas { position: absolute; inset: 0; }
-.cold__franja {
-  position: absolute; top: 7.2%; height: 74.8%; left: calc((16% + var(--i) * 63%) / 4); width: 13.25%; overflow: hidden; cursor: pointer;
-  background: linear-gradient(to bottom, var(--paper) 0 var(--arriba), var(--red) var(--arriba) calc(100% - var(--abajo)), var(--paper) calc(100% - var(--abajo)));
+.cold__nombre {
+  position: absolute; left: 0; right: 0; top: 50%; margin: 0; translate: 0 -62%; white-space: nowrap;
+  color: var(--red); font: 400 clamp(30px, 8vw, 92px)/1 var(--font-display); opacity: 0; transition: opacity .2s;
 }
-/* La Cold Wave vive escondida tras el borde derecho de su franja; al elegirla se asoma la mitad (el centro del vaso queda en el borde) */
-.cold__franja img {
-  position: absolute; left: 100%; bottom: 9%; height: 80%; width: auto; max-width: none; translate: calc(var(--cx, 50%) * -1) 0;
-  transform: translateX(60%); transition: transform .6s cubic-bezier(.2, .8, .2, 1);
+.cold.is-on .cold__nombre { opacity: 1; }
+/* Medio vaso asomado por el borde derecho de la pantalla (left: centro de la mesa + media pantalla = borde) */
+.cold__vaso { position: absolute; top: -30%; bottom: -8%; left: calc(50% + 50vw); }
+.cold__vaso img {
+  position: absolute; left: 0; top: 0; height: 90%; width: auto; max-width: none; translate: calc(var(--cx, 50%) * -1) 0;
+  opacity: 0; transition: opacity .15s;
 }
-.cold__franja.is-on img { transform: none; }
-/* Lista */
-.cold__lista { list-style: none; margin: 0 0 28px; padding: 0; border-top: 1px solid rgba(255, 253, 250, .25); }
-.cold__lista li {
-  display: grid; grid-template-columns: 34px 1fr; align-items: baseline; column-gap: 14px; row-gap: 2px; padding: 12px 6px;
-  border-bottom: 1px solid rgba(255, 253, 250, .25); cursor: pointer; transition: color .2s, background .2s;
+.cold__vaso img.is-on { opacity: 1; }
+.cold__ingredientes { position: absolute; right: clamp(16px, 4vw, 48px); bottom: 0; width: max-content; max-width: min(240px, 40vw); margin: 0; text-align: right; font-size: 16px; line-height: 1.35; opacity: 0; transition: opacity .2s; }
+.cold.is-on .cold__ingredientes { opacity: 1; }
+/* Glitch al sintonizar: el vaso y el nombre llegan en rebanadas corridas con fantasmas rojo y papel */
+.cold__vaso img.is-glitch { animation: cold-glitch .6s steps(1) both; }
+.cold__nombre.is-glitch { animation: cold-glitch-txt .5s steps(1) both; }
+@keyframes cold-glitch {
+  0% { transform: translateX(18px); clip-path: inset(12% 0 62% 0); filter: drop-shadow(-6px 0 #EA1D3B) drop-shadow(6px 0 #FFFDFA); }
+  10% { transform: translateX(-12px); clip-path: inset(48% 0 22% 0); }
+  20% { transform: translateX(8px); clip-path: inset(0 0 78% 0); }
+  30% { transform: translateX(-5px); clip-path: inset(30% 0 38% 0); }
+  42% { transform: none; clip-path: inset(0); filter: drop-shadow(-3px 0 #EA1D3B) drop-shadow(3px 0 #FFFDFA); }
+  56% { transform: translateX(4px); clip-path: inset(64% 0 6% 0); }
+  70%, 100% { transform: none; clip-path: inset(0); filter: none; }
 }
-.cold__n { font-size: 14px; opacity: .5; }
-.cold__banda { font: 400 clamp(26px, 2.4vw, 34px)/1 var(--font-display); color: var(--paper); opacity: .6; transition: color .2s, opacity .2s; }
-.cold__sabor { grid-column: 2; font-size: 15px; line-height: 1.35; opacity: .6; }
-.cold__lista li.is-on .cold__banda { color: var(--red); opacity: 1; }
-.cold__lista li.is-on .cold__sabor { opacity: 1; }
-.cold__lista li:focus-visible { outline: 2px solid var(--paper); outline-offset: -2px; }
-.cold__pedir { display: inline-block; background: var(--red); color: #fff; text-decoration: none; font-size: 18px; border-radius: 999px; padding: 13px 26px; }
+@keyframes cold-glitch-txt {
+  0% { transform: translateX(-10px); clip-path: inset(0 0 55% 0); text-shadow: 5px 0 var(--paper); }
+  15% { transform: translateX(8px); clip-path: inset(45% 0 0 0); text-shadow: -5px 0 var(--paper); }
+  30% { transform: translateX(-4px); clip-path: inset(20% 0 30% 0); }
+  50% { transform: none; clip-path: inset(0); text-shadow: 2px 0 var(--paper); }
+  70%, 100% { transform: none; clip-path: inset(0); text-shadow: none; }
+}
+/* Sintonizador: escala de radio FM con una aguja roja */
+.cold__radio { width: 100%; max-width: 720px; margin-top: clamp(24px, 3vw, 36px); }
+.cold__radio-top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 8px; font-size: 15px; }
+.cold__radio-top label { opacity: .75; text-align: left; }
+.cold__frecuencia { color: var(--red); font-size: 18px; letter-spacing: .06em; white-space: nowrap; }
+.cold__dial {
+  -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 52px; margin: 0; cursor: ew-resize; border-radius: 4px;
+  background:
+    linear-gradient(rgba(255, 253, 250, .55), rgba(255, 253, 250, .55)) left bottom / 100% 1px no-repeat,
+    repeating-linear-gradient(to right, rgba(255, 253, 250, .7) 0 1px, transparent 1px 20%) left bottom / calc(100% + 1px) 26px no-repeat,
+    repeating-linear-gradient(to right, rgba(255, 253, 250, .45) 0 1px, transparent 1px 5%) left bottom / calc(100% + 1px) 16px no-repeat,
+    repeating-linear-gradient(to right, rgba(255, 253, 250, .25) 0 1px, transparent 1px 1%) left bottom / calc(100% + 1px) 9px no-repeat;
+}
+.cold__dial::-webkit-slider-runnable-track { height: 52px; background: transparent; }
+.cold__dial::-moz-range-track { height: 52px; background: transparent; }
+.cold__dial::-webkit-slider-thumb { -webkit-appearance: none; width: 4px; height: 52px; border: 0; border-radius: 2px; background: var(--red); box-shadow: 0 0 14px rgba(234, 29, 59, .8); }
+.cold__dial::-moz-range-thumb { width: 4px; height: 52px; border: 0; border-radius: 2px; background: var(--red); box-shadow: 0 0 14px rgba(234, 29, 59, .8); }
+.cold__dial:focus-visible { outline: 2px solid var(--paper); outline-offset: 6px; }
+.cold__escala { display: flex; justify-content: space-between; margin-top: 6px; font-size: 13px; opacity: .6; }
+.cold__pedir { margin-top: clamp(28px, 4vw, 40px); display: inline-block; background: var(--red); color: #fff; text-decoration: none; font-size: 18px; border-radius: 999px; padding: 13px 26px; }
 @media (hover: hover) { .cold__pedir:hover { background: var(--paper); color: var(--ink); } }
 .cold__pedir:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
-  .cold__franja img, .cold__ondas { transition: none; }
+  .cold__vaso img.is-glitch, .cold__nombre.is-glitch { animation: none; }
+  .cold__ondas, .cold__vaso img, .cold__nombre, .cold__ingredientes { transition: none; }
+}
+/* Sin espacio a la derecha: el vaso se asoma sobre el borde de las líneas y los ingredientes bajan, centrados, debajo de ellas */
+@media (max-width: 1199px) {
+  .cold__mesa { margin-bottom: 2.6em; }
+  .cold__vaso { position: static; }
+  .cold__vaso img { left: calc(50% + 50vw); top: 4%; height: 92%; }
+  .cold__ingredientes { left: 0; right: 0; bottom: -2.4em; width: auto; max-width: none; text-align: center; }
 }
 @media (max-width: 820px) {
-  .cold__in { grid-template-columns: 1fr; grid-template-areas: "texto" "mesa" "lado"; row-gap: 20px; }
+  .cold__mesa { aspect-ratio: 4 / 3; margin-bottom: 3.6em; }
+  .cold__ingredientes { bottom: -3.4em; }
 }
 
 /* ---------- Ensaladas: una carta por poeta (referencia de Luis: carrusel de perfiles) ---------- */
