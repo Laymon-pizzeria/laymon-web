@@ -450,29 +450,35 @@ a { color: inherit; }
 /* Focos (referencias de Luis: focos visibles, haz en el humo y charco de luz en el piso).
    Blanco arriba a la izquierda, rojo arriba a la derecha; los dos apuntan al vaso. */
 .cold__focos, .cold__foco, .cold__charco { position: absolute; inset: 0; pointer-events: none; }
-.cold__foco { opacity: 0; transition: opacity .3s; -webkit-mask-image: linear-gradient(to bottom, #000 10%, rgba(0, 0, 0, .35) 78%, transparent 92%); mask-image: linear-gradient(to bottom, #000 10%, rgba(0, 0, 0, .35) 78%, transparent 92%); }
-.cold__foco--blanco { transform-origin: 12% 5%; background:
-  radial-gradient(circle at 12% 5%, #fff 0, rgba(255, 244, 228, .95) 5px, rgba(255, 244, 228, .25) 12px, transparent 22px),
-  conic-gradient(from 141deg at 12% 5%, transparent 0deg, rgba(255, 241, 220, .16) 5deg, rgba(255, 241, 220, .26) 13deg, rgba(255, 241, 220, .16) 21deg, transparent 27deg); }
-.cold__foco--rojo { transform-origin: 88% 5%; mix-blend-mode: screen; background:
-  radial-gradient(circle at 88% 5%, #fff 0, rgba(255, 120, 135, .95) 5px, rgba(234, 29, 59, .35) 12px, transparent 22px),
-  conic-gradient(from 192deg at 88% 5%, transparent 0deg, rgba(234, 29, 59, .3) 5deg, rgba(234, 29, 59, .48) 13deg, rgba(234, 29, 59, .3) 21deg, transparent 27deg); }
-/* Charcos de luz sobre la mesa: van encima de las líneas, las encienden y siguen a su foco */
+/* Parrilla de luces: una barra con siete focos colgados (rojos y blancos). Apagada se ve tenue; encendida, cada foco tira su haz al vaso */
+.cold__focos { background:
+    radial-gradient(circle at 8% 5%, #3a3634 0 6px, #1b1918 7px 9px, transparent 10px),
+    radial-gradient(circle at 22% 5%, #3a3634 0 6px, #1b1918 7px 9px, transparent 10px),
+    radial-gradient(circle at 36% 5%, #3a3634 0 6px, #1b1918 7px 9px, transparent 10px),
+    radial-gradient(circle at 50% 5%, #3a3634 0 6px, #1b1918 7px 9px, transparent 10px),
+    radial-gradient(circle at 64% 5%, #3a3634 0 6px, #1b1918 7px 9px, transparent 10px),
+    radial-gradient(circle at 78% 5%, #3a3634 0 6px, #1b1918 7px 9px, transparent 10px),
+    radial-gradient(circle at 92% 5%, #3a3634 0 6px, #1b1918 7px 9px, transparent 10px); }
+.cold__rig { position: absolute; left: 3%; right: 3%; top: calc(5% - 16px); height: 7px; border-block: 1px solid rgba(255, 253, 250, .16); background: repeating-linear-gradient(60deg, transparent 0 6px, rgba(255, 253, 250, .12) 6px 7px); }
+.cold__foco {
+  opacity: 0; transition: opacity .3s; mix-blend-mode: screen; transform-origin: var(--x) 5%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 8%, rgba(0, 0, 0, .4) 75%, transparent 92%); mask-image: linear-gradient(to bottom, #000 8%, rgba(0, 0, 0, .4) 75%, transparent 92%);
+  background:
+    radial-gradient(circle at var(--x) 5%, #fff 0, rgba(var(--c), .95) 4px, rgba(var(--c), .3) 10px, transparent 18px),
+    conic-gradient(from calc(var(--a) - 9deg) at var(--x) 5%, transparent 0deg, rgba(var(--c), var(--o)) 5deg, rgba(var(--c), calc(var(--o) * 1.6)) 9deg, rgba(var(--c), var(--o)) 13deg, transparent 18deg);
+}
+/* Charcos de luz sobre la mesa: blanco al centro, rojo abierto a los lados; van encima de las líneas y las encienden */
 .cold__charco { opacity: 0; transition: opacity .3s; mix-blend-mode: screen; }
-.cold__charco--blanco { background: radial-gradient(ellipse 30% 5.5% at 44% 76%, rgba(255, 241, 220, .38), transparent 72%); }
-.cold__charco--rojo { background: radial-gradient(ellipse 30% 5.5% at 56% 77%, rgba(234, 29, 59, .55), transparent 72%); }
+.cold__charco--blanco { background: radial-gradient(ellipse 26% 5.5% at 50% 76%, rgba(255, 241, 220, .4), transparent 72%); }
+.cold__charco--rojo { background: radial-gradient(ellipse 46% 8% at 50% 77%, rgba(234, 29, 59, .5), transparent 72%); }
 .cold.is-on .cold__foco, .cold.is-on .cold__charco { opacity: 1; }
-/* Prenden con parpadeo y luego barren despacio, cada uno a su ritmo: el haz gira sobre el foco y el charco se desliza con él */
-.cold.is-on .cold__foco--blanco { animation: cold-prende .6s steps(1), cold-barre-b 4.6s ease-in-out infinite alternate; }
-.cold.is-on .cold__charco--blanco { animation: cold-prende .6s steps(1), cold-charco-b 4.6s ease-in-out infinite alternate; }
-.cold.is-on .cold__foco--rojo { animation: cold-prende .7s .18s steps(1) backwards, cold-barre-r 3.7s ease-in-out infinite alternate; }
-.cold.is-on .cold__charco--rojo { animation: cold-prende .7s .18s steps(1) backwards, cold-charco-r 3.7s ease-in-out infinite alternate; }
-@keyframes cold-barre-b { from { rotate: 5deg; } to { rotate: -5deg; } }
-@keyframes cold-charco-b { from { translate: -7% 0; } to { translate: 7% 0; } }
-@keyframes cold-barre-r { from { rotate: -5deg; } to { rotate: 5deg; } }
-@keyframes cold-charco-r { from { translate: 7% 0; } to { translate: -7% 0; } }
+/* Prenden en cadena desde las orillas hacia el centro y luego barren, cada foco a su ritmo */
+.cold.is-on .cold__foco { animation: cold-prende .6s var(--p) steps(1) backwards, cold-barre var(--d) var(--p) ease-in-out infinite alternate; }
+.cold.is-on .cold__charco { animation: cold-prende .6s .3s steps(1) backwards, cold-charco 4.4s ease-in-out infinite alternate; }
+@keyframes cold-barre { from { rotate: var(--g); } to { rotate: calc(var(--g) * -1); } }
+@keyframes cold-charco { from { translate: -4% 0; } to { translate: 4% 0; } }
 .cold__escenario img {
-  position: absolute; left: 50%; bottom: 25%; height: 69%; width: auto; translate: calc(var(--cx, 50%) * -1) 0; opacity: 0; filter: brightness(0);
+  position: absolute; left: 50%; bottom: 25%; height: 63%; width: auto; translate: calc(var(--cx, 50%) * -1) 0; opacity: 0; filter: brightness(0);
   transition: opacity .35s, filter .45s;
 }
 .cold__escenario img.is-on { opacity: 1; filter: brightness(1) drop-shadow(0 14px 18px rgba(0, 0, 0, .7)); }
