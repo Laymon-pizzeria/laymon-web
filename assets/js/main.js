@@ -532,6 +532,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Cold Wave: portada de pulsos (homenaje a Unknown Pleasures de Joy Division). Cada malteada tiene su "señal":
+  // al señalarla (cursor, foco o toque) las líneas cambian de forma. Se mueve despacio; quieta si piden menos movimiento.
+  const ondas = document.querySelector('[data-ondas]');
+  if (ondas) {
+    const N = 34, W = 400, X0 = 60, X1 = 340, PASO = 4, NS = 'http://www.w3.org/2000/svg';
+    const lineas = Array.from({ length: N }, () => [0, 1].map((k) => { const p = ondas.appendChild(document.createElementNS(NS, 'path')); p.setAttribute('class', k ? 'raya' : 'tapa'); return p; }));
+    const azar = (sem) => () => ((sem = (sem * 16807) % 2147483647) - 1) / 2147483646;
+    const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [r() * 120 - 60, 9 + r() * 16, 8 + r() * 30])); };
+    const firmas = Array.from({ length: 6 }, (_, k) => firma(k));
+    let actual = firmas[2], destino = firmas[2], mezcla = 1, t = 0;
+    const dibujar = () => {
+      lineas.forEach(([tapa, raya], i) => {
+        const y0 = 70 + i * 8.4; let d = `M${X0 - 30} ${y0}`;
+        for (let x = X0 - 30; x <= X1 + 30; x += PASO) {
+          const c = (x - W / 2) / 70; let h = 0;
+          if (x > X0 && x < X1) {
+            const env = Math.exp(-c * c * 1.6);
+            for (let j = 0; j < 3; j++) {
+              const [a0, s0, h0] = actual[i][j], [a1, s1, h1] = destino[i][j];
+              const mu = a0 + (a1 - a0) * mezcla, sg = s0 + (s1 - s0) * mezcla, ht = h0 + (h1 - h0) * mezcla;
+              h += ht * Math.exp(-(((x - W / 2 - mu) / sg) ** 2));
+            }
+            h = h * env + Math.sin(x * .9 + i * 3 + t) * 1.2 * env;
+          }
+          d += ` L${x} ${(y0 - h).toFixed(1)}`;
+        }
+        raya.setAttribute('d', d); tapa.setAttribute('d', d + ` L${X1 + 30} 400 L${X0 - 30} 400 Z`);
+      });
+    };
+    const cambiar = (k) => { actual = actual.map((fila, i) => fila.map((v, j) => v.map((x, n) => x + (destino[i][j][n] - x) * mezcla))); destino = firmas[k]; mezcla = 0; if (reduceMotion) { mezcla = 1; dibujar(); } };
+    document.querySelectorAll('.cold__lista li').forEach((li) => {
+      li.tabIndex = 0;
+      const on = () => { document.querySelectorAll('.cold__lista li').forEach((o) => o.classList.toggle('is-on', o === li)); cambiar(+li.dataset.onda); };
+      li.addEventListener('pointerenter', on); li.addEventListener('focus', on); li.addEventListener('click', on);
+    });
+    dibujar();
+    if (!reduceMotion) {
+      let visible = false;
+      new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(ondas);
+      const bucle = () => { if (visible) { t += .05; if (mezcla < 1) mezcla = Math.min(1, mezcla + .04); dibujar(); } requestAnimationFrame(bucle); };
+      requestAnimationFrame(bucle);
+    }
+  }
+
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
 });
