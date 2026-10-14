@@ -212,8 +212,12 @@
           <h2 id="cold-title" class="cold__titulo">Cold Wave</h2>
           <p class="cold__intro">Cold Wave es nuestra bebida de la casa: helada, espesa y cremosa, coronada con crema batida y bautizada como las bandas que suenan en la cocina. Elige una y prende el escenario.</p>
         </div>
-        <div class="cold__ondas-caja" aria-hidden="true"><svg class="cold__ondas" viewBox="0 0 400 220" preserveAspectRatio="none" data-ondas></svg></div>
-        <div class="cold__escenario" data-escenario><img src="assets/img/coldwave/bauhaus.webp" data-k="0" alt="Cold Wave Bauhaus" loading="lazy"><img src="assets/img/coldwave/human-tetris.webp" data-k="1" alt="Cold Wave Human Tetris" loading="lazy"><img src="assets/img/coldwave/joy-division.webp" data-k="2" alt="Cold Wave Joy Division" loading="lazy"><img src="assets/img/coldwave/molchat-doma.webp" data-k="3" alt="Cold Wave Molchat Doma" loading="lazy"><img src="assets/img/coldwave/motorama.webp" data-k="4" alt="Cold Wave Motorama" loading="lazy"><img src="assets/img/coldwave/soviet-soviet.webp" data-k="5" alt="Cold Wave Soviet Soviet Soviet" loading="lazy"></div>
+        <!-- La mesa: las líneas son el piso del escenario; el vaso se para entre ellas (las de atrás quedan detrás, las de enfrente lo tapan) -->
+        <div class="cold__mesa">
+          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" data-ondas="atras"><defs><linearGradient id="cold-luz" gradientUnits="userSpaceOnUse" x1="40" y1="0" x2="360" y2="0"><stop offset="0" stop-color="#FFFDFA" stop-opacity=".45"/><stop offset=".38" stop-color="#FFFDFA"/><stop offset=".62" stop-color="#EA1D3B"/><stop offset="1" stop-color="#EA1D3B" stop-opacity=".5"/></linearGradient></defs></svg>
+          <div class="cold__escenario" data-escenario><img src="assets/img/coldwave/bauhaus.webp" data-k="0" alt="Cold Wave Bauhaus" loading="lazy"><img src="assets/img/coldwave/human-tetris.webp" data-k="1" alt="Cold Wave Human Tetris" loading="lazy"><img src="assets/img/coldwave/joy-division.webp" data-k="2" alt="Cold Wave Joy Division" loading="lazy"><img src="assets/img/coldwave/molchat-doma.webp" data-k="3" alt="Cold Wave Molchat Doma" loading="lazy"><img src="assets/img/coldwave/motorama.webp" data-k="4" alt="Cold Wave Motorama" loading="lazy"><img src="assets/img/coldwave/soviet-soviet.webp" data-k="5" alt="Cold Wave Soviet Soviet Soviet" loading="lazy"></div>
+          <svg class="cold__ondas" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true" data-ondas="frente"></svg>
+        </div>
         <div class="cold__lado">
           <ol class="cold__lista" data-lista>
           <li data-k="0"><span class="cold__n">01</span><span class="cold__banda">Bauhaus</span><span class="cold__sabor">Chocolate. Intensa, oscura y cremosa.</span></li>

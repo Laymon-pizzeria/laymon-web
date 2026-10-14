@@ -535,19 +535,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cold Wave: las líneas de pulso (homenaje a Unknown Pleasures) y el escenario. Sin elegir, líneas tenues y escenario
   // en negro; al elegir una Cold Wave (cursor, foco o toque) las líneas se levantan con su forma y se prende la luz sobre ella.
   const cold = document.querySelector('[data-cold]');
-  const ondas = cold && cold.querySelector('[data-ondas]');
+  const ondas = cold && cold.querySelector('[data-ondas="atras"]');
   if (ondas) {
-    const N = 22, W = 400, VH = 220, X0 = 60, X1 = 340, PASO = 4, NS = 'http://www.w3.org/2000/svg';
-    const lineas = Array.from({ length: N }, () => [0, 1].map((k) => { const p = ondas.appendChild(document.createElementNS(NS, 'path')); p.setAttribute('class', k ? 'raya' : 'tapa'); return p; }));
+    // La base del vaso cae en la línea BASE: las anteriores van detrás de él y las siguientes enfrente
+    const N = 22, W = 400, VH = 500, Y0 = 270, Y1 = 488, BASE = 10, X0 = 40, X1 = 360, PASO = 4, NS = 'http://www.w3.org/2000/svg';
+    const frente = cold.querySelector('[data-ondas="frente"]');
+    const lineas = Array.from({ length: N }, (_, i) => [0, 1].map((k) => { const p = (i < BASE ? ondas : frente).appendChild(document.createElementNS(NS, 'path')); p.setAttribute('class', k ? 'raya' : 'tapa'); return p; }));
     const azar = (sem) => () => ((sem = (sem * 16807) % 2147483647) - 1) / 2147483646;
-    const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [r() * 120 - 60, 9 + r() * 16, 6 + r() * 22])); };
+    const firma = (k) => { const r = azar(9301 + k * 7919); return Array.from({ length: N }, () => [0, 1, 2].map(() => [(r() < .5 ? -1 : 1) * (30 + r() * 80), 9 + r() * 16, 6 + r() * 26])); };
     const firmas = Array.from({ length: 6 }, (_, k) => firma(k));
     let actual = firmas[0], destino = firmas[0], mezcla = 1, t = 0, amp = 0, ampMeta = 0, sel = null, puntero = 'mouse';
     const dibujar = () => {
       lineas.forEach(([tapa, raya], i) => {
-        const y0 = 42 + i * ((VH - 52) / (N - 1)); let d = `M${X0 - 30} ${y0}`;
+        const y0 = Y0 + i * ((Y1 - Y0) / (N - 1)); let d = `M${X0 - 30} ${y0}`;
         for (let x = X0 - 30; x <= X1 + 30; x += PASO) {
-          const c = (x - W / 2) / 70; let h = 0;
+          const c = (x - W / 2) / 120; let h = 0;
           if (x > X0 && x < X1) {
             const env = Math.exp(-c * c * 1.6);
             for (let j = 0; j < 3; j++) {
@@ -586,7 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dibujar();
     if (!reduceMotion) {
       let visible = false;
-      new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(ondas);
+      new IntersectionObserver((e) => { visible = e[0].isIntersecting; }).observe(cold.querySelector('.cold__mesa'));
       const bucle = () => {
         if (visible) { t += .05; if (mezcla < 1) mezcla = Math.min(1, mezcla + .04); amp += (ampMeta - amp) * .08; dibujar(); }
         requestAnimationFrame(bucle);
