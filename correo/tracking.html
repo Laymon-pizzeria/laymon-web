@@ -4,11 +4,11 @@
   Antes de enviar, reemplaza los 2 marcadores ⚠:
     1) {{UNSUBSCRIBE_URL}} → variable de baja de Justo/Unlayer
     2) Saludo: si Justo tiene variable de nombre, cambia "Hola," por "Hola, {{nombre}}," con su sintaxis.
-  Imágenes: viven en laymon-pizzeria.github.io/laymon-web/correo/ (o súbelas en un bloque Image y cambia los src).
+  Imágenes: alojadas en GitHub (raw, fijadas a un commit, funcionan ya). Brick solo vive dentro de la imagen del título;
+  el texto usa Chelsea Market (Google Fonts) y cae a Arial donde el cliente no carga fuentes (Gmail, Outlook).
 -->
 <style>
-  @font-face { font-family: "Brick-Laymon"; src: url("https://laymon-pizzeria.github.io/laymon-web/assets/fonts/brick-laymon.woff2") format("woff2"); }
-  @font-face { font-family: "Chelsea Market"; src: url("https://laymon-pizzeria.github.io/laymon-web/assets/fonts/chelsea-market.woff2") format("woff2"); }
+  @import url("https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap");
   .lm-btn:hover { background: #0C0B0B !important; }
   @media (max-width: 620px) {
     .lm-pad { padding-left: 22px !important; padding-right: 22px !important; }
@@ -31,7 +31,7 @@
         <tr>
           <td style="background:#0C0B0B;padding:0;line-height:0;">
             <a href="https://laymonpizzeria.getjusto.com" target="_blank" style="text-decoration:none;">
-              <img src="https://laymon-pizzeria.github.io/laymon-web/correo/tracking-header.png" width="600" alt="Laymon Pizzería Artesanal" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#0C0B0B;color:#FFFDFA;font-family:Arial,sans-serif;font-size:20px;line-height:110px;text-align:center;">
+              <img src="https://raw.githubusercontent.com/Laymon-pizzeria/laymon-web/04f28b9d7a7cace65710ac6ea80b8255180dd07c/correo/tracking-header.png" width="600" alt="Laymon Pizzería Artesanal" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#0C0B0B;color:#FFFDFA;font-family:Arial,sans-serif;font-size:20px;line-height:110px;text-align:center;">
             </a>
           </td>
         </tr>
@@ -39,7 +39,7 @@
         <!-- Título en Brick (imagen) + fantasma en camino -->
         <tr>
           <td style="padding:0;line-height:0;">
-            <img src="https://laymon-pizzeria.github.io/laymon-web/correo/tracking-hero.png" width="600" alt="Ya puedes ver dónde va tu pizza: del horno a tu puerta" style="display:block;width:100%;max-width:600px;height:auto;border:0;color:#EA1D3B;font-family:'Arial Black',Arial,sans-serif;font-size:28px;line-height:1.2;">
+            <img src="https://raw.githubusercontent.com/Laymon-pizzeria/laymon-web/04f28b9d7a7cace65710ac6ea80b8255180dd07c/correo/tracking-hero.png" width="600" alt="Ya puedes ver dónde va tu pizza: del horno a tu puerta" style="display:block;width:100%;max-width:600px;height:auto;border:0;color:#EA1D3B;font-family:'Arial Black',Arial,sans-serif;font-size:28px;line-height:1.2;">
           </td>
         </tr>
 
@@ -67,7 +67,7 @@
             <table role="presentation" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td align="center" bgcolor="#EA1D3B" style="border-radius:999px;">
-                  <a class="lm-btn" href="https://laymonpizzeria.getjusto.com/pedir" target="_blank" style="display:inline-block;padding:15px 34px;border-radius:999px;background:#EA1D3B;color:#FFFFFF;font-family:'Brick-Laymon','Arial Black',Arial,sans-serif;font-size:22px;line-height:1.1;text-decoration:none;letter-spacing:.5px;">
+                  <a class="lm-btn" href="https://laymonpizzeria.getjusto.com/pedir" target="_blank" style="display:inline-block;padding:15px 26px;border-radius:999px;background:#EA1D3B;white-space:nowrap;color:#FFFFFF;font-family:'Chelsea Market',Arial,sans-serif;font-size:18px;line-height:1.2;text-decoration:none;letter-spacing:.6px;">
                     PIDE Y SÍGUELO EN VIVO &rarr;
                   </a>
                 </td>
@@ -115,7 +115,7 @@
         <!-- Pie negro: horarios + baja -->
         <tr>
           <td class="lm-pad" style="background:#0C0B0B;padding:26px 40px 28px 40px;">
-            <p style="margin:0 0 10px 0;font-family:'Brick-Laymon','Arial Black',Arial,sans-serif;font-size:24px;line-height:1.2;color:#EA1D3B;letter-spacing:.5px;">
+            <p style="margin:0 0 10px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:19px;line-height:1.2;color:#EA1D3B;letter-spacing:1px;">
               TE ESPERAMOS
             </p>
             <p style="margin:0 0 4px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:14px;line-height:1.6;color:#FFFDFA;">
