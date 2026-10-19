@@ -1,0 +1,142 @@
+<!--
+  Correo "Ya puedes ver dónde va tu pizza" · Laymon
+  Pegar TODO este archivo en un bloque HTML de Unlayer (Justo).
+  Antes de enviar, reemplaza los 2 marcadores ⚠:
+    1) {{UNSUBSCRIBE_URL}} → variable de baja de Justo/Unlayer
+    2) Saludo: si Justo tiene variable de nombre, cambia "Hola," por "Hola, {{nombre}}," con su sintaxis.
+  Imágenes: viven en laymon-pizzeria.github.io/laymon-web/correo/ (o súbelas en un bloque Image y cambia los src).
+-->
+<style>
+  @font-face { font-family: "Brick-Laymon"; src: url("https://laymon-pizzeria.github.io/laymon-web/assets/fonts/brick-laymon.woff2") format("woff2"); }
+  @font-face { font-family: "Chelsea Market"; src: url("https://laymon-pizzeria.github.io/laymon-web/assets/fonts/chelsea-market.woff2") format("woff2"); }
+  .lm-btn:hover { background: #0C0B0B !important; }
+  @media (max-width: 620px) {
+    .lm-pad { padding-left: 22px !important; padding-right: 22px !important; }
+    .lm-txt { font-size: 16px !important; }
+  }
+</style>
+
+<!-- Preheader: lo que se lee junto al asunto en la bandeja -->
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:#FFFDFA;opacity:0;">
+  Del horno a tu puerta, en vivo. Y un par de cosas que no te habíamos contado.&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;&#8199;&#847;
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F3EFE8;">
+  <tr>
+    <td align="center" style="padding:24px 12px;">
+
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#FFFDFA;border:1px solid #EAE5DD;border-radius:14px;overflow:hidden;">
+
+        <!-- Header negro con logo -->
+        <tr>
+          <td style="background:#0C0B0B;padding:0;line-height:0;">
+            <a href="https://laymonpizzeria.getjusto.com" target="_blank" style="text-decoration:none;">
+              <img src="https://laymon-pizzeria.github.io/laymon-web/correo/tracking-header.png" width="600" alt="Laymon Pizzería Artesanal" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:#0C0B0B;color:#FFFDFA;font-family:Arial,sans-serif;font-size:20px;line-height:110px;text-align:center;">
+            </a>
+          </td>
+        </tr>
+
+        <!-- Título en Brick (imagen) + fantasma en camino -->
+        <tr>
+          <td style="padding:0;line-height:0;">
+            <img src="https://laymon-pizzeria.github.io/laymon-web/correo/tracking-hero.png" width="600" alt="Ya puedes ver dónde va tu pizza: del horno a tu puerta" style="display:block;width:100%;max-width:600px;height:auto;border:0;color:#EA1D3B;font-family:'Arial Black',Arial,sans-serif;font-size:28px;line-height:1.2;">
+          </td>
+        </tr>
+
+        <!-- Cuerpo -->
+        <tr>
+          <td class="lm-pad" style="padding:8px 40px 0 40px;">
+            <p class="lm-txt" style="margin:0 0 16px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:17px;line-height:1.55;color:#0C0B0B;">
+              <!-- ⚠ Saludo: cambia por la variable de nombre de Justo si existe -->
+              Hola, una de las cosas que más nos pedían era saber exactamente dónde va tu pedido mientras esperas.
+            </p>
+            <p class="lm-txt" style="margin:0 0 16px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:17px;line-height:1.55;color:#0C0B0B;">
+              Listo. Desde hoy puedes seguir tu pedido en tiempo real, del horno a tu puerta. Se acabó el “¿ya mero llega?”.
+            </p>
+            <p class="lm-txt" style="margin:0 0 28px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:17px;line-height:1.55;color:#0C0B0B;">
+              De paso, un secreto a medias: hace rato personalizamos nuestra
+              <a href="https://laymonpizzeria.getjusto.com" target="_blank" style="color:#EA1D3B;text-decoration:underline;">tienda en Justo</a>
+              y nunca lo dijimos como se debía. Ya está ahí, lista, con la cara real de Laymon. Solo nos faltaba contártelo.
+            </p>
+          </td>
+        </tr>
+
+        <!-- CTA: botón a prueba de clientes de correo (texto, no imagen) -->
+        <tr>
+          <td align="center" class="lm-pad" style="padding:0 40px 10px 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td align="center" bgcolor="#EA1D3B" style="border-radius:999px;">
+                  <a class="lm-btn" href="https://laymonpizzeria.getjusto.com/pedir" target="_blank" style="display:inline-block;padding:15px 34px;border-radius:999px;background:#EA1D3B;color:#FFFFFF;font-family:'Brick-Laymon','Arial Black',Arial,sans-serif;font-size:22px;line-height:1.1;text-decoration:none;letter-spacing:.5px;">
+                    PIDE Y SÍGUELO EN VIVO &rarr;
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" class="lm-pad" style="padding:0 40px 32px 40px;">
+            <p style="margin:0;font-family:'Chelsea Market',Arial,sans-serif;font-size:13px;line-height:1.5;color:#5F5752;">
+              Con cada pedido te llega tu link para seguirlo.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Nota aparte: duplicados (separada a propósito, acento rosa mínimo) -->
+        <tr>
+          <td class="lm-pad" style="padding:0 40px 32px 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #EAE5DD;border-radius:14px;background:#FFFFFF;">
+              <tr>
+                <td width="4" style="background:#E24586;border-radius:14px 0 0 14px;font-size:0;line-height:0;">&nbsp;</td>
+                <td style="padding:18px 20px;">
+                  <p style="margin:0 0 6px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:13px;line-height:1.3;color:#E24586;letter-spacing:.6px;text-transform:uppercase;">
+                    Una nota aparte
+                  </p>
+                  <p style="margin:0;font-family:'Chelsea Market',Arial,sans-serif;font-size:15px;line-height:1.55;color:#0C0B0B;">
+                    De las que se dicen de frente: estamos limpiando nuestra base de clientes. Si notamos que tienes cuentas repetidas, te vamos a escribir para unirlas. Nadie se queda sin sus puntos por un tema de sistema.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Cierre -->
+        <tr>
+          <td class="lm-pad" style="padding:0 40px 32px 40px;">
+            <p class="lm-txt" style="margin:0;font-family:'Chelsea Market',Arial,sans-serif;font-size:17px;line-height:1.55;color:#0C0B0B;">
+              Gracias por seguir aquí.<br>
+              <span style="color:#EA1D3B;">— Equipo Laymon 🤘</span>
+            </p>
+          </td>
+        </tr>
+
+        <!-- Pie negro: horarios + baja -->
+        <tr>
+          <td class="lm-pad" style="background:#0C0B0B;padding:26px 40px 28px 40px;">
+            <p style="margin:0 0 10px 0;font-family:'Brick-Laymon','Arial Black',Arial,sans-serif;font-size:24px;line-height:1.2;color:#EA1D3B;letter-spacing:.5px;">
+              TE ESPERAMOS
+            </p>
+            <p style="margin:0 0 4px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:14px;line-height:1.6;color:#FFFDFA;">
+              Miércoles a viernes · 3 a 10 pm<br>
+              Sábado · 2 a 10 pm<br>
+              Domingo · 2 a 9 pm
+            </p>
+            <p style="margin:0 0 20px 0;font-family:'Chelsea Market',Arial,sans-serif;font-size:14px;line-height:1.6;color:#9C928B;">
+              Lunes y martes cerramos para afilar cuchillos.
+            </p>
+            <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;line-height:1.6;color:#9C928B;">
+              Laymon Pizzería Artesanal · Coacalco, Edo. Méx.<br>
+              Recibes este correo porque tienes cuenta en nuestra tienda.
+              <!-- ⚠ Reemplaza {{UNSUBSCRIBE_URL}} por la variable de baja de Justo -->
+              <a href="{{UNSUBSCRIBE_URL}}" target="_blank" style="color:#FFFDFA;text-decoration:underline;">Darme de baja</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
