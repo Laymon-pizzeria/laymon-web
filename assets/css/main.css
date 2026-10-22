@@ -150,14 +150,15 @@ a { color: inherit; }
 }
 .hero__pizza {
   position: absolute; top: -9%; left: 34%;
-  height: 118%; aspect-ratio: 1404 / 1100;
+  /* En ventanas bajas y anchas la pizza crece con el ancho para llegar siempre al borde derecho */
+  height: max(118%, 54vw); aspect-ratio: 1404 / 1100;
   animation: pizza-entra 1.3s cubic-bezier(.2, .8, .2, 1) var(--intro-wait) both;
 }
 .hero__pizza-img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
 /* Tablet: más pizza, anclada abajo y fundida hacia arriba como en el celular */
 @media (min-width: 821px) and (max-width: 1100px) {
   .hero__pizza {
-    top: auto; bottom: 0; left: 14%; height: 78%;
+    top: auto; bottom: 0; left: 14%; height: max(78%, 70vw);
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 24%);
     mask-image: linear-gradient(to bottom, transparent, #000 24%);
   }
@@ -173,7 +174,7 @@ a { color: inherit; }
   translate: -50% -50%;
   background: radial-gradient(closest-side, rgba(12, 11, 11, .97), rgba(12, 11, 11, .9) 50%, rgba(12, 11, 11, .55) 75%, rgba(12, 11, 11, 0));
 }
-.hero__side { --pass-w: clamp(220px, 18vw, 276px); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
+.hero__side { --pass-w: clamp(min(220px, 30vh), min(18vw, 34vh), 276px); display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: relative; z-index: 2; }
 /* Pase de backstage: foto del gafete (cordón rojo, mosquetón metálico, tarjeta) cortada por el borde de arriba.
    El contenido va encima de la tarjeta, que ocupa del 36.8 % al final de la foto. Baja y se mece con el viento al cargar */
 .hero__tag {
@@ -342,6 +343,12 @@ a { color: inherit; }
 .visit__texto p { margin: 16px 0 0; color: var(--label); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.55; max-width: 46ch; }
 .visit__reserva { display: inline-block; margin-top: 22px; color: var(--ink); font-size: 18px; text-decoration-color: var(--red); text-underline-offset: 5px; }
 .visit__reserva:hover { color: var(--red); }
+.horario { display: grid; gap: 0; margin: 24px 0 0; max-width: 26em; border-top: 1px solid #EAE5DD; }
+.horario div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid #EAE5DD; }
+.horario dt, .horario dd { margin: 0; }
+.horario dd { color: var(--label); }
+.horario .es-hoy dt::after { content: "Hoy"; margin-left: 10px; padding: 2px 9px; border-radius: 999px; background: var(--red); color: #fff; font-size: 12px; vertical-align: 2px; }
+.horario .es-hoy dd { color: var(--ink); }
 
 /* Mapa con la ruta a Laymon */
 .ruta { grid-area: ruta; }
@@ -451,6 +458,7 @@ a { color: inherit; }
   opacity: 0; transition: opacity .15s;
 }
 .cold__vaso img.is-on { opacity: 1; }
+.cold__vaso img.cold__otra { left: -100vw; }
 .cold__ingredientes { position: absolute; right: clamp(16px, 4vw, 48px); bottom: 0; width: max-content; max-width: min(240px, 40vw); margin: 0; text-align: right; font-size: 16px; line-height: 1.35; opacity: 0; transition: opacity .2s; }
 .cold.is-on .cold__ingredientes { opacity: 1; }
 /* Glitch al sintonizar: el vaso y el nombre llegan en rebanadas corridas con fantasmas rojo y papel */
@@ -490,12 +498,24 @@ a { color: inherit; }
 .cold__dial::-webkit-slider-thumb { -webkit-appearance: none; width: 4px; height: 52px; border: 0; border-radius: 2px; background: var(--red); box-shadow: 0 0 14px rgba(234, 29, 59, .8); }
 .cold__dial::-moz-range-thumb { width: 4px; height: 52px; border: 0; border-radius: 2px; background: var(--red); box-shadow: 0 0 14px rgba(234, 29, 59, .8); }
 .cold__dial:focus-visible { outline: 2px solid var(--paper); outline-offset: 6px; }
+.cold__radio { position: relative; }
+/* Pista “Desliza”: sigue a la aguja hasta que la persona mueve el dial */
+.cold__pista {
+  position: absolute; top: calc(var(--pista-top, 32px) + 6px); left: calc(var(--pos, .14) * (100% - 4px) + 16px);
+  padding: 4px 12px; border-radius: 999px; background: var(--red); color: #fff; font-size: 14px; line-height: 1.2; white-space: nowrap;
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+.cold__radio.pista-izq .cold__pista { left: auto; right: calc((1 - var(--pos, .14)) * (100% - 4px) + 16px); }
+.cold__pista span { display: inline-block; animation: cold-pista 1s ease-in-out infinite; }
+.cold__pista span:last-child { animation-direction: reverse; }
+.cold__radio.con-pista .cold__pista { opacity: 1; }
+@keyframes cold-pista { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-4px); } }
 .cold__escala { display: flex; justify-content: space-between; margin-top: 6px; font-size: 13px; opacity: .6; }
 .cold__pedir { margin-top: clamp(28px, 4vw, 40px); display: inline-block; background: var(--red); color: #fff; text-decoration: none; font-size: 18px; border-radius: 999px; padding: 13px 26px; }
 @media (hover: hover) { .cold__pedir:hover { background: var(--paper); color: var(--ink); } }
 .cold__pedir:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
-  .cold__vaso img.is-glitch, .cold__nombre.is-glitch { animation: none; }
+  .cold__vaso img.is-glitch, .cold__nombre.is-glitch, .cold__pista span { animation: none; }
   .cold__ondas, .cold__vaso img, .cold__nombre, .cold__ingredientes { transition: none; }
 }
 /* Sin espacio a la derecha: el vaso se asoma sobre el borde de las líneas y los ingredientes bajan, centrados, debajo de ellas */
@@ -503,11 +523,41 @@ a { color: inherit; }
   .cold__mesa { margin-bottom: 2.6em; }
   .cold__vaso { position: static; }
   .cold__vaso img { left: calc(50% + 50vw); top: 4%; height: 92%; }
+  .cold__vaso img.cold__otra { left: calc(50% - 50vw); }
   .cold__ingredientes { left: 0; right: 0; bottom: -2.4em; width: auto; max-width: none; text-align: center; }
 }
 @media (max-width: 820px) {
   .cold__mesa { aspect-ratio: 4 / 3; margin-bottom: 3.6em; }
   .cold__ingredientes { bottom: -3.4em; }
+}
+
+/* ---------- Puntos de Fuego (resumen en el inicio; la página completa es /puntos/) ---------- */
+.fuego { background: var(--paper); }
+.fuego__in {
+  max-width: var(--max); margin: 0 auto; padding: clamp(72px, 9vw, 128px) var(--gutter);
+  display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); align-items: center; gap: clamp(24px, 5vw, 80px);
+}
+.fuego__fantasma { justify-self: center; width: min(100%, 240px); height: auto; filter: drop-shadow(0 18px 18px rgba(12, 11, 11, .14)); }
+.fuego__kicker { margin: 0 0 6px; color: var(--label); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
+.fuego__sube { display: flex; align-items: baseline; gap: .18em; margin: 10px 0 0; color: var(--red); font: 400 clamp(72px, 10vw, 148px)/.85 var(--font-display); }
+.fuego__sube s { color: rgba(12, 11, 11, .45); font-family: var(--font-body); font-size: .36em; text-decoration-thickness: .08em; text-decoration-color: var(--ink); }
+/* El % de Brick parece ":/", así que va en Chelsea */
+.fuego__pct { font-family: var(--font-body); font-size: .5em; margin-left: .04em; }
+.fuego__sube s .fuego__pct { font-size: 1em; margin-left: 0; }
+.fuego__flecha { font-family: var(--font-body); font-size: .35em; color: var(--ink); }
+.fuego__lead { margin: 14px 0 0; max-width: 30em; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.4; }
+.fuego__datos { list-style: none; margin: clamp(22px, 3vw, 32px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.fuego__datos li { padding: 16px 18px; background: #fff; border: 1px solid #EAE5DD; border-radius: 14px; box-shadow: 0 6px 20px rgba(12, 11, 11, .06); font-size: 15px; line-height: 1.4; color: var(--label); }
+.fuego__datos strong { display: block; margin-bottom: 4px; color: var(--red); font-weight: 400; font-size: 17px; }
+.fuego__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; margin-top: clamp(24px, 3vw, 34px); }
+.fuego__btn { display: inline-block; padding: 13px 26px; border-radius: 999px; background: var(--red); color: #fff; text-decoration: none; font-size: 18px; transition: background .2s; }
+.fuego__btn:is(:hover, :focus-visible) { background: var(--ink); }
+.fuego__wallet { color: var(--ink); text-decoration-color: var(--red); text-underline-offset: 5px; }
+.fuego__wallet:hover { color: var(--red); }
+@media (max-width: 1100px) { .fuego__datos { grid-template-columns: 1fr; } }
+@media (max-width: 820px) {
+  .fuego__in { grid-template-columns: 1fr; }
+  .fuego__fantasma { order: 2; width: 150px; }
 }
 
 /* ---------- Ensaladas: una carta por poeta (referencia de Luis: carrusel de perfiles) ---------- */
@@ -650,6 +700,7 @@ a { color: inherit; }
 .footer__info { display: grid; gap: 10px; }
 .footer__dir { margin: 0; font-size: 15px; }
 .footer__dir a { text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .5); }
+.footer__horario { margin: 0; font-size: 15px; }
 .footer__nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; }
 .footer__nav a { text-decoration: none; }
 .footer__nav a:hover, .footer__dir a:hover { color: var(--ink); }
@@ -801,3 +852,8 @@ body.en-hero .order-float.order-float { translate: 0 calc(100% + 40px); animatio
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Transiciones entre secciones: los bloques suben y aparecen al entrar en pantalla ---------- */
+.revela { opacity: 0; translate: 0 32px; transition: opacity .9s cubic-bezier(.2, .7, .2, 1) var(--r-delay, 0ms), translate .9s cubic-bezier(.2, .7, .2, 1) var(--r-delay, 0ms); }
+.revela.is-visto { opacity: 1; translate: 0 0; }
+@media (prefers-reduced-motion: reduce) { .revela { opacity: 1; translate: none; } }

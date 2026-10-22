@@ -13,9 +13,10 @@
 }
 .pf-hero__titulo { margin: 0; font: 400 clamp(64px, 10vw, 150px)/.85 var(--font-display); }
 .pf-sube { display: flex; align-items: baseline; gap: .18em; margin: clamp(16px, 2vw, 28px) 0 0; font: 400 clamp(84px, 13vw, 200px)/.8 var(--font-display); }
-.pf-sube s { color: rgba(12, 11, 11, .55); font-size: .55em; text-decoration-thickness: .08em; text-decoration-color: var(--ink); }
+.pf-sube s { color: rgba(12, 11, 11, .6); font-family: var(--font-body); font-size: .36em; text-decoration-thickness: .08em; text-decoration-color: var(--ink); }
 /* El % de Brick parece ":/", así que va en Chelsea */
 .pf-pct { font-family: var(--font-body); font-size: .5em; margin-left: .04em; }
+.pf-sube s .pf-pct { font-size: 1em; margin-left: 0; }
 .pf-sube__flecha { font-family: var(--font-body); font-size: .35em; color: var(--ink); }
 .pf-hero__lead { margin: 14px 0 0; max-width: 24em; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.35; }
 .pf-hero__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: clamp(24px, 3vw, 36px); }
@@ -33,6 +34,12 @@
 .pf-paso__n { display: block; color: var(--red); font: 400 clamp(44px, 5vw, 64px)/1 var(--font-display); }
 .pf-paso h3 { margin: 10px 0 6px; font: 400 clamp(28px, 3vw, 38px)/1 var(--font-display); }
 .pf-paso p { margin: 0; line-height: 1.45; }
+/* Tarjeta de lealtad de Justo en la Wallet del cel */
+.pf-wallet { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; margin-top: clamp(14px, 2vw, 24px); padding: clamp(18px, 2.2vw, 28px) clamp(20px, 2.4vw, 32px); border-radius: 14px; background: var(--ink); color: var(--paper); }
+.pf-wallet__txt { margin: 0; max-width: 40em; line-height: 1.45; }
+.pf-wallet__txt strong { color: var(--red); font-weight: 400; }
+.pf-wallet__btn { flex: none; padding: 12px 22px; border-radius: 999px; background: var(--red); color: #fff; text-decoration: none; transition: background .2s, color .2s; }
+.pf-wallet__btn:is(:hover, :focus-visible) { background: var(--paper); color: var(--red); }
 
 /* Calculadora: en negro, como el Lado B */
 .pf-calc { background: var(--ink); color: var(--paper); }

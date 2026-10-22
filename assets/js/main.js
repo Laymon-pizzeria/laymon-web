@@ -548,7 +548,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const firmas = estaciones.map((_, k) => firma(k));
     const dial = cold.querySelector('[data-dial]'), frecuencia = cold.querySelector('[data-frecuencia]');
     const nombre = cold.querySelector('[data-nombre]'), ingredientes = cold.querySelector('[data-ingredientes]'), anuncio = cold.querySelector('[data-anuncio]');
-    const fotos = [...cold.querySelectorAll('[data-vaso] img')];
+    // Cada vaso tiene dos mitades: la izquierda se asoma por el borde derecho y la derecha por el izquierdo
+    const fotos = [...cold.querySelectorAll('[data-vaso] img')].map((img) => {
+      const otra = img.cloneNode(); otra.classList.add('cold__otra'); img.after(otra); return [img, otra];
+    });
     const TOL = 0.9; // MHz alrededor de cada estación donde ya se “oye” algo
     let cerca = 0, senal = 0, sel = null, t = 0;
     const dibujar = () => {
@@ -575,19 +578,47 @@ document.addEventListener('DOMContentLoaded', () => {
       if (k !== sel) {
         sel = k;
         cold.classList.toggle('is-on', k !== null);
-        fotos.forEach((img, i) => img.classList.toggle('is-on', i === k));
+        fotos.forEach((par, i) => par.forEach((img) => img.classList.toggle('is-on', i === k)));
         if (k !== null) {
           const e = estaciones[k];
           nombre.textContent = e.banda; ingredientes.textContent = e.sabor;
           dial.setAttribute('aria-valuetext', `FM ${f.toFixed(1)}: ${e.banda}`);
           anuncio.textContent = `${e.banda}. ${e.sabor}`;
-          if (!reduceMotion) [nombre, fotos[k]].forEach((el) => { el.classList.remove('is-glitch'); void el.offsetWidth; el.classList.add('is-glitch'); });
+          if (!reduceMotion) [nombre, ...fotos[k]].forEach((el) => { el.classList.remove('is-glitch'); void el.offsetWidth; el.classList.add('is-glitch'); });
         } else {
           dial.setAttribute('aria-valuetext', `FM ${f.toFixed(1)}: estática`);
         }
       }
       if (reduceMotion) dibujar();
     };
+    // Pista inicial: la primera vez que se ve la sección la aguja barre el dial sola (pasa por Bauhaus y se queda en Human Tetris)
+    // y una etiqueta “Desliza” sigue a la aguja hasta que la persona lo mueve
+    const radio = cold.querySelector('.cold__radio'), pista = cold.querySelector('[data-pista]');
+    let tocado = false, barrido = 0;
+    const ponPista = () => {
+      const pos = (dial.value - dial.min) / (dial.max - dial.min);
+      radio.style.setProperty('--pos', pos); radio.style.setProperty('--pista-top', dial.offsetTop + 'px');
+      radio.classList.toggle('pista-izq', pos > .7);
+    };
+    const quitaPista = () => { tocado = true; cancelAnimationFrame(barrido); radio.classList.remove('con-pista'); };
+    ['pointerdown', 'keydown', 'touchstart'].forEach((ev) => dial.addEventListener(ev, quitaPista, { passive: true }));
+    if (pista && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting || tocado) return;
+        io.disconnect();
+        radio.classList.add('con-pista'); ponPista();
+        if (reduceMotion) return;
+        const de = 88.2, a = 92.4, dur = 2600, t0 = performance.now();
+        const paso = (ahora) => {
+          if (tocado) return;
+          const p = Math.min(1, (ahora - t0) / dur), ease = p < .5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2;
+          dial.value = (de + (a - de) * ease).toFixed(1); sintonizar(); ponPista();
+          if (p < 1) barrido = requestAnimationFrame(paso);
+        };
+        setTimeout(() => { if (!tocado) barrido = requestAnimationFrame(paso); }, 400);
+      }, { threshold: .6 });
+      io.observe(radio);
+    }
     dial.addEventListener('input', sintonizar);
     // Al soltar cerca de una estación, la aguja se acomoda en ella
     dial.addEventListener('change', () => { const e = estaciones[cerca]; if (Math.abs(e.f - dial.value) < TOL) { dial.value = e.f; sintonizar(); } });
@@ -598,6 +629,30 @@ document.addEventListener('DOMContentLoaded', () => {
       const bucle = () => { if (visible) { t += .05; dibujar(); } requestAnimationFrame(bucle); };
       requestAnimationFrame(bucle);
     }
+  }
+
+  // Horario: marca el día de hoy (hora de Coacalco)
+  const horario = document.querySelector('[data-horario]');
+  if (horario) {
+    const dia = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'America/Mexico_City' }).format(new Date())];
+    horario.querySelectorAll('[data-dias]').forEach((fila) => fila.classList.toggle('es-hoy', fila.dataset.dias.split(' ').includes(String(dia))));
+  }
+
+  // Transiciones al hacer scroll: cada bloque sube y aparece suave al entrar en pantalla (nada si se pide menos movimiento)
+  const revelar = [...document.querySelectorAll('.pizzas__concepto, .ensaladas__titulo, .visit__title, .ruta, .visit__body, .cold__texto, .manifesto__title, .manifesto__row, .fuego__texto, .fuego__fantasma, .pf-cabeza, .pf-paso, .pf-wallet, .pf-calc__cabeza, .pf-calc__control, .pf-calc__res, .pf-caduca__in, .pf-faq, .pf-final__titulo')];
+  if (!reduceMotion && 'IntersectionObserver' in window && revelar.length) {
+    const io = new IntersectionObserver((entradas) => entradas.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-visto'); io.unobserve(e.target);
+    }), { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+    revelar.forEach((el) => {
+      // Los hermanos que entran juntos (tarjetas) llegan escalonados
+      const hermanos = revelar.filter((o) => o.parentElement === el.parentElement);
+      el.style.setProperty('--r-delay', `${Math.min(hermanos.indexOf(el), 4) * 90}ms`);
+      el.classList.add('revela');
+      if (el.getBoundingClientRect().top < innerHeight * .92) el.classList.add('is-visto');
+      else io.observe(el);
+    });
   }
 
   const year = document.querySelector('[data-year]');

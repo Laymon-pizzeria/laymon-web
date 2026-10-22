@@ -3,24 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Laymon Pizzería Artesanal · Coacalco</title>
-  <meta name="description" content="Pizza napolitana al horno de piedra en Coacalco. Fuego, actitud y buena música. Pide en línea o reserva tu mesa.">
+  <title>Laymon Pizzería Artesanal · Pizza napolitana en Coacalco</title>
+  <meta name="description" content="Pizza napolitana artesanal en Coacalco, Edo. Méx.: masa de fermentación lenta, ensaladas de autor y Cold Waves. Ven a Belisario Domínguez 38, aparta tu mesa o pide en línea.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#EA1D3B">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/logo/favicon-48.png">
   <link rel="apple-touch-icon" href="assets/img/logo/favicon-180.png">
   <link rel="canonical" href="https://www.laymonpizzeria.com/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Laymon Pizzería Artesanal">
-  <meta property="og:title" content="Laymon Pizzería Artesanal">
+  <meta property="og:title" content="Laymon Pizzería Artesanal · Coacalco">
+  <meta property="og:locale" content="es_MX">
   <meta property="og:description" content="Laymon no es solo comida, es fuego, actitud y buena música.">
   <meta property="og:url" content="https://www.laymonpizzeria.com/">
   <meta property="og:image" content="https://www.laymonpizzeria.com/assets/img/og/home.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Laymon Pizzería Artesanal · Coacalco">
+  <meta name="twitter:description" content="Laymon no es solo comida, es fuego, actitud y buena música.">
+  <meta name="twitter:image" content="https://www.laymonpizzeria.com/assets/img/og/home.jpg">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Restaurant",
+    "@id": "https://www.laymonpizzeria.com/#restaurante",
     "name": "Laymon Pizzería Artesanal",
+    "description": "Pizzería napolitana artesanal en Coacalco, Estado de México: masa de fermentación lenta, ensaladas de autor y Cold Waves.",
+    "logo": "https://www.laymonpizzeria.com/assets/img/logo/favicon-180.png",
+    "hasMap": "https://www.google.com/maps/dir/?api=1&destination=19.6324866,-99.1082052",
     "url": "https://www.laymonpizzeria.com/",
     "image": "https://www.laymonpizzeria.com/assets/img/og/home.jpg",
     "telephone": "+52 55 3502 3665",
@@ -29,10 +38,16 @@
     "geo": { "@type": "GeoCoordinates", "latitude": 19.6324866, "longitude": -99.1082052 },
     "hasMenu": "https://laymonpizzeria.getjusto.com/pedir",
     "acceptsReservations": "https://laymonpizzeria.getjusto.com/reservas",
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Wednesday", "Thursday", "Friday"], "opens": "15:00", "closes": "22:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "14:00", "closes": "22:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "14:00", "closes": "21:00" }
+    ],
     "sameAs": ["https://www.instagram.com/laymonpizzeria", "https://www.facebook.com/laymonpizzeria"]
   }
   </script>
   <link rel="preload" href="assets/fonts/brick-laymon.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/img/hero/pizza.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <script src="assets/vendor/leaflet/leaflet.js" defer></script>
@@ -76,7 +91,7 @@
         </div>
       </div>
       <div class="hero__main">
-        <h1 class="sr-only">Laymon no es solo comida, es fuego, actitud y buena música.</h1>
+        <h1 class="sr-only">Laymon Pizzería Artesanal: pizza napolitana en Coacalco. No es solo comida, es fuego, actitud y buena música.</h1>
         <p class="hero__titulo">
           <img class="hero__best" src="assets/img/hero/best-pizzas.svg" width="289" height="310" alt="Best fuck'n pizzas">
         </p>
@@ -87,23 +102,23 @@
     <section class="pizzas" id="pizzas" aria-labelledby="pizzas-title">
       <div class="pizzas__escena" data-cascada>
         <ul class="pizzas__lista" aria-label="Nuestras pizzas napolitanas">
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/bbq-spicy.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">BBQ Spicy</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/bbq-spicy.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">BBQ Spicy</span></a></li>
           <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Cochinita</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/brut.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Brut</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/brut.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Brut</span></a></li>
           <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Ficus</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/camarones.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Camarones</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/camarones.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Camarones</span></a></li>
           <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Hawaiana</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/hawaiana-spicy.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Hawaiana spicy</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/hawaiana-spicy.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Hawaiana spicy</span></a></li>
           <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Macario</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/meat-lover.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Meat lover</span></a></li>
-          <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Maggie</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/pepperoni.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Pepperoni</span></a></li>
-          <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Ranch</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/pepperoni-champis.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Pepperoni y champis</span></a></li>
-          <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Rooster</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/spicy-honey.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Spicy honey</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/meat-lover.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Meat lover</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/maggie.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Maggie</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/pepperoni.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Pepperoni</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/ranch.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Ranch</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/pepperoni-champis.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Pepperoni y champis</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/rooster.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Rooster</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/spicy-honey.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Spicy honey</span></a></li>
           <li><a class="pz pz--sinfoto" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__icon" src="assets/img/iconos/blanco/pizza.png" alt="" loading="lazy"><span class="pz__nombre">Serrano</span></a></li>
-          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/thai.webp" width="360" height="450" alt="" loading="lazy"><span class="pz__nombre">Thai</span></a></li>
+          <li><a class="pz" href="https://laymonpizzeria.getjusto.com/pedir"><img class="pz__img" src="assets/img/pizzas/thai.webp" width="720" height="900" alt="" loading="lazy"><span class="pz__nombre">Thai</span></a></li>
         </ul>
       </div>
       <div class="pizzas__concepto">
@@ -111,34 +126,6 @@
         <p>Nació en Nápoles y la adoptamos en Coacalco. Masa de harina, agua, sal y levadura con fermentación lenta, horno muy caliente y pocos minutos de fuego.</p>
         <p>El resultado: orilla inflada con manchas de leopardo, centro suave que se dobla y pocos ingredientes, pero buenos.</p>
         <a class="pizzas__menu" href="https://laymonpizzeria.getjusto.com/pedir">Ver el menú completo</a>
-      </div>
-    </section>
-
-    <!-- VEN POR UNA: mapa con la ruta a Laymon (el fantasma la recorre) y por qué vale la pena venir -->
-    <section class="visit" id="visitanos" aria-labelledby="visit-title">
-      <h2 id="visit-title" class="display visit__title">Ven por una</h2>
-      <div class="ruta" data-ruta data-lat="19.6324866" data-lng="-99.1082052">
-        <div class="ruta__mapa" data-ruta-mapa role="region" aria-label="Mapa: Laymon en Coacalco"></div>
-        <div class="ruta__panel">
-          <button class="ruta__btn" type="button" data-ruta-btn>Trázame la ruta</button>
-          <p class="ruta__msg" data-ruta-msg aria-live="polite">Toca el botón y te dibujamos el camino desde donde estás. Tu ubicación no se guarda.</p>
-        </div>
-        <div class="ruta__ir">
-          <button class="ruta__enviar" type="button" data-ruta-enviar>Mándate la ruta al cel</button>
-          <span class="ruta__apps">Ábrela en
-            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener" data-ruta-gmaps>Google Maps</a> o
-            <a href="https://waze.com/ul?ll=19.6324866,-99.1082052&amp;navigate=yes" target="_blank" rel="noopener" data-ruta-waze>Waze</a></span>
-        </div>
-        <template data-ruta-pin><span class="ruta__logo"><svg viewBox="0 0 1759 1001" aria-hidden="true"><use href="#logo-laymon"/></svg></span></template>
-        <template data-ruta-rider><span class="ruta__bote"><img src="assets/img/fantasma/poses/paseo.webp" width="311" height="422" alt=""></span></template>
-      </div>
-      <div class="visit__body">
-        <p class="visit__lead">La napolitana no viaja bien. Por eso sabe mejor aquí.</p>
-        <div class="visit__texto">
-          <p>La orilla inflada y crujiente dura poco, y en la caja el vapor la aguada antes de que llegue a tu casa. Aquí te llega recién salida del horno, con el queso que todavía jala y el centro suave que se dobla, como en Nápoles.</p>
-          <p>¿Se acabó? Pides la siguiente y sale en minutos, sin repartidor perdido. La música la ponemos nosotros; la compañía, tú.</p>
-        </div>
-        <a class="visit__reserva" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
       </div>
     </section>
 
@@ -219,10 +206,44 @@
       </div>
     </section>
 
+    <!-- VEN POR UNA: mapa con la ruta a Laymon (el fantasma la recorre) y por qué vale la pena venir -->
+    <section class="visit" id="visitanos" aria-labelledby="visit-title">
+      <h2 id="visit-title" class="display visit__title">Ven por una</h2>
+      <div class="ruta" data-ruta data-lat="19.6324866" data-lng="-99.1082052">
+        <div class="ruta__mapa" data-ruta-mapa role="region" aria-label="Mapa: Laymon en Coacalco"></div>
+        <div class="ruta__panel">
+          <button class="ruta__btn" type="button" data-ruta-btn>Trázame la ruta</button>
+          <p class="ruta__msg" data-ruta-msg aria-live="polite">Toca el botón y te dibujamos el camino desde donde estás. Tu ubicación no se guarda.</p>
+        </div>
+        <div class="ruta__ir">
+          <button class="ruta__enviar" type="button" data-ruta-enviar>Mándate la ruta al cel</button>
+          <span class="ruta__apps">Ábrela en
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener" data-ruta-gmaps>Google Maps</a> o
+            <a href="https://waze.com/ul?ll=19.6324866,-99.1082052&amp;navigate=yes" target="_blank" rel="noopener" data-ruta-waze>Waze</a></span>
+        </div>
+        <template data-ruta-pin><span class="ruta__logo"><svg viewBox="0 0 1759 1001" aria-hidden="true"><use href="#logo-laymon"/></svg></span></template>
+        <template data-ruta-rider><span class="ruta__bote"><img src="assets/img/fantasma/poses/paseo.webp" width="311" height="422" alt=""></span></template>
+      </div>
+      <div class="visit__body">
+        <p class="visit__lead">La pizza en casa es el disco. Aquí es el concierto.</p>
+        <div class="visit__texto">
+          <p>En tu mesa la napolitana llega segundos después de salir del horno: la orilla inflada todavía cruje, el queso jala y el centro se dobla como en Nápoles.</p>
+          <p>Trae a tu banda, pide otra ronda de Cold Waves y quédate a la siguiente rola. La música la ponemos nosotros; la compañía, tú.</p>
+        </div>
+        <dl class="horario" data-horario aria-label="Horario">
+          <div data-dias="1 2"><dt>Lunes y martes</dt><dd>Cerrado</dd></div>
+          <div data-dias="3 4 5"><dt>Miércoles a viernes</dt><dd>3 a 10 pm</dd></div>
+          <div data-dias="6"><dt>Sábado</dt><dd>2 a 10 pm</dd></div>
+          <div data-dias="0"><dt>Domingo</dt><dd>2 a 9 pm</dd></div>
+        </dl>
+        <a class="visit__reserva" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
     <!-- COLD WAVE: nuestra bebida helada de la casa, cada una con nombre de banda de post-punk / cold wave.
          Arriba al centro el título y qué es. Debajo las líneas de pulso (homenaje a Unknown Pleasures) y un sintonizador de radio:
          cada estación es una Cold Wave. Al sintonizarla, su nombre sale en rojo entre las líneas y la mitad del vaso se asoma
-         por el borde derecho de la pantalla con glitch, con sus ingredientes debajo. Entre estaciones, estática. -->
+         por el borde derecho de la pantalla con glitch (y la otra mitad por el izquierdo), con sus ingredientes debajo. Entre estaciones, estática. -->
     <section class="cold" id="cold-wave" aria-labelledby="cold-title" data-cold>
       <div class="cold__in">
         <div class="cold__texto">
@@ -234,10 +255,11 @@
           <svg class="cold__ondas" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true" data-ondas="atras"></svg>
           <p class="cold__nombre" aria-hidden="true" data-nombre></p>
           <svg class="cold__ondas" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true" data-ondas="frente"></svg>
-          <div class="cold__vaso" data-vaso><img src="assets/img/coldwave/bauhaus.webp" style="--cx: 49.7%" alt="" loading="lazy"><img src="assets/img/coldwave/human-tetris.webp" style="--cx: 49.7%" alt="" loading="lazy"><img src="assets/img/coldwave/joy-division.webp" style="--cx: 61.8%" alt="" loading="lazy"><img src="assets/img/coldwave/molchat-doma.webp" style="--cx: 49.8%" alt="" loading="lazy"><img src="assets/img/coldwave/motorama.webp" style="--cx: 49.8%" alt="" loading="lazy"><img src="assets/img/coldwave/soviet-soviet.webp" style="--cx: 52.4%" alt="" loading="lazy"><p class="cold__ingredientes" aria-hidden="true" data-ingredientes></p></div>
+          <div class="cold__vaso" data-vaso><img src="assets/img/coldwave/bauhaus.webp" width="364" height="900" style="--cx: 49.7%" alt="" decoding="async"><img src="assets/img/coldwave/human-tetris.webp" width="367" height="900" style="--cx: 49.7%" alt="" decoding="async"><img src="assets/img/coldwave/joy-division.webp" width="483" height="900" style="--cx: 61.8%" alt="" decoding="async"><img src="assets/img/coldwave/molchat-doma.webp" width="364" height="900" style="--cx: 49.8%" alt="" decoding="async"><img src="assets/img/coldwave/motorama.webp" width="364" height="900" style="--cx: 49.8%" alt="" decoding="async"><img src="assets/img/coldwave/soviet-soviet.webp" width="551" height="900" style="--cx: 52.4%" alt="" decoding="async"><p class="cold__ingredientes" aria-hidden="true" data-ingredientes></p></div>
         </div>
         <div class="cold__radio">
           <div class="cold__radio-top"><label for="cold-dial">Mueve el dial y encuentra tu Cold Wave</label><output for="cold-dial" class="cold__frecuencia" data-frecuencia>FM 90.8</output></div>
+          <span class="cold__pista" aria-hidden="true" data-pista><span>‹</span> Desliza <span>›</span></span>
           <input class="cold__dial" type="range" id="cold-dial" min="88" max="108" step="0.1" value="90.8" data-dial>
           <div class="cold__escala" aria-hidden="true"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div>
           <!-- Las estaciones (también es la lista para lectores de pantalla) -->
@@ -273,12 +295,35 @@
       </div>
     </section>
 
+    <!-- PUNTOS DE FUEGO: resumen del programa de recompensas; el detalle vive en /puntos/ -->
+    <section class="fuego" id="puntos-de-fuego" aria-labelledby="fuego-title">
+      <div class="fuego__in">
+        <img class="fuego__fantasma" src="assets/img/fantasma/poses/impulso.webp" width="269" height="422" alt="" loading="lazy">
+        <div class="fuego__texto">
+          <p class="fuego__kicker">Las recompensas de Laymon</p>
+          <h2 id="fuego-title" class="display">Puntos de Fuego</h2>
+          <p class="fuego__sube"><s aria-hidden="true">2<span class="fuego__pct">%</span></s><span class="fuego__flecha" aria-hidden="true">→</span><span aria-hidden="true">5<span class="fuego__pct">%</span></span><span class="sr-only">Suben de 2 a 5 por ciento</span></p>
+          <p class="fuego__lead">Desde noviembre, el 5% de cada compra regresa a ti en puntos. Y cada punto vale un peso.</p>
+          <ul class="fuego__datos">
+            <li><strong>Dónde</strong>Comiendo aquí o pidiendo directo en nuestra tienda en línea</li>
+            <li><strong>Cuánto</strong>1 punto = $1 en tu siguiente pedido</li>
+            <li><strong>Hasta cuándo</strong>Cada punto dura 6 meses</li>
+          </ul>
+          <div class="fuego__ctas">
+            <a class="fuego__btn" href="puntos/">Conoce Puntos de Fuego <span aria-hidden="true">→</span></a>
+            <a class="fuego__wallet" href="https://cuenta.getjusto.com/client/loyalty-start/CSEvtWoKLJ3EvJzk3" target="_blank" rel="noopener">Guarda tu tarjeta en tu cel</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
     <div class="footer__top">
       <div class="footer__info">
         <p class="footer__dir"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">C. Belisario Domínguez 38, San Francisco Coacalco, Edo. Méx.</a></p>
+        <p class="footer__horario">Mié a vie 3 a 10 pm · Sáb 2 a 10 pm · Dom 2 a 9 pm · Lun y mar cerrado</p>
         <nav class="footer__nav" aria-label="Laymon">
           <a href="./">Inicio</a>
           <a href="puntos/">Puntos de Fuego</a>
