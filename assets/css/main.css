@@ -378,9 +378,10 @@ a { color: inherit; }
 .ruta__rider { background: none; border: 0; transition: opacity .35s var(--ease); }
 .ruta__rider.llego { opacity: 0; }
 .ruta__bote { display: block; animation: ruta-bote .5s ease-in-out infinite alternate; }
-.ruta__bote img { display: block; width: 64px; height: 76px; filter: drop-shadow(0 3px 4px rgba(12, 11, 11, .35)); transition: transform .2s; }
+.ruta__bote img { display: block; width: 58px; height: auto; filter: drop-shadow(0 3px 4px rgba(12, 11, 11, .35)); transition: transform .2s; }
 /* el dibujo mira a la derecha: hacia el oeste se voltea */
-.ruta__rider:not(.va-este) .ruta__bote img { transform: scaleX(-1); }
+/* La pose "paseo" mira a la izquierda: se voltea cuando va al este */
+.ruta__rider.va-este .ruta__bote img { transform: scaleX(-1); }
 @keyframes ruta-bote { to { transform: translateY(-3px) rotate(-3deg); } }
 .ruta__base { stroke: var(--ink); stroke-opacity: .85; fill: none; }
 .ruta__luz { stroke: var(--red); fill: none; stroke-dasharray: 1000; filter: drop-shadow(0 0 4px rgba(234, 29, 59, .9)) drop-shadow(0 0 10px rgba(234, 29, 59, .55)); }
@@ -646,6 +647,13 @@ a { color: inherit; }
 .footer__social a { text-decoration: none; }
 .footer__social a:hover { color: var(--ink); }
 .footer__legal { margin: 0; color: rgba(255, 255, 255, .8); font-size: 14px; }
+.footer__info { display: grid; gap: 10px; }
+.footer__dir { margin: 0; font-size: 15px; }
+.footer__dir a { text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .5); }
+.footer__nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; }
+.footer__nav a { text-decoration: none; }
+.footer__nav a:hover, .footer__dir a:hover { color: var(--ink); }
+.footer__legal { align-self: end; }
 /* Supergráfico (manual v07, p. 20): logo grande recortado por abajo, dentro del 65 % permitido */
 .footer__mark {
   display: block; width: min(96%, 1200px); height: auto; aspect-ratio: 1759 / 1001;

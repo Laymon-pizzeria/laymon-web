@@ -14,8 +14,25 @@
   <meta property="og:title" content="Laymon Pizzería Artesanal">
   <meta property="og:description" content="Laymon no es solo comida, es fuego, actitud y buena música.">
   <meta property="og:url" content="https://www.laymonpizzeria.com/">
+  <meta property="og:image" content="https://www.laymonpizzeria.com/assets/img/og/home.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Laymon Pizzería Artesanal",
+    "url": "https://www.laymonpizzeria.com/",
+    "image": "https://www.laymonpizzeria.com/assets/img/og/home.jpg",
+    "telephone": "+52 55 3502 3665",
+    "servesCuisine": ["Pizza napolitana", "Ensaladas"],
+    "address": { "@type": "PostalAddress", "streetAddress": "C. Belisario Domínguez 38", "addressLocality": "San Francisco Coacalco", "addressRegion": "Estado de México", "addressCountry": "MX" },
+    "geo": { "@type": "GeoCoordinates", "latitude": 19.6324866, "longitude": -99.1082052 },
+    "hasMenu": "https://laymonpizzeria.getjusto.com/pedir",
+    "acceptsReservations": "https://laymonpizzeria.getjusto.com/reservas",
+    "sameAs": ["https://www.instagram.com/laymonpizzeria", "https://www.facebook.com/laymonpizzeria"]
+  }
+  </script>
   <link rel="preload" href="assets/fonts/brick-laymon.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/img/fantasma/skater-6.svg" as="image">
   <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="assets/css/main.css">
   <script src="assets/vendor/leaflet/leaflet.js" defer></script>
@@ -113,7 +130,7 @@
             <a href="https://waze.com/ul?ll=19.6324866,-99.1082052&amp;navigate=yes" target="_blank" rel="noopener" data-ruta-waze>Waze</a></span>
         </div>
         <template data-ruta-pin><span class="ruta__logo"><svg viewBox="0 0 1759 1001" aria-hidden="true"><use href="#logo-laymon"/></svg></span></template>
-        <template data-ruta-rider><span class="ruta__bote"><img src="assets/img/fantasma/skater-1.svg" width="220" height="260" alt=""></span></template>
+        <template data-ruta-rider><span class="ruta__bote"><img src="assets/img/fantasma/poses/paseo.webp" width="311" height="422" alt=""></span></template>
       </div>
       <div class="visit__body">
         <p class="visit__lead">La napolitana no viaja bien. Por eso sabe mejor aquí.</p>
@@ -250,7 +267,7 @@
         </h2>
         <!-- Fantasma al centro del hueco entre la foto y la frase; la frase va a la derecha -->
         <div class="manifesto__row">
-          <div class="manifesto__ghostwrap"><img class="manifesto__ghost" src="assets/img/fantasma/skater-5.svg" width="220" height="260" alt="" loading="lazy" aria-hidden="true"></div>
+          <div class="manifesto__ghostwrap"><img class="manifesto__ghost" src="assets/img/fantasma/poses/equilibrio.webp" width="399" height="422" alt="" loading="lazy" aria-hidden="true"></div>
           <p class="manifesto__text">El fuego transforma los ingredientes y la hospitalidad transforma la experiencia.</p>
         </div>
       </div>
@@ -260,6 +277,15 @@
 
   <footer class="footer">
     <div class="footer__top">
+      <div class="footer__info">
+        <p class="footer__dir"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">C. Belisario Domínguez 38, San Francisco Coacalco, Edo. Méx.</a></p>
+        <nav class="footer__nav" aria-label="Laymon">
+          <a href="./">Inicio</a>
+          <a href="puntos/">Puntos de Fuego</a>
+          <a href="https://laymonpizzeria.getjusto.com/pedir">Pide en línea</a>
+          <a href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa</a>
+        </nav>
+      </div>
       <nav class="footer__social" aria-label="Redes">
         <a href="https://www.instagram.com/laymonpizzeria" target="_blank" rel="noopener">Instagram</a>
         <a href="https://www.facebook.com/laymonpizzeria" target="_blank" rel="noopener">Facebook</a>
