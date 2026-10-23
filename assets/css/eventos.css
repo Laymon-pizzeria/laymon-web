@@ -1,0 +1,7 @@
+/* Página /eventos: reutiliza las piezas de puntos.css; solo añade la etiqueta de tamaño de grupo y las listas de la noche. */
+.ev-tag { display: inline-block; margin: 0 0 8px; padding: 2px 10px; border: 1.5px solid currentColor; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.ev-lista { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.ev-lista li { padding-left: 18px; position: relative; }
+.ev-lista li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; background: var(--red); }
+.ev-cta { display: inline-block; margin-top: 14px; color: var(--red); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.ev-nota { max-width: 62ch; margin: 18px 0 0; }
