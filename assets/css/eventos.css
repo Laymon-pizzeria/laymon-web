@@ -1,0 +1,96 @@
+/* Página /eventos: reutiliza las piezas de puntos.css; solo añade la etiqueta de tamaño de grupo y las listas de la noche. */
+.ev-tag { display: inline-block; margin: 0 0 8px; padding: 2px 10px; border: 1.5px solid currentColor; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.ev-lista { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.ev-lista li { padding-left: 18px; position: relative; }
+.ev-lista li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; background: var(--red); }
+.ev-cta { display: inline-block; margin-top: 14px; color: var(--red); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.ev-nota { max-width: 62ch; margin: 18px 0 0; }
+
+/* Galería: secciones oscuras para dar contraste con las vecinas de papel */
+.ev-galeria { background: var(--ink); color: var(--paper); }
+.ev-galeria__in { max-width: var(--max); margin: 0 auto; padding: clamp(64px, 8vw, 112px) var(--gutter); }
+.ev-galeria .display { color: var(--paper); margin: 0; }
+.ev-galeria__txt { max-width: 46ch; margin: 12px 0 clamp(24px, 3vw, 40px); color: rgba(255, 253, 250, .78); }
+.ev-mosaico { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(140px, 17vw, 240px); gap: clamp(8px, 1.2vw, 16px); }
+.ev-foto { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ev-mosaico .ev-foto:nth-child(1) { grid-column: 1; grid-row: 1 / 3; }
+.ev-mosaico .ev-foto:nth-child(2) { grid-column: 2 / 4; grid-row: 1; }
+.ev-mosaico .ev-foto:nth-child(3) { grid-column: 2 / 4; grid-row: 2; }
+.ev-mosaico .ev-foto:nth-child(4) { grid-column: 4; grid-row: 1 / 3; }
+@media (max-width: 720px) {
+  .ev-mosaico { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 44vw; }
+  .ev-mosaico .ev-foto:nth-child(n) { grid-column: auto; grid-row: auto; }
+  .ev-mosaico .ev-foto:nth-child(2), .ev-mosaico .ev-foto:nth-child(3) { grid-column: span 2; }
+  .ev-mosaico .ev-foto:nth-child(1) { order: 1; }
+  .ev-mosaico .ev-foto:nth-child(4) { order: 2; }
+  .ev-mosaico .ev-foto:nth-child(2) { order: 3; }
+  .ev-mosaico .ev-foto:nth-child(3) { order: 4; }
+}
+
+/* Arma tu evento: lista que se vuelve el mensaje de WhatsApp */
+.ev-arma { background: var(--ink); color: var(--paper); border-top: 1px solid rgba(255, 253, 250, .16); }
+.ev-arma__in { max-width: var(--max); margin: 0 auto; padding: clamp(64px, 8vw, 112px) var(--gutter); }
+.ev-arma .display { color: var(--paper); margin: 0; }
+.ev-arma__txt { max-width: 56ch; margin: 12px 0 clamp(24px, 3vw, 36px); color: rgba(255, 253, 250, .78); }
+.ev-form { display: grid; gap: clamp(20px, 2.4vw, 32px); }
+.ev-datos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.ev-datos label { display: grid; gap: 6px; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
+.ev-datos input, .ev-datos select { font: inherit; font-size: 17px; letter-spacing: 0; text-transform: none; color: var(--paper); background: transparent; border: 1.5px solid rgba(255, 253, 250, .5); padding: 12px 14px; border-radius: 2px; min-height: 48px; }
+.ev-datos select option { color: var(--ink); }
+.ev-datos input::placeholder { color: rgba(255, 253, 250, .45); }
+.ev-aviso { margin: 0; padding: 12px 16px; border-left: 4px solid var(--red); background: rgba(255, 253, 250, .08); }
+.ev-aviso a { color: var(--paper); }
+.ev-grupo { border: 0; padding: 0; margin: 0; min-width: 0; }
+.ev-grupo legend { padding: 0; margin-bottom: 10px; font: 400 clamp(24px, 3vw, 32px)/1 var(--font-display); color: var(--red); }
+.ev-check { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 8px; }
+.ev-check label { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; padding: 12px 14px; border: 1.5px solid rgba(255, 253, 250, .25); border-radius: 2px; cursor: pointer; min-height: 52px; }
+.ev-check label:has(input:checked) { border-color: var(--red); background: rgba(234, 29, 59, .16); }
+.ev-check input { appearance: none; width: 22px; height: 22px; margin: 1px 0 0; border: 2px solid rgba(255, 253, 250, .7); border-radius: 2px; background: transparent; display: grid; place-content: center; cursor: pointer; }
+.ev-check input::before { content: ""; width: 12px; height: 12px; background: var(--red); transform: scale(0); transition: transform .12s var(--ease); clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%); }
+.ev-check input:checked::before { transform: scale(1); }
+.ev-check input:checked { border-color: var(--red); }
+.ev-check input:focus-visible, .ev-datos input:focus-visible, .ev-datos select:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+.ev-check small { display: block; color: rgba(255, 253, 250, .68); font-size: 14px; margin-top: 2px; }
+.ev-check b { font-weight: 400; }
+.ev-enviar { justify-self: start; font: 400 clamp(24px, 3vw, 30px)/1 var(--font-display); color: #fff; background: var(--red); border: 0; border-radius: 999px; padding: 16px 32px; cursor: pointer; }
+.ev-enviar:hover { filter: brightness(1.08); }
+.ev-enviar:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.ev-fine { margin: 0; max-width: 62ch; font-size: 14px; color: rgba(255, 253, 250, .68); }
+.ev-fine--claro { color: rgba(255, 255, 255, .88); margin-top: 18px; }
+@media (max-width: 720px) { .ev-datos { grid-template-columns: 1fr; } .ev-enviar { justify-self: stretch; } }
+
+/* Puntos de Fuego del evento: sección roja */
+.ev-puntos { background: var(--red); color: #fff; overflow: hidden; }
+.ev-puntos__in { max-width: var(--max); margin: 0 auto; padding: clamp(56px, 7vw, 96px) var(--gutter); display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+.ev-puntos__titulo { margin: 0; font: 400 clamp(48px, 7vw, 104px)/.88 var(--font-display); }
+.ev-puntos__lead { margin: 18px 0 0; max-width: 28em; font-size: clamp(19px, 1.8vw, 24px); line-height: 1.35; }
+.ev-puntos__lead strong { font-family: var(--font-display); font-weight: 400; font-size: 1.5em; }
+.ev-puntos__lead .pf-pct { font-size: .7em; }
+.ev-puntos__fantasma { width: min(100%, 300px); justify-self: center; }
+@media (max-width: 720px) { .ev-puntos__in { grid-template-columns: 1fr; } .ev-puntos__fantasma { width: 160px; justify-self: start; } }
+@media (prefers-reduced-motion: reduce) { .ev-check input::before { transition: none; } }
+
+/* Invitación digital: un cartel de concierto para el evento de quien contrata */
+.inv { background: var(--red); color: #fff; min-height: 100vh; }
+.inv__cartel { min-height: 100vh; display: grid; place-items: center; padding: clamp(24px, 5vw, 56px) var(--gutter); }
+.inv__tarjeta, .inv__generador { width: min(100%, 560px); display: grid; gap: 18px; justify-items: start; }
+.inv__tarjeta[hidden], .inv__generador[hidden] { display: none; }
+.inv__kicker { margin: 0; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; }
+.inv__nombre { margin: 0; font: 400 clamp(52px, 12vw, 104px)/.88 var(--font-display); text-wrap: balance; overflow-wrap: anywhere; }
+.inv__fantasma { width: clamp(110px, 28vw, 170px); height: auto; justify-self: end; margin-top: -8px; }
+.inv__datos { margin: 0; display: grid; gap: 14px; width: 100%; border-top: 2px solid #fff; padding-top: 16px; }
+.inv__datos dt { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+.inv__datos dd { margin: 2px 0 0; font-size: clamp(20px, 3.4vw, 26px); line-height: 1.25; }
+.inv__mensaje { margin: 0; font-size: clamp(20px, 3vw, 24px); }
+.inv__anfitrion { margin: 0; font-size: 16px; opacity: .9; }
+.inv__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.inv__pie { margin: 8px 0 0; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+.inv__ayuda { margin: 0; max-width: 46ch; }
+.inv__form { grid-template-columns: 1fr; width: 100%; }
+.inv .ev-datos input { color: #fff; border-color: rgba(255, 255, 255, .7); }
+.inv .ev-datos input::placeholder { color: rgba(255, 255, 255, .55); }
+.inv__enlace { width: 100%; font: inherit; font-size: 15px; color: #fff; background: rgba(12, 11, 11, .25); border: 1.5px solid rgba(255, 255, 255, .6); padding: 12px 14px; border-radius: 2px; }
+.inv .ev-enviar { background: var(--ink); }
+.inv .ev-cta { color: #fff; }
+.inv__resultado { width: 100%; display: grid; gap: 12px; }
+.inv__resultado[hidden] { display: none; }
