@@ -16,17 +16,17 @@
   <meta property="og:description" content="Mesa, local cerrado o salón privado, con la misma noche armada como concierto.">
   <meta property="og:locale" content="es_MX">
   <meta property="og:url" content="https://www.laymonpizzeria.com/eventos/">
-  <meta property="og:image" content="https://www.laymonpizzeria.com/assets/img/og/puntos.jpg">
+  <meta property="og:image" content="https://www.laymonpizzeria.com/assets/img/og/home.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Posadas y eventos · Laymon">
   <meta name="twitter:description" content="Mesa, local cerrado o salón privado, con la misma noche armada como concierto.">
-  <meta name="twitter:image" content="https://www.laymonpizzeria.com/assets/img/og/puntos.jpg">
+  <meta name="twitter:image" content="https://www.laymonpizzeria.com/assets/img/og/home.jpg">
   <link rel="preload" href="../assets/fonts/brick-laymon.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/main.css">
   <link rel="stylesheet" href="../assets/css/puntos.css">
   <link rel="stylesheet" href="../assets/css/eventos.css">
   <script src="../assets/js/main.js" defer></script>
-  <script src="../assets/js/puntos.js" defer></script>
+  <script src="../assets/js/eventos.js" defer></script>
 </head>
 <body class="en-hero">
   <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -46,11 +46,11 @@
           <h1 id="ev-title" class="pf-hero__titulo">Tu banda,<br>nuestro horno</h1>
           <p class="pf-hero__lead">Posadas, cenas de equipo y reuniones con pizza napolitana recién salida del fuego, Cold Waves y una noche armada como concierto, sea cual sea el tamaño de tu grupo.</p>
           <div class="pf-hero__ctas">
-            <a class="pedir" href="https://api.whatsapp.com/send/?phone=525535023665&amp;text=Hola%2C%20quiero%20cotizar%20un%20evento%20en%20Laymon.%20Fecha%3A%20%C2%A0Invitados%3A%20" target="_blank" rel="noopener" data-hero-cta>Cotiza tu fecha</a>
+            <a class="pedir" href="#arma">Arma tu evento</a>
             <a class="pf-hero__como" href="#formatos">Elige cómo <span aria-hidden="true">↓</span></a>
           </div>
         </div>
-        <img class="pf-fantasma pf-fantasma--hero" src="../assets/img/fantasma/poses/impulso.webp" width="375" height="422" alt="">
+        <img class="pf-fantasma pf-fantasma--hero" src="../assets/img/fantasma/poses/impulso.webp" width="269" height="422" alt="">
       </div>
     </section>
 
@@ -61,10 +61,23 @@
       </div>
       <ol class="pf-pasos">
         <li class="pf-paso"><span class="ev-tag">Menos de 25</span><h3>Mesa</h3><p>Aparta una mesa para tu grupo y llega a cenar. Misma pizza, mismo horno y la misma atención que en un evento.</p><a class="ev-cta" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa →</a></li>
-        <li class="pf-paso"><span class="ev-tag">25 o más</span><h3>Todo Laymon</h3><p>Cerramos para ti. El local completo es de tu grupo: tu música, tu mesa larga y el horno trabajando solo para ustedes.</p><a class="ev-cta" href="https://api.whatsapp.com/send/?phone=525535023665&amp;text=Hola%2C%20quiero%20cotizar%20Todo%20Laymon%20(cierre%20exclusivo).%20Fecha%3A%20%C2%A0Invitados%3A%20" target="_blank" rel="noopener">Cotiza Todo Laymon →</a></li>
-        <li class="pf-paso"><span class="ev-tag">25 o más</span><h3>Salón privado</h3><p>El comedor es de tu grupo mientras la cocina sigue sirviendo pedidos a domicilio. Misma noche, con Laymon en marcha.</p><a class="ev-cta" href="https://api.whatsapp.com/send/?phone=525535023665&amp;text=Hola%2C%20quiero%20cotizar%20el%20Sal%C3%B3n%20privado.%20Fecha%3A%20%C2%A0Invitados%3A%20" target="_blank" rel="noopener">Cotiza el salón →</a></li>
+        <li class="pf-paso"><span class="ev-tag">25 o más</span><h3>Todo Laymon</h3><p>Cerramos para ti. El local completo es de tu grupo: tu música, tu mesa larga y el horno trabajando solo para ustedes.</p><a class="ev-cta" href="#arma" data-modalidad="Todo Laymon">Cotiza Todo Laymon →</a></li>
+        <li class="pf-paso"><span class="ev-tag">25 o más</span><h3>Salón privado</h3><p>El comedor es de tu grupo mientras la cocina sigue sirviendo pedidos a domicilio. Misma noche, con Laymon en marcha.</p><a class="ev-cta" href="#arma" data-modalidad="Salón privado">Cotiza el salón →</a></li>
       </ol>
-      <p class="ev-nota">Elijas la que elijas, te toca la misma atención y la misma noche armada como concierto. Lo único que cambia es el espacio.</p>
+      <p class="ev-nota">Elijas la que elijas, te toca la misma atención y la misma noche armada como concierto. Lo único que cambia es el espacio. En todos los casos se aparta con anticipo.</p>
+    </section>
+
+    <section class="ev-galeria" aria-labelledby="galeria-title">
+      <div class="ev-galeria__in">
+        <h2 id="galeria-title" class="display">Así suena una noche en Laymon</h2>
+        <p class="ev-galeria__txt">Música en vivo, luces cálidas y pizza saliendo del horno. Fotos de una de nuestras noches de diciembre.</p>
+        <div class="ev-mosaico">
+          <img class="ev-foto ev-foto--alta" src="../assets/img/eventos/noche-patio.webp" width="1000" height="1500" alt="Banda tocando en vivo bajo las luces del patio de Laymon" loading="lazy">
+          <img class="ev-foto" src="../assets/img/eventos/cantante-bateria.webp" width="1400" height="1000" alt="Vocalista y baterista durante el concierto, con el árbol de Navidad al fondo" loading="lazy">
+          <img class="ev-foto" src="../assets/img/eventos/pizza.webp" width="1400" height="1000" alt="Pizza napolitana recién salida del horno con verduras y queso" loading="lazy">
+          <img class="ev-foto ev-foto--alta" src="../assets/img/eventos/guitarra.webp" width="1000" height="1400" alt="Guitarrista tocando durante un evento en Laymon" loading="lazy">
+        </div>
+      </div>
     </section>
 
     <section class="pf-como" id="noche" aria-labelledby="noche-title">
@@ -72,20 +85,61 @@
         <h2 id="noche-title" class="display">Una noche armada como concierto</h2>
       </div>
       <ol class="pf-pasos">
-        <li class="pf-paso"><span class="pf-paso__n">01</span><h3>Soundcheck</h3><p>Antes de llegar, lo dejamos listo contigo.</p><ul class="ev-lista"><li>Setlist de pizzas: eligen su menú con anticipación y todo sale al ritmo de la mesa.</li><li>Playlist del grupo: cada quien propone sus canciones y la sala suena como ustedes.</li><li>Cartel digital de la noche, con el nombre de su evento, para invitar a su gente.</li></ul></li>
+        <li class="pf-paso"><span class="pf-paso__n">01</span><h3>Soundcheck</h3><p>Antes de llegar, lo dejamos listo contigo.</p><ul class="ev-lista"><li>Setlist de pizzas: eligen su menú con anticipación y todo sale al ritmo de la mesa.</li><li>Playlist del grupo: cada quien propone sus canciones y la sala suena como ustedes.</li><li>Invitación digital hecha para tu evento, lista para mandar a tus invitados.</li></ul></li>
         <li class="pf-paso"><span class="pf-paso__n">02</span><h3>El show</h3><p>Lo que pasa cuando llegan.</p><ul class="ev-lista"><li>Un anfitrión de Laymon asignado a su grupo toda la noche.</li><li>Estiran su propia masa con el pizzero: un taller en vivo antes de comer lo que hicieron.</li><li>Karaoke y espacio para música en vivo, si su grupo lo pide.</li></ul></li>
-        <li class="pf-paso"><span class="pf-paso__n">03</span><h3>Encore</h3><p>Lo que se llevan.</p><ul class="ev-lista"><li>Lo que sobra va en caja para llevar, con el fantasma.</li><li>Foto del grupo con el fantasma y un recuerdo digital al día siguiente.</li><li>Puntos de Fuego para quien organiza, sobre todo lo que consumió el grupo.</li></ul></li>
+        <li class="pf-paso"><span class="pf-paso__n">03</span><h3>Encore</h3><p>Lo que se llevan.</p><ul class="ev-lista"><li>Lo que sobra va en caja para llevar, con el fantasma.</li><li>Foto del grupo con el fantasma y un recuerdo digital al día siguiente.</li><li>Puntos de Fuego de regreso por todo lo que consumió el grupo.</li></ul></li>
       </ol>
-      <div class="pf-wallet">
-        <p class="pf-wallet__txt"><strong>Cuéntanos fecha y cuántos son.</strong> Te respondemos con una propuesta que puedes revisar y firmar en línea.</p>
-        <a class="pf-wallet__btn" href="https://api.whatsapp.com/send/?phone=525535023665&amp;text=Hola%2C%20quiero%20cotizar%20un%20evento%20en%20Laymon.%20Fecha%3A%20%C2%A0Invitados%3A%20" target="_blank" rel="noopener">Escríbenos por WhatsApp <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="ev-arma" id="arma" aria-labelledby="arma-title">
+      <div class="ev-arma__in">
+        <h2 id="arma-title" class="display">Arma tu evento</h2>
+        <p class="ev-arma__txt">Marca lo que te gustaría incluir. Algunas cosas las pones tú y otras las conseguimos nosotros; en tu propuesta te decimos cuál es cuál.</p>
+        <form class="ev-form" data-evento-form novalidate>
+          <div class="ev-datos">
+            <label for="ev-fecha">Fecha que tienes en mente<input id="ev-fecha" name="fecha" type="text" placeholder="Ej. sábado 19 de diciembre" autocomplete="off"></label>
+            <label for="ev-invitados">¿Cuántos invitados?<input id="ev-invitados" name="invitados" type="number" min="1" max="300" inputmode="numeric" placeholder="25" autocomplete="off"></label>
+            <label for="ev-modalidad">Cómo lo imaginas
+              <select id="ev-modalidad" name="modalidad">
+                <option value="">Aún no lo sé, ayúdame</option>
+                <option>Todo Laymon</option>
+                <option>Salón privado</option>
+              </select>
+            </label>
+          </div>
+          <p class="ev-aviso" data-evento-aviso hidden>Con menos de 25 invitados lo mejor es una mesa. <a href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa aquí →</a></p>
+          <fieldset class="ev-grupo"><legend>De temporada</legend><ul class="ev-check"><li><label><input type="checkbox" name="inc" value="Piñata"><span><b>Piñata</b> <small>con dulces o llenita de sorpresas</small></span></label></li><li><label><input type="checkbox" name="inc" value="Dulceros"><span><b>Dulceros</b> <small>bolos para cada invitado</small></span></label></li><li><label><input type="checkbox" name="inc" value="Ponche o chocolate caliente"><span><b>Ponche o chocolate caliente</b></span></label></li><li><label><input type="checkbox" name="inc" value="Intercambio de regalos"><span><b>Intercambio de regalos</b> <small>mesa lista para el intercambio</small></span></label></li><li><label><input type="checkbox" name="inc" value="Decoración de temporada para tu mesa"><span><b>Decoración de temporada para tu mesa</b></span></label></li></ul></fieldset><fieldset class="ev-grupo"><legend>Música</legend><ul class="ev-check"><li><label><input type="checkbox" name="inc" value="Playlist del grupo"><span><b>Playlist del grupo</b> <small>cada quien manda sus canciones</small></span></label></li><li><label><input type="checkbox" name="inc" value="Karaoke"><span><b>Karaoke</b></span></label></li><li><label><input type="checkbox" name="inc" value="Banda o DJ propio"><span><b>Banda o DJ propio</b> <small>con espacio para tocar</small></span></label></li></ul></fieldset><fieldset class="ev-grupo"><legend>Comida y bebida</legend><ul class="ev-check"><li><label><input type="checkbox" name="inc" value="Setlist de pizzas con anticipación"><span><b>Setlist de pizzas con anticipación</b> <small>tu menú elegido antes de llegar</small></span></label></li><li><label><input type="checkbox" name="inc" value="Taller de masa"><span><b>Taller de masa</b> <small>estiran su propia pizza</small></span></label></li><li><label><input type="checkbox" name="inc" value="Brindis con Cold Wave"><span><b>Brindis con Cold Wave</b></span></label></li><li><label><input type="checkbox" name="inc" value="Cajas para llevar"><span><b>Cajas para llevar</b> <small>lo que sobra va con ustedes</small></span></label></li></ul></fieldset><fieldset class="ev-grupo"><legend>Recuerdo</legend><ul class="ev-check"><li><label><input type="checkbox" name="inc" value="Invitación digital de tu evento"><span><b>Invitación digital de tu evento</b> <small>para mandar a tus invitados</small></span></label></li><li><label><input type="checkbox" name="inc" value="Foto del grupo con el fantasma"><span><b>Foto del grupo con el fantasma</b></span></label></li></ul></fieldset>
+          <button class="ev-enviar" type="submit" data-evento-enviar>Cotiza por WhatsApp <span aria-hidden="true">→</span></button>
+          <p class="ev-fine">Se abre WhatsApp con tu selección ya escrita. Todos los eventos se apartan con anticipo.</p>
+        </form>
       </div>
+    </section>
+
+    <section class="ev-puntos" id="puntos-evento" aria-labelledby="pe-title">
+      <div class="ev-puntos__in">
+        <div>
+          <p class="pf-kicker">Eventos apartados con anticipo</p>
+          <h2 id="pe-title" class="ev-puntos__titulo">Tu evento regresa en puntos</h2>
+          <p class="ev-puntos__lead"><strong>10<span class="pf-pct">%</span></strong> de lo que consuma tu grupo vuelve a ti en Puntos de Fuego, para tu siguiente visita. Cada punto vale un peso.</p>
+          <p class="ev-fine ev-fine--claro">Aplica al consumo de carta de eventos registrados con anticipo, no a las cuotas del evento. Los puntos pueden cubrir hasta el 50% de una cuenta y duran 6 meses.</p>
+        </div>
+        <img class="pf-fantasma ev-puntos__fantasma" src="../assets/img/fantasma/poses/agarre.webp" width="359" height="422" alt="" loading="lazy">
+      </div>
+    </section>
+
+    <section class="pf-como" id="como" aria-labelledby="como-title">
+      <div class="pf-cabeza"><h2 id="como-title" class="display">Así se aparta</h2></div>
+      <ol class="pf-pasos">
+        <li class="pf-paso"><span class="pf-paso__n">01</span><h3>Cuéntanos</h3><p>Fecha, número de invitados y lo que quieres incluir. Lo mandas por WhatsApp desde aquí.</p></li>
+        <li class="pf-paso"><span class="pf-paso__n">02</span><h3>Propuesta y anticipo</h3><p>Te respondemos con una propuesta que puedes revisar y firmar en línea. La fecha queda apartada con tu anticipo.</p></li>
+        <li class="pf-paso"><span class="pf-paso__n">03</span><h3>Nos vemos</h3><p>Armamos tu invitación digital, afinamos el setlist de pizzas y el día del evento tú solo llegas.</p></li>
+      </ol>
     </section>
 
     <section class="pf-final" aria-labelledby="final-title">
       <img class="pf-fantasma pf-fantasma--final" src="../assets/img/fantasma/poses/tabla-en-alto.webp" width="306" height="422" alt="" loading="lazy">
       <h2 id="final-title" class="pf-final__titulo">Las fechas de diciembre se van rápido</h2>
-      <a class="pedir" href="https://api.whatsapp.com/send/?phone=525535023665&amp;text=Hola%2C%20quiero%20cotizar%20un%20evento%20en%20Laymon.%20Fecha%3A%20%C2%A0Invitados%3A%20" target="_blank" rel="noopener">Cotiza tu fecha</a>
+      <a class="pedir" href="#arma">Arma tu evento</a>
     </section>
   </main>
 

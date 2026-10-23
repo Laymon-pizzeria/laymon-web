@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Estás invitado · Laymon Pizzería</title>
+  <meta name="description" content="Invitación a un evento en Laymon Pizzería Artesanal, Coacalco.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#EA1D3B">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/img/logo/favicon-48.png">
+  <link rel="apple-touch-icon" href="../../assets/img/logo/favicon-180.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Estás invitado · Laymon">
+  <meta property="og:description" content="Una noche en Laymon Pizzería Artesanal, Coacalco.">
+  <meta property="og:image" content="https://www.laymonpizzeria.com/assets/img/og/home.jpg">
+  <link rel="preload" href="../../assets/fonts/brick-laymon.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/eventos.css">
+  <script src="../../assets/js/invitacion.js" defer></script>
+</head>
+<body class="inv">
+  <main class="inv__cartel" id="contenido">
+    <section class="inv__tarjeta" data-inv-tarjeta hidden aria-labelledby="inv-nombre">
+      <p class="inv__kicker">Estás invitado</p>
+      <h1 class="inv__nombre" id="inv-nombre" data-inv-nombre></h1>
+      <img class="inv__fantasma" src="../../assets/img/fantasma/poses/kickflip.webp" width="320" height="320" alt="">
+      <dl class="inv__datos">
+        <div><dt>Cuándo</dt><dd data-inv-cuando></dd></div>
+        <div><dt>Dónde</dt><dd>Laymon Pizzería Artesanal<br>C. Belisario Domínguez 38, San Francisco Coacalco, Edo. Méx.</dd></div>
+      </dl>
+      <p class="inv__mensaje" data-inv-mensaje hidden></p>
+      <p class="inv__anfitrion" data-inv-anfitrion hidden></p>
+      <div class="inv__acciones">
+        <a class="pedir" href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+      <p class="inv__pie">Fire food · Respect the dough · And Rock and Roll</p>
+    </section>
+
+    <section class="inv__generador" data-inv-generador hidden aria-labelledby="gen-title">
+      <h1 id="gen-title" class="inv__nombre">Crea una invitación</h1>
+      <p class="inv__ayuda">Para el equipo de Laymon. Llena los datos del evento y copia el enlace para mandarlo al organizador.</p>
+      <form class="ev-datos inv__form" data-inv-form novalidate>
+        <label for="g-nombre">Nombre del evento<input id="g-nombre" name="n" type="text" maxlength="60" placeholder="Posada de Ana y su banda" autocomplete="off"></label>
+        <label for="g-fecha">Fecha<input id="g-fecha" name="f" type="text" maxlength="60" placeholder="Sábado 19 de diciembre" autocomplete="off"></label>
+        <label for="g-hora">Hora<input id="g-hora" name="h" type="text" maxlength="30" placeholder="7:00 pm" autocomplete="off"></label>
+        <label for="g-anf">De parte de<input id="g-anf" name="a" type="text" maxlength="60" placeholder="Ana" autocomplete="off"></label>
+        <label for="g-msg">Mensaje corto (opcional)<input id="g-msg" name="m" type="text" maxlength="120" placeholder="Trae hambre y tu mejor playlist" autocomplete="off"></label>
+        <button class="ev-enviar" type="submit">Crear enlace</button>
+      </form>
+      <div class="inv__resultado" data-inv-resultado hidden>
+        <label for="g-enlace" class="inv__ayuda">Enlace de la invitación</label>
+        <input id="g-enlace" class="inv__enlace" type="text" readonly data-inv-enlace>
+        <div class="inv__acciones">
+          <button class="ev-enviar" type="button" data-inv-copiar>Copiar enlace</button>
+          <a class="ev-cta" href="#" data-inv-ver target="_blank" rel="noopener">Ver invitación →</a>
+        </div>
+        <p class="ev-fine" data-inv-ok aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
