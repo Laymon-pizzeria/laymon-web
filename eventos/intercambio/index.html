@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sorteo de intercambio · Laymon Pizzería</title>
+  <meta name="description" content="Sortea los nombres de tu intercambio de regalos. Cada invitado recibe su enlace secreto.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#EA1D3B">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/img/logo/favicon-48.png">
+  <link rel="apple-touch-icon" href="../../assets/img/logo/favicon-180.png">
+  <link rel="preload" href="../../assets/fonts/brick-laymon.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/eventos.css">
+  <script src="../../assets/js/intercambio.js" defer></script>
+</head>
+<body class="inv">
+  <main class="inv__cartel" id="contenido">
+    <section class="inv__tarjeta" data-ic-revela hidden aria-labelledby="ic-hola">
+      <p class="inv__kicker" data-ic-evento>Intercambio de regalos</p>
+      <h1 class="inv__nombre" id="ic-hola" data-ic-hola></h1>
+      <img class="inv__fantasma ev-baila" src="../../assets/img/fantasma/poses/ollie.webp" width="375" height="422" alt="">
+      <button class="ev-enviar" type="button" data-ic-ver>Descubre a quién le regalas</button>
+      <dl class="inv__datos" data-ic-resultado hidden>
+        <div><dt>Te toca regalarle a</dt><dd class="ic-nombre" data-ic-a aria-live="polite"></dd></div>
+        <div data-ic-detalles hidden><dt>Detalles</dt><dd data-ic-extra></dd></div>
+      </dl>
+      <p class="inv__pie">Es un secreto. No se lo cuentes a nadie.</p>
+    </section>
+
+    <section class="inv__generador" data-ic-generador hidden aria-labelledby="ic-title">
+      <h1 id="ic-title" class="inv__nombre">Sorteo de intercambio</h1>
+      <p class="inv__ayuda">Escribe los nombres, uno por línea. Al sortear, cada persona recibe un enlace secreto que le dice a quién le toca regalar. Tú solo mandas los enlaces: no los abras, para que también sea sorpresa para ti.</p>
+      <form class="ev-datos inv__form" data-ic-form novalidate>
+        <label for="ic-evento">Nombre del evento (opcional)<input id="ic-evento" name="e" type="text" maxlength="60" placeholder="Posada de la oficina" autocomplete="off"></label>
+        <label for="ic-extra">Monto, fecha o regla (opcional)<input id="ic-extra" name="x" type="text" maxlength="120" placeholder="Regalo de hasta $300, el 19 de diciembre" autocomplete="off"></label>
+        <label class="ev-abierto" for="ic-nombres">Nombres, uno por línea<textarea id="ic-nombres" name="n" rows="8" placeholder="Ana&#10;Luis&#10;Marta&#10;Beto"></textarea></label>
+        <button class="ev-enviar" type="submit">Sortear</button>
+      </form>
+      <p class="ev-fine" data-ic-error role="alert" hidden></p>
+      <ul class="ic-lista" data-ic-lista hidden></ul>
+    </section>
+  </main>
+</body>
+</html>
