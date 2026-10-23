@@ -1,11 +1,13 @@
 // Laymon — interacciones del sitio. Sin dependencias.
 
+// Ruta de este archivo, para cargar lo de assets/vendor bajo demanda (funciona igual desde / y desde /puntos/)
+const scriptBase = document.currentScript ? document.currentScript.src : location.href;
+
 document.addEventListener('DOMContentLoaded', () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Intro del fantasma: al terminar se quita del DOM; lo demás arranca cuando la ola destapa la página
   const intro = document.querySelector('[data-intro]');
-  const introWait = reduceMotion || !intro ? 0 : 3800;
   if (intro) {
     if (reduceMotion) intro.remove();
     else setTimeout(() => intro.remove(), 5400);
@@ -23,66 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setHero(entry.isIntersecting || entry.boundingClientRect.top > 0);
     }).observe(heroCta);
   } else setHero(false);
-
-  // Fantasma: hace su truco al cargar y cada vez que lo tocas
-  const ghost = document.querySelector('[data-ghost]');
-  if (ghost && !reduceMotion) {
-    const frames = [...ghost.querySelectorAll('.ghost__frame')];
-    let playing = false;
-    const trick = () => {
-      if (playing) return;
-      playing = true;
-      let i = 0;
-      const step = () => {
-        frames.forEach((f, n) => f.classList.toggle('is-on', n === i));
-        if (++i < frames.length) setTimeout(step, 150);
-        else playing = false;
-      };
-      step();
-    };
-    // Una vez al cargar, cuando el logo ya dejó de mecerse; luego solo al pasar el cursor o tocarlo
-    setTimeout(trick, introWait + 2200);
-    ghost.addEventListener('click', trick);
-    ghost.addEventListener('pointerenter', trick);
-  }
-
-  // Fantasma del hero: sigue al cursor apenas (solo escritorio)
-  const art = document.querySelector('[data-parallax]');
-  if (art && !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    let frame = 0;
-    window.addEventListener('pointermove', (e) => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth - 0.5) * -14;
-        const y = (e.clientY / window.innerHeight - 0.5) * -8;
-        art.style.transform = `translate(${x}px, ${y}px)`;
-      });
-    });
-  }
-
-  // Playlist: el reproductor de Spotify solo se carga si lo piden
-  const playlistBtn = document.querySelector('[data-playlist]');
-  const playlist = document.getElementById('playlist');
-  document.querySelectorAll('[data-open-playlist]').forEach((link) => {
-    link.addEventListener('click', () => {
-      if (playlistBtn && playlistBtn.getAttribute('aria-expanded') !== 'true') playlistBtn.click();
-    });
-  });
-  if (playlistBtn && playlist) {
-    playlistBtn.addEventListener('click', () => {
-      const open = playlistBtn.getAttribute('aria-expanded') === 'true';
-      playlistBtn.setAttribute('aria-expanded', String(!open));
-      playlist.hidden = open;
-      if (!open && !playlist.firstChild) {
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://open.spotify.com/embed/playlist/6XAcaR5LWKgsEgesujMqM6?theme=0';
-        iframe.title = 'Playlist de Laymon en Spotify';
-        iframe.loading = 'lazy';
-        iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
-        playlist.appendChild(iframe);
-      }
-    });
-  }
 
   // Pizzas en cascada diagonal (copiada del video de referencia de Luis):
   // el mazo cerrado al centro → se abre en diagonal detrás → el mazo se reparte: la tarjeta activa
@@ -241,15 +183,18 @@ document.addEventListener('DOMContentLoaded', () => {
       idx = (idx + 1) % pasos.length;
       if (idx === 0) vuelta++;
     };
+    // El reloj solo corre con la sección en pantalla; fuera de ella no queda ningún cuadro pendiente
+    let cuadro = 0;
     const tick = (now) => {
       const dt = last ? Math.min(now - last, 100) : 0;
       last = now;
-      if (!pausa && enPantalla) {
+      if (!pausa) {
         reloj += dt;
         if (reloj >= siguiente) correr();
       }
-      requestAnimationFrame(tick);
+      cuadro = enPantalla ? requestAnimationFrame(tick) : 0;
     };
+    const arrancar = () => { if (!cuadro) { last = 0; cuadro = requestAnimationFrame(tick); } };
 
     // Cada vez que llegas a la sección la secuencia empieza de cero: la primera tarjeta crece desde la nada.
     // Al salir se congela; al volver arranca otra vez desde el principio.
@@ -263,15 +208,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     medir();
     reiniciar();
-    requestAnimationFrame(tick);
 
-    window.addEventListener('resize', () => { medir(); aplicar(0); });
+    // En celular la barra del navegador cambia el alto de la ventana al hacer scroll: eso no mueve el
+    // escenario, así que solo se vuelve a medir si cambió su tamaño (si no, las tarjetas brincaban a media animación)
+    let tam = `${escena.clientWidth}x${escena.clientHeight}`;
+    window.addEventListener('resize', () => {
+      const t = `${escena.clientWidth}x${escena.clientHeight}`;
+      if (t === tam) return;
+      tam = t; medir(); aplicar(0);
+    });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([e]) => {
         if (e.isIntersecting && !enPantalla) reiniciar();
         enPantalla = e.isIntersecting;
+        if (enPantalla) arrancar();
       }, { threshold: 0.35 }).observe(escena);
-    } else enPantalla = true;
+    } else { enPantalla = true; arrancar(); }
     escena.addEventListener('pointerover', (e) => { if (e.pointerType === 'mouse' && e.target.closest('li')) pausa = true; });
     escena.addEventListener('pointerout', (e) => {
       if (e.pointerType === 'mouse' && !e.relatedTarget?.closest?.('[data-cascada] li')) pausa = false;
@@ -307,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-  if (ruta && window.L) {
+  const iniciarMapa = () => {
     const laymon = [+ruta.dataset.lat, +ruta.dataset.lng];
     const msg = ruta.querySelector('[data-ruta-msg]');
     const btn = ruta.querySelector('[data-ruta-btn]');
@@ -461,8 +413,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); mapa.invalidateSize(); } });
       io.observe(ruta);
     }
-  } else if (ruta) {
-    ruta.classList.add('ruta--sinmapa');
+  };
+  // Leaflet (~160 KB) se descarga solo cuando el mapa se acerca a la pantalla, no en la carga inicial
+  if (ruta) {
+    const sinMapa = () => ruta.classList.add('ruta--sinmapa');
+    const cargar = (el) => new Promise((ok, mal) => { el.onload = ok; el.onerror = mal; });
+    const cargarMapa = () => {
+      // La hoja de Leaflet va antes de main.css, para que nuestros estilos del mapa sigan mandando
+      const css = Object.assign(document.createElement('link'), { rel: 'stylesheet', href: new URL('../vendor/leaflet/leaflet.css', scriptBase).href });
+      const js = Object.assign(document.createElement('script'), { src: new URL('../vendor/leaflet/leaflet.js', scriptBase).href });
+      const listos = Promise.all([cargar(css), cargar(js)]);
+      document.head.insertBefore(css, document.querySelector('link[rel="stylesheet"]'));
+      document.head.appendChild(js);
+      listos.then(() => (window.L ? iniciarMapa() : sinMapa()), sinMapa);
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); cargarMapa(); } }, { rootMargin: '900px 0px' });
+      io.observe(ruta);
+    } else cargarMapa();
   }
 
   // Ensaladas: una carta por poeta. Deslizas (o tocas un punto, o flechas del teclado) y la carta gira a la siguiente;
