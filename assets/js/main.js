@@ -608,64 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const kicker = envivo.querySelector('[data-envivo-kicker]');
       if (ahora >= Date.parse(d.inicio)) kicker.textContent = 'Sonando ahora en Laymon';
       else if (ahora >= Date.parse(d.dia)) kicker.textContent = 'Hoy en Laymon';
-      cartelVivo(envivo.querySelector('[data-cartel-vivo]'));
     }
-  }
-
-  // Cartel animado del en vivo: el lienzo cubre toda la sección y dibuja a Miguel dentro de .envivo__escenario.
-  // Carga el motor y las capas solo cuando la sección se asoma, corre a ~24 cuadros y se pausa fuera de pantalla.
-  // Con movimiento reducido se queda la silueta fija.
-  function cartelVivo(caja) {
-    if (!caja || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-    const seccion = caja.closest('.envivo');
-    let cartel, visible = false, t0 = 0, pausa = 0, ultimo = 0, cargando = false, ancho = 0;
-    const lienzo = document.createElement('canvas');
-    lienzo.className = 'envivo__lienzo'; lienzo.setAttribute('aria-hidden', 'true');
-    const cuadro = ms => {
-      if (!visible) return;
-      requestAnimationFrame(cuadro);
-      if (ms - ultimo < 40) return;
-      ultimo = ms; cartel.dibuja((ms - t0) / 1000);
-    };
-    const arma = () => {
-      const r = seccion.getBoundingClientRect(), e = caja.getBoundingClientRect();
-      const dpr = Math.min(devicePixelRatio || 1, r.width > 900 ? 1.5 : 2), esc = Math.min(dpr, 1500 / r.width);
-      ancho = r.width;
-      lienzo.width = Math.round(r.width * esc); lienzo.height = Math.round(r.height * esc);
-      const bx = (e.left - r.left) * esc, by = (e.top - r.top) * esc, bw = e.width * esc, bh = e.height * esc;
-      const apilado = e.top >= caja.previousElementSibling.getBoundingClientRect().bottom - 1;
-      cartel = CartelVivo.crear(lienzo, cartelVivo.R, {
-        web: true,
-        encuadre: () => {
-          const s = Math.min(bh * .97 / 1346, bw * 1.15 / 823);
-          return { s, cx: bx + bw / 2, top: by + bh - 1346 * s, rx: Math.max(bw * .58, 260 * esc), ry: bh * .5 };
-        },
-        // flechas y texto rojo ampliado solo del lado del cantante (a la derecha en escritorio, abajo en celular)
-        recorte: (W, H) => apilado ? { x: 0, y: by - 24 * esc, w: W, h: H } : { x: bx - 24 * esc, y: 0, w: W, h: H }
-      });
-      cartel.dibuja((performance.now() - t0) / 1000);
-    };
-    const arranca = () => {
-      seccion.prepend(lienzo); t0 = performance.now(); arma();
-      lienzo.classList.add('is-on'); seccion.classList.add('is-vivo');
-      if (visible) requestAnimationFrame(cuadro);
-      let espera;
-      addEventListener('resize', () => { clearTimeout(espera); espera = setTimeout(() => { if (seccion.getBoundingClientRect().width !== ancho) arma(); }, 200); });
-    };
-    const carga = () => {
-      cargando = true;
-      const js = document.createElement('script');
-      js.src = 'assets/js/cartel-vivo.js';
-      js.onload = () => CartelVivo.cargar('assets/img/envivo/cartel/', null).then(R => { cartelVivo.R = R; arranca(); }).catch(() => {});
-      document.head.append(js);
-    };
-    new IntersectionObserver(([e]) => {
-      const antes = visible; visible = e.isIntersecting;
-      if (visible && !cargando) carga();
-      if (!cartel) return;
-      if (visible && !antes) { t0 += performance.now() - pausa; requestAnimationFrame(cuadro); }
-      if (!visible && antes) pausa = performance.now();
-    }, { rootMargin: '200px 0px' }).observe(seccion);
   }
 
   // Horario: marca el día de hoy (hora de Coacalco)
