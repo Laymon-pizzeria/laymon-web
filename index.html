@@ -107,7 +107,7 @@
         "@context": "https://schema.org",
         "@type": "MusicEvent",
         "name": "Música en vivo en Laymon: oldies y clásicos del rock en acústico",
-        "description": "Un músico en acústico tocando oldies y clásicos del rock en Laymon Pizzería Artesanal, Coacalco.",
+        "description": "Miguel Rocha en acústico tocando oldies y clásicos del rock en Laymon Pizzería Artesanal, Coacalco.",
         "startDate": "2026-10-31T18:00:00-06:00",
         "endDate": "2026-10-31T21:00:00-06:00",
         "eventStatus": "https://schema.org/EventScheduled",
@@ -120,6 +120,7 @@
           "name": "Laymon Pizzería Artesanal",
           "address": { "@type": "PostalAddress", "streetAddress": "C. Belisario Domínguez 38", "addressLocality": "San Francisco Coacalco", "addressRegion": "Estado de México", "addressCountry": "MX" }
         },
+        "performer": { "@type": "Person", "name": "Miguel Rocha" },
         "organizer": { "@type": "Organization", "name": "Laymon Pizzería Artesanal", "url": "https://www.laymonpizzeria.com/" }
       }
       </script>
@@ -127,10 +128,10 @@
         <!-- Cartel de tocada (ref. de Luis: cartel punk fotocopiado) pasado a los colores Laymon:
              fondo rojo con trama, músico en halftone sobre una mancha negra quebrada con contorno papel, título a mano y garabatos -->
         <div class="cartel">
-          <div class="cartel__foto">
-            <span class="cartel__contorno" aria-hidden="true"></span>
-            <span class="cartel__mancha" aria-hidden="true"></span>
-            <img class="cartel__musico" src="assets/img/envivo/musico-trama.webp" width="760" height="1236" alt="El músico del sábado, sentado en un banco tocando una guitarra acústica" loading="lazy">
+          <!-- Cartel animado con las capas de Luis: el mismo motor que el video del anuncio (assets/js/cartel-vivo.js).
+               Sin JS o con movimiento reducido se queda la imagen fija -->
+          <div class="cartel__foto" data-cartel-vivo>
+            <img class="cartel__fijo" src="assets/img/envivo/cartel-fijo.webp" width="800" height="1000" alt="Cartel: Miguel Rocha en silueta con su guitarra, 31 de octubre, clásicos del rock en acústico" loading="lazy">
           </div>
           <div class="cartel__texto">
             <p class="envivo__kicker"><span class="envivo__aire" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-envivo-kicker>Este sábado en Laymon</span></p>
@@ -151,7 +152,7 @@
           </svg>
         </div>
         <div class="envivo__pie">
-          <p class="envivo__lead">Un músico, una guitarra y los oldies y clásicos del rock que te sabes de memoria. Tú pones la mesa llena; nosotros, la pizza recién salida del horno.</p>
+          <p class="envivo__lead">Miguel Rocha, una guitarra y los oldies y clásicos del rock que te sabes de memoria. Tú pones la mesa llena; nosotros, la pizza recién salida del horno.</p>
           <div class="envivo__ctas">
             <a class="envivo__btn" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
             <a class="envivo__llegar" href="#visitanos">Cómo llegar</a>
