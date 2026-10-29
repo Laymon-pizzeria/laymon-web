@@ -99,6 +99,46 @@
       </div>
     </section>
 
+    <!-- EN VIVO (temporal): música acústica el sábado 31 oct 2026, 6 a 9 pm. main.js lo quita solo al pasar data-hasta.
+         Para borrarlo del todo: quitar esta sección (incluye su JSON-LD), su CSS ".envivo" en main.css y el bloque "En vivo" de main.js -->
+    <section class="envivo" id="en-vivo" aria-labelledby="envivo-title" data-envivo data-dia="2026-10-31T00:00:00-06:00" data-inicio="2026-10-31T18:00:00-06:00" data-hasta="2026-10-31T21:00:00-06:00">
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicEvent",
+        "name": "Música en vivo en Laymon: oldies y clásicos del rock en acústico",
+        "description": "Un músico en acústico tocando oldies y clásicos del rock en Laymon Pizzería Artesanal, Coacalco.",
+        "startDate": "2026-10-31T18:00:00-06:00",
+        "endDate": "2026-10-31T21:00:00-06:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "image": "https://www.laymonpizzeria.com/assets/img/og/home.jpg",
+        "url": "https://www.laymonpizzeria.com/#en-vivo",
+        "location": {
+          "@type": "Restaurant",
+          "@id": "https://www.laymonpizzeria.com/#restaurante",
+          "name": "Laymon Pizzería Artesanal",
+          "address": { "@type": "PostalAddress", "streetAddress": "C. Belisario Domínguez 38", "addressLocality": "San Francisco Coacalco", "addressRegion": "Estado de México", "addressCountry": "MX" }
+        },
+        "organizer": { "@type": "Organization", "name": "Laymon Pizzería Artesanal", "url": "https://www.laymonpizzeria.com/" }
+      }
+      </script>
+      <div class="envivo__in">
+        <img class="envivo__fantasma envivo__fantasma--izq" src="assets/img/fantasma/poses/agarre.webp" width="359" height="422" alt="" loading="lazy">
+        <div class="envivo__texto">
+          <p class="envivo__kicker"><span class="envivo__aire" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-envivo-kicker>Este sábado en Laymon</span></p>
+          <h2 id="envivo-title" class="envivo__titulo">Música en vivo</h2>
+          <p class="envivo__cuando"><time datetime="2026-10-31T18:00-06:00">Sábado 31 de octubre</time> <span class="envivo__hora">6 a 9 pm</span></p>
+          <p class="envivo__lead">Un músico, una guitarra acústica y los oldies y clásicos del rock que te sabes de memoria. Tú pones la mesa llena; nosotros, la pizza recién salida del horno.</p>
+          <div class="envivo__ctas">
+            <a class="envivo__btn" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
+            <a class="envivo__llegar" href="#visitanos">Cómo llegar</a>
+          </div>
+        </div>
+        <img class="envivo__fantasma envivo__fantasma--der" src="assets/img/fantasma/poses/tabla-en-alto.webp" width="306" height="422" alt="" loading="lazy">
+      </div>
+    </section>
+
     <!-- PIZZAS: las napolitanas del menú de Justo en cascada diagonal (se detiene con el cursor encima) -->
     <section class="pizzas" id="pizzas" aria-labelledby="pizzas-title">
       <div class="pizzas__escena" data-cascada>
