@@ -599,6 +599,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // En vivo (temporal): el aviso dice "hoy" o "sonando ahora" según la hora y se quita solo al terminar el evento
+  const envivo = document.querySelector('[data-envivo]');
+  if (envivo) {
+    const ahora = Date.now(), d = envivo.dataset;
+    if (ahora >= Date.parse(d.hasta)) envivo.remove();
+    else {
+      const kicker = envivo.querySelector('[data-envivo-kicker]');
+      if (ahora >= Date.parse(d.inicio)) kicker.textContent = 'Sonando ahora en Laymon';
+      else if (ahora >= Date.parse(d.dia)) kicker.textContent = 'Hoy en Laymon';
+    }
+  }
+
   // Horario: marca el día de hoy (hora de Coacalco)
   const horario = document.querySelector('[data-horario]');
   if (horario) {
@@ -607,7 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Transiciones al hacer scroll: cada bloque sube y aparece suave al entrar en pantalla (nada si se pide menos movimiento)
-  const revelar = [...document.querySelectorAll('.pizzas__concepto, .ensaladas__titulo, .visit__title, .ruta, .visit__body, .cold__texto, .manifesto__title, .manifesto__row, .fuego__texto, .fuego__fantasma, .pf-cabeza, .pf-paso, .pf-wallet, .pf-calc__cabeza, .pf-calc__control, .pf-calc__res, .pf-caduca__in, .pf-faq, .pf-final__titulo')];
+  const revelar = [...document.querySelectorAll('.envivo__texto, .pizzas__concepto, .ensaladas__titulo, .visit__title, .ruta, .visit__body, .cold__texto, .manifesto__title, .manifesto__row, .fuego__texto, .fuego__fantasma, .pf-cabeza, .pf-paso, .pf-wallet, .pf-calc__cabeza, .pf-calc__control, .pf-calc__res, .pf-caduca__in, .pf-faq, .pf-final__titulo')];
   if (!reduceMotion && 'IntersectionObserver' in window && revelar.length) {
     const io = new IntersectionObserver((entradas) => entradas.forEach((e) => {
       if (!e.isIntersecting) return;
