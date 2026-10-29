@@ -245,11 +245,13 @@ a { color: inherit; }
 .envivo__in {
   max-width: var(--max); margin: 0 auto;
   padding: clamp(48px, 6vw, 84px) var(--gutter);
-  display: grid; grid-template-columns: minmax(110px, 1fr) minmax(0, 640px) minmax(110px, 1fr); align-items: end; gap: clamp(16px, 3vw, 48px);
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 620px) minmax(0, .7fr); align-items: end; gap: clamp(16px, 3vw, 48px);
 }
-.envivo__fantasma { width: min(100%, 210px); height: auto; }
-.envivo__fantasma--izq { justify-self: end; }
-.envivo__fantasma--der { justify-self: start; width: min(100%, 180px); align-self: center; }
+.envivo__fantasma { width: min(100%, 180px); height: auto; justify-self: start; align-self: center; }
+/* Cenital: un halo rojo detrás del músico para que la ropa oscura y la guitarra negra no se pierdan en la tinta */
+.envivo__escena { position: relative; justify-self: end; align-self: end; width: min(100%, 360px); margin-bottom: calc(-1 * clamp(48px, 6vw, 84px)); }
+.envivo__escena::before { content: ""; position: absolute; inset: 4% -30% 0; background: radial-gradient(closest-side, rgba(234, 29, 59, .55), rgba(234, 29, 59, .18) 55%, transparent); z-index: 0; }
+.envivo__musico { position: relative; z-index: 1; width: 100%; height: auto; }
 .envivo__texto { text-align: center; }
 .envivo__kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 253, 250, .78); }
 /* Ecualizador de 4 barras: la "luz de al aire" del cartel */
@@ -268,10 +270,14 @@ a { color: inherit; }
 .envivo__btn:is(:hover, :focus-visible) { background: var(--paper); color: var(--ink); }
 .envivo__llegar { color: var(--paper); text-decoration-color: var(--red); text-underline-offset: 5px; }
 .envivo__llegar:hover { color: var(--red); }
+@media (min-width: 821px) and (max-width: 1100px) {
+  .envivo__in { grid-template-columns: minmax(200px, 280px) minmax(0, 1fr); }
+  .envivo__fantasma { display: none; }
+}
 @media (max-width: 820px) {
-  .envivo__in { grid-template-columns: 1fr; justify-items: center; gap: 4px; padding-top: 40px; padding-bottom: 52px; }
-  .envivo__fantasma--izq { order: -1; justify-self: center; width: 132px; }
-  .envivo__fantasma--der { display: none; }
+  .envivo__in { grid-template-columns: 1fr; justify-items: center; gap: 4px; padding-top: 32px; padding-bottom: 52px; }
+  .envivo__escena { order: -1; justify-self: center; width: 172px; margin-bottom: 14px; }
+  .envivo__fantasma { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .envivo__aire i { animation: none; transform: scaleY(.7); } .envivo__aire i:nth-child(odd) { transform: scaleY(.45); } }
 
