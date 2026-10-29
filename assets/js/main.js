@@ -608,7 +608,45 @@ document.addEventListener('DOMContentLoaded', () => {
       const kicker = envivo.querySelector('[data-envivo-kicker]');
       if (ahora >= Date.parse(d.inicio)) kicker.textContent = 'Sonando ahora en Laymon';
       else if (ahora >= Date.parse(d.dia)) kicker.textContent = 'Hoy en Laymon';
+      cartelVivo(envivo.querySelector('[data-cartel-vivo]'));
     }
+  }
+
+  // Cartel animado del en vivo: carga el motor y las capas solo cuando se asoma, corre a ~20 cuadros
+  // y se pausa fuera de pantalla. Con movimiento reducido se queda la imagen fija.
+  function cartelVivo(caja) {
+    if (!caja || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    let cartel, visible = false, t0 = 0, pausa = 0, ultimo = 0, cargando = false;
+    const lienzo = document.createElement('canvas');
+    lienzo.className = 'cartel__lienzo'; lienzo.setAttribute('aria-hidden', 'true');
+    const cuadro = ms => {
+      if (!visible) return;
+      requestAnimationFrame(cuadro);
+      if (ms - ultimo < 48) return;
+      ultimo = ms; cartel.dibuja((ms - t0) / 1000);
+    };
+    const arranca = () => {
+      const r = caja.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+      lienzo.width = Math.min(1080, Math.round(r.width * dpr)); lienzo.height = Math.round(lienzo.width * 5 / 4);
+      caja.append(lienzo);
+      cartel = CartelVivo.crear(lienzo, cartelVivo.R, { web: true });
+      t0 = performance.now(); cartel.dibuja(0); lienzo.classList.add('is-on');
+      if (visible) requestAnimationFrame(cuadro);
+    };
+    const carga = () => {
+      cargando = true;
+      const js = document.createElement('script');
+      js.src = 'assets/js/cartel-vivo.js';
+      js.onload = () => CartelVivo.cargar('assets/img/envivo/cartel/', null).then(R => { cartelVivo.R = R; arranca(); }).catch(() => {});
+      document.head.append(js);
+    };
+    new IntersectionObserver(([e]) => {
+      const antes = visible; visible = e.isIntersecting;
+      if (visible && !cargando) carga();
+      if (!cartel) return;
+      if (visible && !antes) { t0 += performance.now() - pausa; requestAnimationFrame(cuadro); }
+      if (!visible && antes) pausa = performance.now();
+    }, { rootMargin: '200px 0px' }).observe(caja);
   }
 
   // Horario: marca el día de hoy (hora de Coacalco)

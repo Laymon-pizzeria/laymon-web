@@ -252,15 +252,11 @@ a { color: inherit; }
   background: var(--red) radial-gradient(rgba(12, 11, 11, .16) 1.1px, transparent 1.5px) 0 0 / 7px 7px;
   color: var(--ink);
 }
-.cartel__foto { position: relative; align-self: end; height: 100%; min-height: 0; }
-/* Mancha negra quebrada detrás del músico y su contorno papel desfasado */
-.cartel__mancha, .cartel__contorno {
-  position: absolute; inset: 14% 12% 0 4%;
-  clip-path: polygon(16% 0, 58% 5%, 66% 21%, 96% 28%, 88% 60%, 100% 100%, 0 100%, 2% 40%, 9% 12%);
-}
-.cartel__mancha { background: var(--ink); }
-.cartel__contorno { background: var(--paper); translate: 12px -12px; }
-.cartel__musico { position: absolute; left: 50%; bottom: 0; translate: -46% 0; height: 97%; width: auto; max-width: none; z-index: 1; }
+/* El cartel animado: hoja de papel 4:5 pegada al muro rojo, un poco chueca */
+.cartel__foto { position: relative; align-self: center; margin: clamp(22px, 3vw, 40px) 0 clamp(22px, 3vw, 40px) clamp(20px, 3vw, 44px); aspect-ratio: 4 / 5; rotate: -2deg; background: var(--paper); box-shadow: 10px 12px 0 var(--ink); }
+.cartel__fijo, .cartel__lienzo { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cartel__lienzo { opacity: 0; transition: opacity .3s; }
+.cartel__lienzo.is-on { opacity: 1; }
 
 .cartel__texto { position: relative; z-index: 2; padding: clamp(28px, 4vw, 52px) clamp(20px, 4vw, 56px) clamp(120px, 12vw, 170px) 0; }
 .cartel .envivo__kicker { color: var(--ink); }
@@ -311,7 +307,7 @@ a { color: inherit; }
   .cartel__garabatos { display: none; }
   .cartel__titulo { font-size: clamp(64px, 19vw, 96px); }
   .cartel__fantasma { top: 16px; right: 14px; width: 58px; }
-  .cartel__foto { height: auto; aspect-ratio: 4 / 5; margin-top: 10px; }
+  .cartel__foto { margin: 10px 22px 104px 16px; }
   .cartel__lista { width: 74%; padding: 26px 16px 16px 40px; font-size: 18px; }
   .envivo__pie { margin-top: 22px; }
 }
