@@ -124,19 +124,39 @@
       }
       </script>
       <div class="envivo__in">
-        <!-- El músico (foto de Luis, recortada) parado en el borde de la franja, bajo un cenital rojo -->
-        <div class="envivo__escena"><img class="envivo__musico" src="assets/img/envivo/musico.webp" width="513" height="834" alt="El músico del sábado, sentado en un banco tocando una guitarra acústica negra" loading="lazy"></div>
-        <div class="envivo__texto">
-          <p class="envivo__kicker"><span class="envivo__aire" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-envivo-kicker>Este sábado en Laymon</span></p>
-          <h2 id="envivo-title" class="envivo__titulo">Música en vivo</h2>
-          <p class="envivo__cuando"><time datetime="2026-10-31T18:00-06:00">Sábado 31 de octubre</time> <span class="envivo__hora">6 a 9 pm</span></p>
-          <p class="envivo__lead">Un músico, una guitarra acústica y los oldies y clásicos del rock que te sabes de memoria. Tú pones la mesa llena; nosotros, la pizza recién salida del horno.</p>
+        <!-- Cartel de tocada (ref. de Luis: cartel punk fotocopiado) pasado a los colores Laymon:
+             fondo rojo con trama, músico en halftone sobre una mancha negra quebrada con contorno papel, título a mano y garabatos -->
+        <div class="cartel">
+          <div class="cartel__foto">
+            <span class="cartel__contorno" aria-hidden="true"></span>
+            <span class="cartel__mancha" aria-hidden="true"></span>
+            <img class="cartel__musico" src="assets/img/envivo/musico-trama.webp" width="760" height="1236" alt="El músico del sábado, sentado en un banco tocando una guitarra acústica" loading="lazy">
+          </div>
+          <div class="cartel__texto">
+            <p class="envivo__kicker"><span class="envivo__aire" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-envivo-kicker>Este sábado en Laymon</span></p>
+            <h2 id="envivo-title" class="cartel__titulo"><span>Música</span> <span>en vivo</span></h2>
+            <img class="cartel__fantasma" src="assets/img/fantasma/poses/ollie.webp" width="375" height="422" alt="" loading="lazy">
+            <p class="cartel__fecha"><time datetime="2026-10-31T18:00-06:00">Sáb 31 oct</time> <span class="cartel__hora">6 a 9 pm</span></p>
+          </div>
+          <p class="cartel__lista"><span class="cartel__l1">Oldies</span> <span class="cartel__l2">Rock clásico</span> <span class="cartel__l3">En acústico</span></p>
+          <!-- Garabatos: rayos, destellos y rayitas, como en el cartel de referencia -->
+          <svg class="cartel__garabatos" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <path id="rayo" d="M16 0 3 20h10L5 40l22-25H16L24 0z"/>
+              <path id="destello" d="M10 0c1 6 4 9 10 10-6 1-9 4-10 10-1-6-4-9-10-10 6-1 9-4 10-10z"/>
+            </defs>
+            <use href="#rayo" x="905" y="52"/><use href="#rayo" x="938" y="88" transform="rotate(12 950 100)"/>
+            <use href="#destello" x="452" y="30"/><use href="#destello" x="960" y="300"/><use href="#destello" x="40" y="44"/>
+            <g class="cartel__rayitas"><path d="M540 40l-18-14M556 30l-6-20M574 30l8-18"/><path d="M60 470l-20 6M64 488l-18 14"/></g>
+          </svg>
+        </div>
+        <div class="envivo__pie">
+          <p class="envivo__lead">Un músico, una guitarra y los oldies y clásicos del rock que te sabes de memoria. Tú pones la mesa llena; nosotros, la pizza recién salida del horno.</p>
           <div class="envivo__ctas">
             <a class="envivo__btn" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
             <a class="envivo__llegar" href="#visitanos">Cómo llegar</a>
           </div>
         </div>
-        <img class="envivo__fantasma envivo__fantasma--der" src="assets/img/fantasma/poses/tabla-en-alto.webp" width="306" height="422" alt="" loading="lazy">
       </div>
     </section>
 

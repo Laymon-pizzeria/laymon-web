@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Transiciones al hacer scroll: cada bloque sube y aparece suave al entrar en pantalla (nada si se pide menos movimiento)
-  const revelar = [...document.querySelectorAll('.envivo__texto, .pizzas__concepto, .ensaladas__titulo, .visit__title, .ruta, .visit__body, .cold__texto, .manifesto__title, .manifesto__row, .fuego__texto, .fuego__fantasma, .pf-cabeza, .pf-paso, .pf-wallet, .pf-calc__cabeza, .pf-calc__control, .pf-calc__res, .pf-caduca__in, .pf-faq, .pf-final__titulo')];
+  const revelar = [...document.querySelectorAll('.pizzas__concepto, .ensaladas__titulo, .visit__title, .ruta, .visit__body, .cold__texto, .manifesto__title, .manifesto__row, .fuego__texto, .fuego__fantasma, .pf-cabeza, .pf-paso, .pf-wallet, .pf-calc__cabeza, .pf-calc__control, .pf-calc__res, .pf-caduca__in, .pf-faq, .pf-final__titulo')];
   if (!reduceMotion && 'IntersectionObserver' in window && revelar.length) {
     const io = new IntersectionObserver((entradas) => entradas.forEach((e) => {
       if (!e.isIntersecting) return;
