@@ -48,7 +48,7 @@
   };
   const precarga = () => {
     if (cargada) return; cargada = true; sec.classList.add('is-listo');
-    const urls = ['g1.webp', 'g2.webp', 'esp.jpg', 'lugar.jpg', 'negro.jpg', 'llamas.webp', 'papel.jpg', 'pz1.webp', 'pz2.webp', 'pz3.webp'].map(f => 'assets/img/envivo/ev/' + f);
+    const urls = ['g1.webp', 'g2.webp', 'lugar.jpg', 'negro.jpg', 'llamas2.webp', 'papel.jpg', 'pz1.webp', 'pz2.webp', 'pz3.webp'].map(f => 'assets/img/envivo/ev/' + f);
     const listo = Promise.all(urls.map(u => new Promise(ok => { const i = new Image(); i.onload = i.onerror = ok; i.src = u; })));
     return Promise.race([listo, new Promise(ok => setTimeout(ok, 1500))]);
   };

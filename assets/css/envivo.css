@@ -24,8 +24,8 @@
 }
 /* las imágenes pesadas se piden solo cuando la sección se asoma (envivo.js agrega .is-listo) */
 .envivo.is-listo {
-  --i-g1: url("../img/envivo/ev/g1.webp"); --i-g2: url("../img/envivo/ev/g2.webp"); --i-esp: url("../img/envivo/ev/esp.jpg");
-  --i-lugar: url("../img/envivo/ev/lugar.jpg"); --i-negro: url("../img/envivo/ev/negro.jpg"); --i-llamas: url("../img/envivo/ev/llamas.webp");
+  --i-g1: url("../img/envivo/ev/g1.webp"); --i-g2: url("../img/envivo/ev/g2.webp");
+  --i-lugar: url("../img/envivo/ev/lugar.jpg"); --i-negro: url("../img/envivo/ev/negro.jpg"); --i-llamas2: url("../img/envivo/ev/llamas2.webp");
   --i-papel: url("../img/envivo/ev/papel.jpg"); --i-p1: url("../img/envivo/ev/pz1.webp"); --i-p2: url("../img/envivo/ev/pz2.webp");
   --i-p3: url("../img/envivo/ev/pz3.webp"); --i-gafas: url("../img/envivo/ev/gafas.webp"); --i-lentes: url("../img/envivo/ev/lentes.webp");
   --i-nz1: url("../img/envivo/ev/nz1.svg"); --i-nz2: url("../img/envivo/ev/nz2.svg"); --i-logo: url("../img/logo/laymon.svg");
@@ -35,23 +35,17 @@
 .envivo.is-listo[data-tono="papel"] { --ev-tex: url("../img/envivo/ev/papel.jpg"); }
 
 .envivo__in {
+  position: relative; z-index: 1;
   max-width: var(--max); margin: 0 auto; padding: clamp(40px, 5vw, 72px) var(--gutter);
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; gap: 0 clamp(16px, 3vw, 48px);
   min-height: clamp(640px, 54vw, 780px);
 }
 .envivo__texto { position: relative; z-index: 1; max-width: 560px; }
 /* El escenario: las escenas del storyboard (4:5), con los bordes difuminados para que se fundan con la sección */
-.envivo__escenario {
-  position: relative; align-self: center; justify-self: end; width: min(100%, 560px);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent), linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent), linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent);
-  mask-composite: intersect;
-}
-/* en la escena de Miguel el papel blanco se queda con borde limpio (sin difuminar) */
-.envivo[data-esc="3"] .envivo__escenario { -webkit-mask-image: none; mask-image: none; }
-.ev-stage { position: relative; overflow: hidden; }
-.ev-stage > .ev-fr { display: none; }
+/* El escenario ocupa TODA la sección (detrás del texto); el lugar de la derecha lo guarda este espaciador solo en celular */
+.envivo__escenario { display: none; }
+.ev-stage { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+.ev-stage > .ev-fr { display: none; position: absolute; inset: 0; aspect-ratio: auto; width: auto; background: transparent; container-type: normal; }
 .ev-stage > .ev-fr.ev-cur { display: block; }
 .ev-flash, .ev-wipe, .ev-glitch { position: absolute; inset: 0; z-index: 8; opacity: 0; }
 .ev-flash { background: var(--paper); }
@@ -94,7 +88,7 @@
 
 @media (max-width: 820px) {
   .envivo__in { grid-template-columns: 1fr; min-height: 0; padding-bottom: 0; }
-  .envivo__escenario { width: auto; justify-self: stretch; margin: 8px calc(var(--gutter) * -1) 0; -webkit-mask-image: linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent); }
+  .envivo__escenario { display: block; aspect-ratio: 4 / 5; margin-top: 8px; }
   .envivo__titulo { font-size: clamp(66px, 19vw, 100px); }
   .envivo__kicker { padding-right: 70px; font-size: 13px; }
   .envivo__fantasma { top: -2px; width: 58px; }
@@ -282,7 +276,45 @@
 .ev-s8 .ev-gh{top:55cqw;width:30cqw;margin-left:-15cqw}
 .ev-s8 .ev-b{top:98cqw;font-size:4.8cqw}.ev-s8 .ev-c{top:113cqw;font-size:4.8cqw}
 
-/* En el sitio la escena de Miguel no pinta su propio rojo: el rojo es el de la sección y el papel blanco sube con borde en onda */
-.ev-s4 { background: transparent; }
-.ev-s4 .ev-rojo { display: none; }
-.ev-s4 .ev-bg { inset: 52% 0 0 0; -webkit-mask: url("../img/envivo/ev/onda2.svg") 0 0 / 100% 100% no-repeat; mask: url("../img/envivo/ev/onda2.svg") 0 0 / 100% 100% no-repeat; }
+/* ---- Fondos a sangre: el fondo de cada escena ocupa toda la sección; lo demás vive en una caja 4:5 a la derecha (abajo en celular) ---- */
+.ev-box { position: absolute; container-type: inline-size; aspect-ratio: 4 / 5; width: min(44%, 520px); top: 50%; translate: 0 -50%;
+  right: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); }
+.ev-box > * { position: absolute; }
+.ev-fr > .ev-bg, .ev-fr > .ev-ll, .ev-fr > .ev-tx { position: absolute; }
+.ev-bg { inset: 0; }
+.ev-fr .ev-ll { left: 0; right: 0; bottom: 0; height: clamp(200px, 46%, 400px); background: var(--i-llamas2) left bottom / auto 100% repeat-x; opacity: 1; animation: none; }
+.ev-s1 .ev-ll { translate: 0 calc((4 - var(--p)) * 3%); transition: translate .4988s ease-out; }
+.ev-s5 .ev-ll { height: clamp(140px, 32%, 300px); opacity: .9; animation: ev-sube 1.9952s ease-in-out infinite alternate; }
+.ev-s6 .ev-tx, .ev-s8 .ev-bg { inset: -10%; }
+.ev-s1 .ev-bg, .ev-s5 .ev-bg, .ev-s7 .ev-bg { background-image: var(--i-negro); }
+.ev-s6 .ev-bg { background: var(--red); }
+/* escena 2 y 3: la foto del patio cubre toda la sección y el neón rodea el espejo; en escritorio se corre a la derecha y se funde con el negro del texto */
+.ev-cam { position: absolute; left: 50%; top: 50%; translate: -50% -50%; min-width: 100%; min-height: 100%; aspect-ratio: 1500 / 1200;
+  transform-origin: 51.7% 50%; -webkit-mask-image: linear-gradient(90deg, #000, #000); }
+.ev-ph { inset: 0; position: absolute; background: var(--i-lugar) center / 100% 100% no-repeat; }
+.ev-neon { position: absolute; left: 28.5%; width: 46.3%; top: -2%; bottom: -2%; border: .55vmin solid #ff5a70; border-bottom: 0; border-radius: 14vmin 14vmin 0 0;
+  box-shadow: 0 0 2vmin var(--red), 0 0 5vmin var(--red), inset 0 0 2vmin var(--red); animation: ev-glow .9976s ease-in-out infinite; }
+.ev-s2 .ev-cam { scale: calc(1 + (var(--p) - 1) * .06); transition: scale .9976s ease-out; }
+.ev-s3 .ev-cam { scale: calc(1.3 + clamp(0, calc(var(--p) - 1), 1) * .35); filter: brightness(calc(1 - clamp(0, calc(var(--p) - 1), 1) * .2)); transition: scale .4988s cubic-bezier(.6, 0, .9, .4), filter .4988s; }
+.ev-s2 .ev-vel, .ev-s3 .ev-vel { inset: 0; background: linear-gradient(90deg, rgba(12,11,11,.92), rgba(12,11,11,.55) 38%, rgba(12,11,11,0) 62%), linear-gradient(180deg, rgba(12,11,11,.5), rgba(12,11,11,0) 25%, rgba(12,11,11,0) 70%, rgba(12,11,11,.7)); }
+.ev-s2 .ev-dark { inset: 0 0 auto 0; height: 45%; left: 0; right: 0; top: 0; background: linear-gradient(180deg, rgba(12,11,11,.88), rgba(12,11,11,0)); }
+/* escena 4: el rojo es el de la sección y el papel blanco sube a la derecha, con el borde en onda */
+.ev-s4 .ev-bg { inset: auto 0 0 46%; height: 42%; background-image: var(--i-papel); background-size: cover;
+  -webkit-mask: url("../img/envivo/ev/onda2.svg") 0 0 / 100% 100% no-repeat, linear-gradient(90deg, transparent, #000 22%); -webkit-mask-composite: source-in;
+  mask: url("../img/envivo/ev/onda2.svg") 0 0 / 100% 100% no-repeat, linear-gradient(90deg, transparent, #000 22%); mask-composite: intersect; }
+/* escena 7: las llamas cubren toda la sección */
+.ev-s7 .ev-fill { left: 0; right: 0; bottom: 0; height: calc(clamp(0, calc(var(--p) - 3), 1) * 100%); background: linear-gradient(0deg, #b3001b, #EA1D3B 60%, #ff8a1f); -webkit-mask-image: linear-gradient(0deg, #000 60%, transparent); mask-image: linear-gradient(0deg, #000 60%, transparent); transition: height .4988s ease-in; }
+.ev-s7 .ev-row { left: 0; right: 0; width: auto; height: 52%; aspect-ratio: auto; background: var(--i-llamas2) left bottom / auto 100% repeat-x; --dy: 60%; -webkit-mask-image: linear-gradient(0deg, transparent 0, #000 30%); mask-image: linear-gradient(0deg, transparent 0, #000 30%); }
+.ev-s7 .ev-row.ev-fx { transform: none; background-position: right bottom; }
+/* escena 8: arranca con el fuego y luego aparece el papel */
+.ev-s8 .ev-cover { inset: 0; background: linear-gradient(0deg, #b3001b, #EA1D3B 60%, #ff8a1f); }
+
+@media (max-width: 820px) {
+  .ev-box { left: 0; right: 0; top: auto; bottom: 0; translate: none; width: 100%; }
+  .ev-cam { translate: -50% -50%; }
+  .ev-s2 .ev-vel, .ev-s3 .ev-vel { background: linear-gradient(180deg, rgba(12,11,11,.88), rgba(12,11,11,.45) 45%, rgba(12,11,11,.2) 70%, rgba(12,11,11,.6)); }
+  .ev-s4 .ev-bg { inset: auto 0 0 0; height: 17%; }
+}
+@media (min-width: 821px) {
+  .ev-cam { translate: -30% -50%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 30%); mask-image: linear-gradient(90deg, transparent 0, #000 30%); }
+}
