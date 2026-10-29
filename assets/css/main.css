@@ -784,73 +784,10 @@ a { color: inherit; }
 /* Mientras se ve el Pide ahora del hero, no hay botón flotante */
 body.en-hero .order-float.order-float { translate: 0 calc(100% + 40px); animation: none; }
 
-/* ---------- Intro skater (bloque del CSS maestro de Justo, 5.2 s, una vez por carga) ---------- */
-:root { --intro-time: 5.2s; --intro-wait: 3.8s; }  /* el pase baja cuando la ola ya destapó la página */
-.intro { position: fixed; inset: 0; z-index: 2147483600; overflow: hidden; pointer-events: none;
-  --intro-width: clamp(160px, 22vw, 210px); --intro-height: calc(var(--intro-width) * 1.181818); --intro-jump: clamp(64px, 12vh, 96px); }
-.intro > span { position: fixed; display: block; }
-.intro__paper { inset: -300px -4px -500px; background: #F7F2F0; animation: lm-intro-paper var(--intro-time) linear 1 both; }
-.intro__skater {
-  left: 50%; top: 44%; width: var(--intro-width); height: var(--intro-height);
-  margin-left: calc(var(--intro-width) / -2); margin-top: calc(var(--intro-height) / -2);
-  background: url("../img/intro/skater-sprite.svg") 0 0 / 600% 100% no-repeat;
-  transform-origin: 50% 84%;
-  animation: lm-intro-move var(--intro-time) linear 1 both, lm-intro-poses var(--intro-time) steps(1, end) 1 both, lm-intro-character-hide var(--intro-time) steps(1, end) 1 both;
-}
-.intro__burst {
-  left: 50%; top: 50%; width: 160vmax; height: 160vmax; border-radius: 50%; background: var(--red);
-  transform: translate(-50%, -50%) scale(0);
-  animation: lm-intro-burst var(--intro-time) linear 1 both;
-}
-.intro__water {
-  top: 0; left: -2%; width: 104%; height: calc(100vh + 160px); height: calc(100dvh + 160px);
-  background: url("../img/intro/agua.svg") center / 100% 100% no-repeat;
-  opacity: 0; transform: translateY(-160px);
-  animation: lm-intro-water var(--intro-time) linear 1 both;
-}
-@keyframes lm-intro-poses {
-  0% { background-position: 0% 0%; }
-  18% { background-position: 20% 0%; }
-  25% { background-position: 40% 0%; }
-  34% { background-position: 60% 0%; }
-  41% { background-position: 80% 0%; }
-  48% { background-position: 100% 0%; }
-  55%, 100% { background-position: 0% 0%; }
-}
-@keyframes lm-intro-move {
-  0% { transform: translate(calc(-50vw - 240px), 0); animation-timing-function: cubic-bezier(.15, .5, .2, 1); }
-  18% { transform: translate(-15px, 0); animation-timing-function: ease-out; }
-  23% { transform: translate(-10px, 7px) scale(1.02, .96); animation-timing-function: cubic-bezier(.16, .64, .32, 1); }
-  34% { transform: translate(4px, calc(var(--intro-jump) * -.92)); animation-timing-function: ease-out; }
-  40% { transform: translate(8px, calc(var(--intro-jump) * -1)); animation-timing-function: ease-in; }
-  48% { transform: translate(14px, -8px); animation-timing-function: ease-out; }
-  51% { transform: translate(17px, 5px) scale(1.04, .94); }
-  55% { transform: translate(20px, 0); }
-  64%, 100% { transform: translate(22px, 0); }
-}
-@keyframes lm-intro-character-hide {
-  0% { visibility: visible; opacity: 1; }
-  70%, 100% { visibility: hidden; opacity: 0; }
-}
-@keyframes lm-intro-paper {
-  0%, 71% { opacity: 1; visibility: visible; }
-  72%, 100% { opacity: 0; visibility: hidden; }
-}
-@keyframes lm-intro-burst {
-  0%, 61% { transform: translate(-50%, -50%) scale(0); opacity: 1; visibility: visible; }
-  72%, 74% { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; }
-  75%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; visibility: hidden; }
-}
-@keyframes lm-intro-water {
-  0%, 70% { opacity: 0; visibility: visible; transform: translateY(-160px); }
-  71%, 76% { opacity: 1; visibility: visible; transform: translateY(-160px); animation-timing-function: cubic-bezier(.42, 0, .76, .6); }
-  99.9% { opacity: 1; visibility: visible; transform: translateY(calc(100vh + 160px)); }
-  100% { opacity: 0; visibility: hidden; transform: translateY(calc(100vh + 160px)); }
-}
+/* Sin intro en el sitio (Luis, 29 oct): la intro del fantasma solo vive en el menú de Justo. Las animaciones del hero arrancan de inmediato. */
+:root { --intro-wait: 0s; }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --intro-wait: 0s; }
-  .intro { display: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
