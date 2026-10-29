@@ -6,13 +6,6 @@ const scriptBase = document.currentScript ? document.currentScript.src : locatio
 document.addEventListener('DOMContentLoaded', () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Intro del fantasma: al terminar se quita del DOM; lo demás arranca cuando la ola destapa la página
-  const intro = document.querySelector('[data-intro]');
-  if (intro) {
-    if (reduceMotion) intro.remove();
-    else setTimeout(() => intro.remove(), 5400);
-  }
-
   // Sin header (Luis, 12 oct): pasando el Pide ahora del hero aparece el Pide ahora flotante
   const dock = document.querySelector('[data-dock]');
   const heroCta = document.querySelector('[data-hero-cta]');
