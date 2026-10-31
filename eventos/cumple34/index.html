@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>El Ogro Cumple 34</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Al cumpleaños 34 de Luis Laymon. Sábado 7 de noviembre, 8:00 pm. Disfraz de Shrek, obligatorio.">
+<meta name="description" content="Cumpleaños 34 de Luis Laymon. Sábado 7 de noviembre, 8:00 pm. Disfraz de Shrek, obligatorio.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#182B22">
 <meta property="og:type" content="website">
 <meta property="og:title" content="El ogro cumple 34">
-<meta property="og:description" content="Al cumpleaños 34 de Luis Laymon · Sábado 7 de noviembre, 8:00 pm · Disfraz de Shrek, obligatorio">
+<meta property="og:description" content="Cumpleaños 34 de Luis Laymon · Sábado 7 de noviembre, 8:00 pm · Disfraz de Shrek, obligatorio">
 <meta property="og:image" content="https://www.laymonpizzeria.com/eventos/cumple34/assets/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -330,10 +330,17 @@ body.deck .screen:not(.on){display:none}
 /* portada: la pista para seguir aparece al terminar la animación (o siempre para quien ya confirmó) */
 .stage-hint{pointer-events:none;background:rgba(14,28,20,.72);border:1px solid var(--oro);border-radius:20px;padding:.35em 1.1em;cursor:pointer}
 .opened .stage-hint{opacity:0;animation:none}
-.done .stage-hint,body.conf .stage-hint{opacity:1;pointer-events:auto;animation:bob 1.9s ease-in-out infinite}
+.done.hintok .stage-hint,body.conf .stage-hint{opacity:1;pointer-events:auto;animation:bob 1.9s ease-in-out infinite}
 body.new .skip,body.new .act-skip,body.new .replay{display:none!important}
 body.new .conf-only{display:none}
 body.conf .new-only{display:none}
+
+/* lluvia de pasteles cuando queda el 34 */
+.cakes{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:8}
+.cake{position:absolute;top:0;width:calc(var(--s)*clamp(64px,9vmax,120px));aspect-ratio:1;background:url(assets/pastel.webp) center/contain no-repeat;opacity:0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.45));will-change:transform}
+.cake.go{animation:cakeFall var(--d) cubic-bezier(.4,0,.9,.65) var(--dl) both}
+@keyframes cakeFall{0%{opacity:1;transform:translate3d(0,-30vh,0) rotate(var(--r0))}100%{opacity:1;transform:translate3d(var(--dx),118vh,0) rotate(var(--r1))}}
+.reduced .cakes{display:none}
 
 /* entrada: ¿nuevo o ya confirmaste? */
 .gate{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:var(--bosque);transition:opacity .6s ease}
@@ -438,7 +445,9 @@ body.conf .stage .ribbon{top:max(52px,6vh)}
 /* sonido, descarga, cámara vertical 9:16 */
 .snd{position:fixed;left:max(10px,env(safe-area-inset-left,0px));bottom:max(10px,env(safe-area-inset-bottom,0px));z-index:130;width:42px;height:42px;border-radius:50%;border:2px solid var(--oro);background:rgba(14,28,20,.8);color:var(--oro);font-size:1.2rem;line-height:1;cursor:pointer;padding:0}
 .snd.off{color:rgba(232,217,183,.5);border-color:rgba(232,217,183,.4);text-decoration:line-through}
-.pz-dl{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:5;font-size:1.05rem}
+.pz-acts{position:absolute;left:0;right:0;bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:5;display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:center;padding:0 64px;pointer-events:none}
+.pz-dl{position:static;font-size:1.05rem;pointer-events:auto}
+.pz-dl.alt{background:rgba(14,28,20,.82);color:var(--pergamino);border-color:rgba(232,217,183,.7);box-shadow:none}
 .wiz .cam{aspect-ratio:9/16;width:min(100%,calc((100svh - 200px)*.5625));max-width:none;min-width:200px}
 .wiz .fbox img,.wiz .choice img{background:url(assets/bosque-fondo.webp) 50% 50%/cover;border-radius:6px}
 </style>
@@ -472,6 +481,7 @@ body.conf .stage .ribbon{top:max(52px,6vh)}
     </h1>
   </div>
   <button class="replay" id="replay" hidden>Otra vez</button>
+  <div class="cakes" id="cakes" aria-hidden="true"></div>
   <button class="stage-hint" id="toInfo" type="button" data-go="info">Seguir ↓</button>
 </header>
 
@@ -491,7 +501,7 @@ body.conf .stage .ribbon{top:max(52px,6vh)}
   <div class="flies" id="flies" aria-hidden="true"></div>
   <div class="subs" id="subs" aria-hidden="true"><p class="sub title" id="subA"></p><p class="sub" id="subB"></p></div>
   <div class="final" id="final" hidden>
-    <p class="final-kicker">Al cumpleaños 34 de Luis Laymon</p>
+    <p class="final-kicker">Cumpleaños 34 de Luis Laymon</p>
     <ul class="chips"><li>Sábado 7 de noviembre</li><li>8:00 pm</li><li>Belisario Domínguez 38, Coacalco</li><li>Disfraz de Shrek, obligatorio</li></ul>
     <div class="btns" style="justify-content:center"><button class="btn new-only" type="button" data-go="confirma">Confirmar asistencia</button><button class="btn conf-only" type="button" data-go="pantano">Ir al pantano</button><button class="btn alt-light" type="button" id="again2">Ver de nuevo</button></div>
   </div>
@@ -576,7 +586,7 @@ body.conf .stage .ribbon{top:max(52px,6vh)}
           <div class="pz-grid" id="pzGrid"></div>
         </div>
       </div>
-      <button class="btn pz-dl" id="dlBtn" type="button" hidden>Descargar invitación</button>
+      <div class="pz-acts"><button class="btn pz-dl" id="dlBtn" type="button" hidden>Descargar invitación</button><button class="btn alt pz-dl conf-only" id="retakeMine" type="button">Volver a tomar mi foto</button></div>
       <div class="pz-ctl"><button type="button" id="zIn" aria-label="Acercar">+</button><button type="button" id="zOut" aria-label="Alejar">−</button><button type="button" id="zReset" aria-label="Ver todo">⤢</button></div>
     </div>
   </section>
@@ -805,7 +815,7 @@ const Snd=(()=>{
   // canciones reales: Smash Mouth en portada y pantano, "It Is You (I Have Loved)" en el cuento y la escena de confirmar.
   // Pasan por WebAudio (así el botón de silencio y el volumen funcionan en iPhone); si no cargan, queda la música sintetizada.
   const SONG={ stage:'assets/audio/im-a-believer.mp3', pantano:'assets/audio/im-a-believer.mp3', info:'assets/audio/it-is-you.mp3', confirma:'assets/audio/it-is-you.mp3' };
-  const AUD={}; let primed=false;
+  const AUD={}; let primed=false, over=null;
   function mkTrack(url){
     if(AUD[url]) return AUD[url];
     const el=new Audio(url); el.loop=true; el.preload='auto'; el.setAttribute('playsinline','');
@@ -821,7 +831,7 @@ const Snd=(()=>{
   }
   function songs(){
     if(!ctx) return;
-    const want=SONG[mood]; Object.keys(SONG).forEach(k=>mkTrack(SONG[k]));
+    const want=over?SONG[over]:SONG[mood]; Object.keys(SONG).forEach(k=>mkTrack(SONG[k]));
     Object.keys(AUD).forEach(u=>{ if(u!==want) setTrack(AUD[u],0); });
     if(want) setTrack(AUD[want],.9);
   }
@@ -832,7 +842,8 @@ const Snd=(()=>{
     songs();
   }
   const api={ init, unlock, get running(){ return !!ctx&&ctx.state==='running'; }, fx:(n,...a)=>FX[n]&&FX[n](...a),
-    scene(id){ if(!MOODS[id]) return; mood=id; songs(); if(droneG&&ctx) droneG.gain.setTargetAtTime(MOODS[id].drone,ctx.currentTime,.8); },
+    song(k){ over=k||null; songs(); },
+    scene(id){ if(!MOODS[id]) return; mood=id; over=null; songs(); if(droneG&&ctx) droneG.gain.setTargetAtTime(MOODS[id].drone,ctx.currentTime,.8); },
     toggle(){ muted=!muted; Object.values(AUD).forEach(o=>{ if(!o.g) o.el.muted=muted; }); store.set('laymon-mute',muted); if(master) master.gain.setTargetAtTime(muted?0:.75,ctx.currentTime,.1); if(silentEl){ muted?silentEl.pause():silentEl.play().catch(()=>{}); } return muted; },
     get muted(){ return muted } };
   return api;
@@ -843,19 +854,30 @@ const fx=(n,...a)=>Snd.fx(n,...a);
 function initStage(){
   const stage=$('#stage');
   buildForeground($('#fgL')); rnd=(s=>()=> (s=(s*16807)%2147483647)/2147483647)(7); buildForeground($('#fgR')); buildBottom($('#fgB'));
+  function rain(){
+    const box=$('#cakes'); box.innerHTML=''; fx('sparkle'); setTimeout(()=>fx('sparkle'),900);
+    for(let i=0;i<34;i++){
+      const c=document.createElement('i'), r0=Math.round(Math.random()*50-25);
+      c.className='cake'; c.style.cssText=`left:${(2+Math.random()*92).toFixed(1)}%;--s:${(.65+Math.random()*.8).toFixed(2)};--r0:${r0}deg;--r1:${r0+Math.round(Math.random()*90-45)}deg;--dx:${Math.round(Math.random()*80-40)}px;--d:${(2.3+Math.random()*1.1).toFixed(2)}s;--dl:${(Math.random()*2.2).toFixed(2)}s`;
+      box.append(c);
+    }
+    void box.offsetWidth; box.querySelectorAll('.cake').forEach(c=>c.classList.add('go'));
+    setTimeout(()=>{ box.innerHTML=''; },6500);
+  }
   let busy=false;
   function play(){
     if(busy) return; busy=true;
-    stage.classList.remove('done','opened','open');
-    if(reduced){ stage.classList.add('opened','done'); $('#srAge').textContent='34'; $('#replay').hidden=false; busy=false; return; }
+    stage.classList.remove('done','opened','open','hintok'); $('#cakes').innerHTML='';
+    if(reduced){ stage.classList.add('opened','done','hintok'); $('#srAge').textContent='34'; $('#replay').hidden=false; busy=false; return; }
     stage.classList.add('knock'); fx('knock'); setTimeout(()=>fx('knock'),520);
     setTimeout(()=>{ stage.classList.remove('knock'); stage.classList.add('open'); fx('creak'); setTimeout(()=>fx('roar'),750); setTimeout(()=>fx('snap'),3300); setTimeout(()=>fx('snap'),3950); setTimeout(()=>fx('thud'),5150); }, 1000);
     setTimeout(()=>stage.classList.add('opened'), 2000);
     setTimeout(()=>{ $('#srAge').textContent='34'; }, 3300);
+    setTimeout(rain, 3500); setTimeout(()=>stage.classList.add('hintok'), 8600);
     setTimeout(()=>{ stage.classList.add('done'); stage.classList.remove('open'); $('#replay').hidden=false; busy=false; }, 5600);
   }
   $('#doorBtn').addEventListener('click', play);
-  $('#replay').addEventListener('click', ()=>{ stage.classList.remove('done','opened','open'); $('#replay').hidden=true; setTimeout(play,60); });
+  $('#replay').addEventListener('click', ()=>{ stage.classList.remove('done','opened','open','hintok'); $('#replay').hidden=true; setTimeout(play,60); });
 
   // parallax: las capas de papel se separan con el puntero o el giro del teléfono
   if(!reduced){
@@ -1034,7 +1056,7 @@ function initAct(){
     pino.style.visibility='hidden'; pino.classList.remove('walking','running'); b1.classList.remove('show'); b2.classList.remove('show');
     setPose('parado'); shrek.style.visibility='visible'; shrek.style.zIndex=3; shrek.style.transform=`translateX(${g.shEnd}px)`; shrek.classList.add('idle'); startCycle(); };
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-  let token=0, started=false;
+  let token=0, started=false, scared=false;
   const run=(el,kf,o)=>{ const a=el.animate(kf,{fill:'forwards',...o}); return a.finished.catch(()=>{}); };
   async function play(){
     const me=++token, alive=()=>me===token, g=geom(), {u,pw,shStart,shEnd,stopX}=g;
@@ -1049,7 +1071,7 @@ function initAct(){
     shrek.animate([{translate:'0 0'},{translate:`0 ${-u*1.3}px`},{translate:'0 0'},{translate:`0 ${-u*1.3}px`},{translate:'0 0'}],{duration:1000,easing:'ease-out'});
     const sh=run(shrek,[{transform:`translateX(${shStart}px) scale(.82)`},{transform:`translateX(${shEnd}px) scale(1)`}],{duration:1000,easing:'cubic-bezier(.3,.7,.3,1)'});
     await sleep(520); if(!alive()) return;
-    b1.classList.add('show'); b2.classList.add('show'); pino.dataset.pose='scare'; fx('roar'); fx('scream');
+    b1.classList.add('show'); b2.classList.add('show'); pino.dataset.pose='scare'; fx('roar'); fx('scream'); scared=true; Snd.song('stage');
     pino.querySelector('.act-pbob').animate([{translate:'0 0'},{translate:`0 ${-u*6}px`,offset:.35},{translate:'0 0'}],{duration:520,easing:'ease-out'});
     run(pino,[{transform:`translateX(${stopX}px)`},{transform:`translateX(${Math.max(-pw*.3,stopX-u*8)}px)`}],{duration:520,easing:'ease-out'});
     await sh; shrek.classList.add('idle'); if(!alive()) return;
@@ -1061,11 +1083,11 @@ function initAct(){
     await sleep(500); if(!alive()) return;
     b1.classList.remove('show'); setPose('parado'); startCycle(); showForm(false);
   }
-  skip.addEventListener('click',()=>{ token++; finalState(); showForm(false); });
+  skip.addEventListener('click',()=>{ token++; scared=true; Snd.song('stage'); finalState(); showForm(false); });
   setInterval(()=>{ if(pino.classList.contains('walking')&&sec.classList.contains('on')) fx('step'); },260);
   setInterval(()=>{ if(pino.classList.contains('running')&&sec.classList.contains('on')) fx('step'); },130);
   const begin=()=>{ if(started) return; started=true; if(reduced||!act.animate){ finalState(); showForm(true); } else play(); };
-  HOOK.confirma=()=>{ size(); requestAnimationFrame(begin); };
+  HOOK.confirma=()=>{ size(); if(scared) Snd.song('stage'); requestAnimationFrame(begin); };
   if('IntersectionObserver' in window) new IntersectionObserver(es=>sec.classList.toggle('paused',es[0].intersectionRatio<.05),{threshold:[0,.05]}).observe(sec);
 }
 
@@ -1086,6 +1108,11 @@ const API = {
   },
   async add(entry){
     if(this.demo && this.live) throw new Error('las confirmaciones abren en unos minutos');
+    if(this.demo && entry.retomar){
+      const l=store.get('pantano-rsvp',[]), t=store.get('pantano-tels',[]), i=t.indexOf(this.tel10(entry.telefono));
+      if(i<0||!l[i]) throw new Error('no encontramos tu registro');
+      l[i].foto=entry.fotoMini||''; l[i].filtro=entry.filtro; store.set('pantano-rsvp',l); return;
+    }
     if(this.demo){
       const l=store.get('pantano-rsvp',[]); l.push({...entry, telefono:undefined, foto: entry.fotoMini||''});
       if(!store.set('pantano-rsvp',l)){ l[l.length-1].foto=''; store.set('pantano-rsvp',l); }
@@ -1101,6 +1128,7 @@ let LISTA=[];
 const R={nombre:'',telefono:'',acompanantes:'0',personaje:'',filtro:''};
 function step(n){
   ['f1','f1b','f2','f3','f4'].forEach((id,i)=>$('#'+id).hidden = (i+1)!==n);
+  $('#confirma').scrollTop=0;
   if(n===4) startCam(); else stopCam();
 }
 function initRSVP(){
@@ -1127,7 +1155,7 @@ function initRSVP(){
     $('#fprev').src=FILTROS[R.filtro].src; const u=$('#unfold'); u.hidden=false; u.classList.remove('open'); void u.offsetWidth; u.classList.add('open');
     if(!reduced) u.scrollIntoView({behavior:'smooth',block:'nearest'});
   }));
-  $('#back2').onclick=()=>step(2); $('#next2').onclick=()=>step(4); $('#back3').onclick=()=>step(3);
+  $('#back2').onclick=()=>{ if(R.retomar){ R.retomar=false; go('pantano'); } else step(2); }; $('#next2').onclick=()=>step(4); $('#back3').onclick=()=>step(3);
   $('#shoot').onclick=shoot; $('#retake').onclick=retake; $('#send').onclick=()=>send(true);
   $('#pick').onclick=()=>$('#file').click();
   $('#file').addEventListener('change',e=>{ const f=e.target.files[0]; if(!f) return; const img=new Image(); img.onload=()=>{ stopCam(); CAM.still=img; CAM.off={x:0,y:0}; $('#zoom').value=1; $('#zoomRow').hidden=false; $('#camMsg').textContent='Arrastra la foto para acomodar tu cara.'; $('#shoot').disabled=false; $('#shoot').textContent='Usar esta foto'; draw(); }; img.src=URL.createObjectURL(f); });
@@ -1202,9 +1230,9 @@ async function send(withPhoto){
   if(!CAM.shot){ err.textContent='Falta tu foto.'; return; }
   const btn=$('#send'); btn.disabled=true; const old=btn.textContent; btn.textContent='Enviando…';
   try{
-    await API.add({nombre:R.nombre, telefono:R.telefono, acompanantes:R.acompanantes, personaje:R.personaje, filtro:R.filtro||'',
+    await API.add({retomar:!!R.retomar, nombre:R.nombre, telefono:R.telefono, acompanantes:R.acompanantes, personaje:R.personaje, filtro:R.filtro||'',
       foto: withPhoto?CAM.shot:'', fotoMini: withPhoto?CAM.mini:''});
-    stopCam(); CONFIRMED=true; setMode('conf'); store.set('laymon-mine',CAM.shot); step(5); fx('fanfare');
+    stopCam(); CONFIRMED=true; setMode('conf'); store.set('laymon-mine',CAM.shot); $('#f4 .conf-title').textContent=R.retomar?'Foto actualizada':'Registro confirmado'; R.retomar=false; step(5); fx('fanfare');
   }catch(e){ err.textContent='No se guardó: '+e.message+'. Inténtalo otra vez.'; }
   finally{ btn.disabled=false; btn.textContent=old; }
 }
@@ -1260,7 +1288,7 @@ function initPantano(){
       c.drawImage(fr,fx,fy,fw,fh);
       // datos de la fiesta
       const by=fy+fh+56, g=c.createLinearGradient(0,by-40,0,H); g.addColorStop(0,'rgba(10,18,13,0)'); g.addColorStop(.18,'rgba(10,18,13,.82)'); g.addColorStop(1,'rgba(10,18,13,.92)'); c.fillStyle=g; c.fillRect(0,by-40,W,H-by+40);
-      c.textAlign='center'; c.fillStyle='#C6A875'; c.font='68px UnifrakturMaguntia, serif'; c.fillText('Al cumpleaños 34 de Luis Laymon',W/2,by+86);
+      c.textAlign='center'; c.fillStyle='#C6A875'; c.font='68px UnifrakturMaguntia, serif'; c.fillText('Cumpleaños 34 de Luis Laymon',W/2,by+86);
       c.fillStyle='#E8D9B7'; c.font='42px "Chelsea Market", sans-serif'; c.fillText('Sábado 7 de noviembre · 8:00 pm',W/2,by+160);
       c.font='36px "Chelsea Market", sans-serif'; c.fillText('Belisario Domínguez 38, Coacalco',W/2,by+216); c.fillStyle='#A3A66A'; c.fillText('Disfraz de Shrek, obligatorio',W/2,by+270);
       cardBlob=await new Promise(r=>cv.toBlob(r,'image/png'));
@@ -1314,7 +1342,7 @@ function initDeck(){
   document.body.classList.add('deck'); if(reduced) document.body.classList.add('reduced');
   let first=true;
   HOOK.stage=()=>{ if(!first) return; first=false; setTimeout(()=>$('#stage').classList.remove('popup-in'), reduced?0:1700);
-    if(reduced){ const st=$('#stage'); st.classList.add('opened','done'); $('#srAge').textContent='34'; } };
+    if(reduced){ const st=$('#stage'); st.classList.add('opened','done','hintok'); $('#srAge').textContent='34'; } };
   const sb=$('#snd'); const paint=()=>sb.classList.toggle('off',Snd.muted); paint();
   const kick=()=>{ if(!Snd.running) Snd.unlock(); };
   ['touchend','click','keydown'].forEach(ev=>addEventListener(ev,kick,{capture:true,passive:true}));
@@ -1323,6 +1351,10 @@ function initDeck(){
   document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
   const gate=$('#gate'), form=$('#gForm'), err=$('#gErr');
   const enter=m=>{ setMode(m); gate.classList.add('out'); setTimeout(()=>{ gate.hidden=true; },650); go('stage'); };
+  $('#retakeMine').addEventListener('click',()=>{
+    R.retomar=true; R.nombre=''; R.filtro=''; document.querySelectorAll('.choice').forEach(x=>x.setAttribute('aria-pressed','false')); $('#unfold').hidden=true;
+    go('confirma'); $('#actSkip').click(); step(3);
+  });
   $('#gNew').onclick=()=>enter('new');
   $('#gOld').onclick=()=>{ $('#gBtns').hidden=true; form.hidden=false; $('#gTel').focus(); };
   $('#gBack').onclick=()=>{ form.hidden=true; $('#gBtns').hidden=false; err.textContent=''; };
@@ -1331,7 +1363,7 @@ function initDeck(){
     if(API.tel10(tel).length<10){ err.textContent='El teléfono lleva 10 dígitos.'; return; }
     const btn=e.submitter||form.querySelector('button[type=submit]'); btn.disabled=true; err.textContent='';
     try{
-      if(await API.check(tel)){ CONFIRMED=true; enter('conf'); }
+      if(await API.check(tel)){ CONFIRMED=true; R.telefono=tel; enter('conf'); }
       else err.textContent='No encontramos ese teléfono. Si aún no confirmas, entra como invitado nuevo.';
     }catch(_){ err.textContent='No pudimos revisar. Inténtalo otra vez.'; }
     btn.disabled=false;
