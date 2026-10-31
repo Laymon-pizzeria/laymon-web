@@ -1226,7 +1226,9 @@ async function startCam(){
   }
 }
 function stopCam(){ cancelAnimationFrame(CAM.raf); if(CAM.stream){ CAM.stream.getTracks().forEach(t=>t.stop()); CAM.stream=null; } CAM.video=null; }
+const figReady=()=>{ const k=R.filtro||'shrek'; return IMGS[k].complete&&IMGS[k].naturalWidth&&MASKS[k].complete&&MASKS[k].naturalWidth&&BG.complete&&BG.naturalWidth; };
 function shoot(){
+  if(!figReady()){ $('#err3').textContent='Se está cargando tu disfraz. Intenta de nuevo en un segundo.'; [IMGS,MASKS].forEach(M=>Object.values(M).forEach(i=>{ if(!i.complete) i.addEventListener('load',()=>draw(),{once:true}); })); return; }
   draw(); CAM.taken=true; const fl=$('#flash'); fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
   const cv=$('#camCanvas'); CAM.shot=cv.toDataURL('image/jpeg',.85); fx('shutter');
   const mini=document.createElement('canvas'); mini.width=270; mini.height=480; mini.getContext('2d').drawImage(cv,0,0,270,480); CAM.mini=mini.toDataURL('image/jpeg',.7);
@@ -1300,6 +1302,11 @@ function initPantano(){
       c.textAlign='center'; c.fillStyle='#C6A875'; c.font='68px UnifrakturMaguntia, serif'; c.fillText('Cumpleaños 34 de Luis Laymon',W/2,by+86);
       c.fillStyle='#E8D9B7'; c.font='42px "Chelsea Market", sans-serif'; c.fillText('Sábado 7 de noviembre · 8:00 pm',W/2,by+160);
       c.font='36px "Chelsea Market", sans-serif'; c.fillText('Belisario Domínguez 38, Coacalco',W/2,by+216); c.fillStyle='#A3A66A'; c.fillText('Disfraz de Shrek, obligatorio',W/2,by+270);
+      // cinta del pantano, también en la tarjeta
+      const bandY=by+300, bandH=104; c.fillStyle='#C6A875'; c.fillRect(0,bandY,W,bandH); c.fillStyle='#1c140d'; c.fillRect(0,bandY,W,3); c.fillRect(0,bandY+bandH-3,W,3);
+      c.font='31px "Chelsea Market", sans-serif'; const words='Habrá pociones mágicas, pero nunca está de más traer más extracto de murciélago para más bebidas.'.split(' '); const lines=[]; let cur='';
+      words.forEach(w=>{ const t=cur?cur+' '+w:w; if(c.measureText(t).width>W-120&&cur){ lines.push(cur); cur=w; } else cur=t; }); lines.push(cur);
+      lines.forEach((l,i)=>c.fillText(l,W/2,bandY+bandH/2+11-(lines.length-1)*21+i*42));
       cardBlob=await new Promise(r=>cv.toBlob(r,'image/png'));
     }catch(e){ dl.hidden=true; }
   }
