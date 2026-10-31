@@ -496,7 +496,7 @@ body.conf .stage .ribbon{top:max(52px,6vh)}
     <div class="btns" style="justify-content:center"><button class="btn new-only" type="button" data-go="confirma">Confirmar asistencia</button><button class="btn conf-only" type="button" data-go="pantano">Ir al pantano</button><button class="btn alt-light" type="button" id="again2">Ver de nuevo</button></div>
   </div>
   <button class="skip" id="skipNarr" type="button">Saltar</button>
-  <p class="sr-only" aria-live="polite">Había una vez, en un pantano muy muy cercano, un ogro que juraba tener veinticuatro años. El pantano no le creyó: cumple treinta y cuatro. Cuenta la leyenda que el sábado 7 de noviembre, a las 8:00 de la noche, se abrirán las puertas de Laymon, en la calle Belisario Domínguez 38. Pero ojo, viajero: la temática es Shrek y nadie cruza el umbral sin disfraz. Y si esta carta llegó a tus manos, es porque eres alguien muy especial para el ogro.</p>
+  <p class="sr-only" aria-live="polite">Había una vez, en un pantano muy muy cercano, un ogro que juraba tener veinticuatro años. El pantano no le creyó: cumple treinta y cuatro. Cuenta la leyenda que el sábado 7 de noviembre, a las 8:00 de la noche, se abrirán las puertas de Laymon, en la calle Belisario Domínguez 38. Pero ojo, viajero: la temática es Shrek y nadie cruza el umbral sin disfraz. Y si esta carta llegó a tus manos, es porque eres alguien muy especial para el ogro. Porque como en todo buen cuento, esa noche el pantano se llenará de hechizos: habrá karaoke para romper los hechizos, bailes para hechizar al público y pociones mágicas para ser inmune a los hechizos. Así que prepárate, viajero: esto no se acaba hasta el amanecer.</p>
 </section>
 
   <!-- CONFIRMA -->
@@ -731,7 +731,7 @@ const Snd=(()=>{
     const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=260; droneG=ctx.createGain(); droneG.gain.value=MOODS[mood].drone;
     drone.forEach(o=>{ o.connect(lp); o.start(); }); lp.connect(droneG); droneG.connect(musicBus);
     nextT=ctx.currentTime+.2; timer=setInterval(tick,120);
-    document.addEventListener('visibilitychange',()=>{ if(!ctx) return; if(document.hidden){ ctx.suspend(); silentEl&&silentEl.pause(); } else { ctx.resume().catch(()=>{}); if(silentEl&&!muted) silentEl.play().catch(()=>{}); } });
+    document.addEventListener('visibilitychange',()=>{ if(!ctx) return; if(document.hidden){ ctx.suspend(); silentEl&&silentEl.pause(); Object.values(AUD).forEach(o=>o.el.pause()); } else { ctx.resume().catch(()=>{}); if(silentEl&&!muted) silentEl.play().catch(()=>{}); songs(); } });
   }
   const eighth=()=>60/MOODS[mood].bpm/2;
   function tick(){ if(!ctx||ctx.state!=='running') return; while(nextT<ctx.currentTime+.5){ sched(nextT,stepN++); nextT+=eighth(); } }
@@ -800,10 +800,40 @@ const Snd=(()=>{
     try{ const bf=ctx.createBuffer(1,1,22050), sc=ctx.createBufferSource(); sc.buffer=bf; sc.connect(ctx.destination); sc.start(0); }catch(e){}
     if(!silentEl){ silentEl=new Audio(silentWav()); silentEl.loop=true; silentEl.setAttribute('playsinline',''); silentEl.volume=0.01; }
     if(silentEl.paused&&!muted) silentEl.play().catch(()=>{});
+    primeSongs();
+  }
+  // canciones reales: Smash Mouth en portada y pantano, "It Is You (I Have Loved)" en el cuento y la escena de confirmar.
+  // Pasan por WebAudio (así el botón de silencio y el volumen funcionan en iPhone); si no cargan, queda la música sintetizada.
+  const SONG={ stage:'assets/audio/im-a-believer.mp3', pantano:'assets/audio/im-a-believer.mp3', info:'assets/audio/it-is-you.mp3', confirma:'assets/audio/it-is-you.mp3' };
+  const AUD={}; let primed=false;
+  function mkTrack(url){
+    if(AUD[url]) return AUD[url];
+    const el=new Audio(url); el.loop=true; el.preload='auto'; el.setAttribute('playsinline','');
+    const o={el,g:null,on:false};
+    try{ const src=ctx.createMediaElementSource(el); o.g=ctx.createGain(); o.g.gain.value=0; src.connect(o.g); o.g.connect(master); }catch(e){ el.volume=0; }
+    return AUD[url]=o;
+  }
+  function setTrack(o,v){
+    const t=ctx.currentTime; o.on=v>0;
+    if(o.g) o.g.gain.setTargetAtTime(v,t,.45); else o.el.volume=v;
+    if(v>0){ o.el.muted=muted&&!o.g; o.el.play().then(()=>{ if(o.on&&musicBus) musicBus.gain.setTargetAtTime(0,ctx.currentTime,.4); }).catch(()=>{}); }
+    else setTimeout(()=>{ if(!o.on) o.el.pause(); },1800);
+  }
+  function songs(){
+    if(!ctx) return;
+    const want=SONG[mood]; Object.keys(SONG).forEach(k=>mkTrack(SONG[k]));
+    Object.keys(AUD).forEach(u=>{ if(u!==want) setTrack(AUD[u],0); });
+    if(want) setTrack(AUD[want],.9);
+  }
+  function primeSongs(){   // iOS: cada <audio> debe arrancar una vez dentro de un toque para poder sonar después
+    if(primed||!ctx) return; primed=true;
+    Object.keys(SONG).forEach(k=>mkTrack(SONG[k]));
+    Object.values(AUD).forEach(o=>{ const pr=o.el.play(); if(pr&&pr.catch) pr.catch(()=>{}); });
+    songs();
   }
   const api={ init, unlock, get running(){ return !!ctx&&ctx.state==='running'; }, fx:(n,...a)=>FX[n]&&FX[n](...a),
-    scene(id){ if(!MOODS[id]) return; mood=id; if(droneG&&ctx) droneG.gain.setTargetAtTime(MOODS[id].drone,ctx.currentTime,.8); },
-    toggle(){ muted=!muted; store.set('laymon-mute',muted); if(master) master.gain.setTargetAtTime(muted?0:.75,ctx.currentTime,.1); if(silentEl){ muted?silentEl.pause():silentEl.play().catch(()=>{}); } return muted; },
+    scene(id){ if(!MOODS[id]) return; mood=id; songs(); if(droneG&&ctx) droneG.gain.setTargetAtTime(MOODS[id].drone,ctx.currentTime,.8); },
+    toggle(){ muted=!muted; Object.values(AUD).forEach(o=>{ if(!o.g) o.el.muted=muted; }); store.set('laymon-mute',muted); if(master) master.gain.setTargetAtTime(muted?0:.75,ctx.currentTime,.1); if(silentEl){ muted?silentEl.pause():silentEl.play().catch(()=>{}); } return muted; },
     get muted(){ return muted } };
   return api;
 })();
@@ -924,7 +954,12 @@ const STORY=[
   {h:'Cuenta la leyenda que el <b>sábado 7 de noviembre</b>, a las <b>8:00 de la noche</b>,'},
   {h:'se abrirán las puertas de <b>Laymon</b>, en la calle <b>Belisario Domínguez 38</b>.'},
   {h:'Pero ojo, viajero: la temática es <b>Shrek</b> y nadie cruza el umbral sin <b>disfraz</b>.'},
-  {h:'Y si esta carta llegó a tus manos, es porque eres alguien <b>muy especial</b> para el ogro.'}
+  {h:'Y si esta carta llegó a tus manos, es porque eres alguien <b>muy especial</b> para el ogro.'},
+  {h:'Porque como en todo buen cuento, esa noche el pantano se llenará de <b>hechizos</b>.'},
+  {h:'Habrá <b>karaoke</b> para romper los hechizos,'},
+  {h:'<b>bailes</b> para hechizar al público'},
+  {h:'y <b>pociones mágicas</b> para ser inmune a los hechizos.'},
+  {h:'Así que prepárate, viajero: esto no se acaba hasta el <b>amanecer</b>.'}
 ];
 function initScene(){
   const sec=$('#info');
