@@ -1183,6 +1183,24 @@ const FILTROS = {
 };
 const IMGS={}, MASKS={}; Object.entries(FILTROS).forEach(([k,f])=>{ const i=new Image(); i.src=f.src; IMGS[k]=i; const m=new Image(); m.src=f.mask; MASKS[k]=m; });
 const BG=new Image(); BG.src='assets/bosque-fondo.webp';
+// Fotos ya guardadas con el recorte viejo: se rehacen al vuelo con el filtro nuevo (misma cara, misma posición)
+const MASK2={}; ['shrek','fiona'].forEach(k=>{ const m=new Image(); m.src=`assets/${k}-cara2.png`; MASK2[k]=m; });
+const whenImg=i=>(i.complete&&i.naturalWidth)?Promise.resolve():new Promise(r=>{ i.addEventListener('load',r,{once:true}); i.addEventListener('error',r,{once:true}); });
+async function rehacerFoto(cv,url,key){
+  const F=FILTROS[key]; if(!F) throw new Error('sin filtro');
+  const ph=new Image(); ph.src=url; const fg=IMGS[key], mk=MASK2[key];
+  await Promise.all([whenImg(ph),whenImg(fg),whenImg(mk),whenImg(BG)]);
+  if(!ph.naturalWidth||!fg.naturalWidth||!mk.naturalWidth) throw new Error('no cargó');
+  const W=ph.naturalWidth, H=ph.naturalHeight; cv.width=W; cv.height=H; const c=cv.getContext('2d');
+  const s=H*.93/F.h, fx=(W-F.w*s)/2, fy=H*.035;
+  if(BG.naturalWidth){ const k=Math.max(W/BG.naturalWidth,H/BG.naturalHeight), bw=BG.naturalWidth*k, bh=BG.naturalHeight*k; c.drawImage(BG,(W-bw)/2,(H-bh)/2,bw,bh); } else { c.fillStyle='#182B22'; c.fillRect(0,0,W,H); }
+  c.fillStyle='rgba(10,20,14,.18)'; c.fillRect(0,0,W,H);
+  const gy=fy+F.h*s*.985, g=c.createRadialGradient(W/2,gy,4,W/2,gy,F.w*s*.42); g.addColorStop(0,'rgba(0,0,0,.55)'); g.addColorStop(1,'rgba(0,0,0,0)');
+  c.save(); c.translate(0,gy); c.scale(1,.14); c.translate(0,-gy); c.fillStyle=g; c.beginPath(); c.arc(W/2,gy,F.w*s*.42,0,Math.PI*2); c.fill(); c.restore();
+  const o=document.createElement('canvas'); o.width=W; o.height=H; const x=o.getContext('2d');
+  x.drawImage(ph,0,0,W,H); x.globalCompositeOperation='destination-in'; x.drawImage(mk,fx,fy,F.w*s,F.h*s);
+  c.drawImage(o,0,0); c.drawImage(fg,fx,fy,F.w*s,F.h*s);
+}
 const OFF=document.createElement('canvas'); OFF.width=720; OFF.height=1280;
 const CAM={stream:null,video:null,still:null,raf:0,taken:false,off:{x:0,y:0},shot:null};
 function layout(W,H){
@@ -1243,7 +1261,7 @@ async function send(withPhoto){
   try{
     await API.add({retomar:!!R.retomar, nombre:R.nombre, telefono:R.telefono, acompanantes:R.acompanantes, personaje:R.personaje, filtro:R.filtro||'',
       foto: withPhoto?CAM.shot:'', fotoMini: withPhoto?CAM.mini:''});
-    stopCam(); CONFIRMED=true; setMode('conf'); store.set('laymon-mine',CAM.shot); $('#f4 .conf-title').textContent=R.retomar?'Foto actualizada':'Registro confirmado'; R.retomar=false; step(5); fx('fanfare');
+    stopCam(); CONFIRMED=true; setMode('conf'); store.set('laymon-mine',CAM.shot); store.set('laymon-mine-f',R.filtro||'shrek'); $('#f4 .conf-title').textContent=R.retomar?'Foto actualizada':'Registro confirmado'; R.retomar=false; step(5); fx('fanfare');
   }catch(e){ err.textContent='No se guardó: '+e.message+'. Inténtalo otra vez.'; }
   finally{ btn.disabled=false; btn.textContent=old; }
 }
@@ -1273,7 +1291,9 @@ function initPantano(){
     LISTA.forEach((p,i)=>{ const row=Math.floor(i/c), inRow=row===r-1?n-c*(r-1):c, col=i%c;
       const left=(AW-(stepX*(inRow-1)+fw))/2+col*stepX;
       const d=el('div',{class:'pz-fr'}); d.style.cssText=`left:${left.toFixed(1)}px;top:${(top+row*stepY).toFixed(1)}px;width:${fw.toFixed(1)}px;height:${fh.toFixed(1)}px;rotate:${(((i*37)%7)-3)*.45}deg`;
-      if(p.foto) d.append(el('img',{class:'ph',src:p.foto,alt:'Invitado confirmado',draggable:'false',loading:'lazy'}));
+      if(p.foto && FILTROS[p.filtro]){ const cv=el('canvas',{class:'ph','aria-label':'Invitado confirmado',role:'img'}); d.append(cv);
+        rehacerFoto(cv,p.foto,p.filtro).catch(()=>{ cv.replaceWith(el('img',{class:'ph',src:p.foto,alt:'Invitado confirmado',draggable:'false'})); }); }
+      else if(p.foto) d.append(el('img',{class:'ph',src:p.foto,alt:'Invitado confirmado',draggable:'false',loading:'lazy'}));
       else d.append(el('div',{class:'ph'}));
       d.append(el('img',{class:'fr',src:'assets/marco.png',alt:'',draggable:'false'})); grid.append(d); });
   }
@@ -1288,7 +1308,9 @@ function initPantano(){
     try{
       const load=src=>new Promise((ok,no)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=no; i.src=src; });
       await document.fonts.load('64px UnifrakturMaguntia'); await document.fonts.load('40px "Chelsea Market"');
-      const [bg,fr,ph]=await Promise.all([load('assets/bosque-pared.webp'),load('assets/marco.png'),load(mine)]);
+      let mineSrc=mine; const mk=store.get('laymon-mine-f','');
+      if(mk){ try{ const t=document.createElement('canvas'); await rehacerFoto(t,mine,mk); mineSrc=t.toDataURL('image/jpeg',.9); }catch(_){} }
+      const [bg,fr,ph]=await Promise.all([load('assets/bosque-pared.webp'),load('assets/marco.png'),load(mineSrc)]);
       const W=1080,H=1920, cv=document.createElement('canvas'); cv.width=W; cv.height=H; const c=cv.getContext('2d');
       const k=H/bg.naturalHeight, bw=bg.naturalWidth*k; c.drawImage(bg,(W-bw)/2,0,bw,H);
       c.fillStyle='rgba(8,14,10,.22)'; c.fillRect(0,0,W,H);
