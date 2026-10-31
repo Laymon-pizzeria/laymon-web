@@ -438,14 +438,22 @@ body.conf .stage .ribbon{top:max(52px,6vh)}
 .pz-fr{position:absolute;filter:drop-shadow(0 4px 5px rgba(0,0,0,.65))}
 .pz-fr .ph{position:absolute;left:16.18%;top:15.91%;width:67.04%;height:73.47%;object-fit:cover;background:#1b2a20;max-width:none}
 .pz-fr .fr{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;max-width:none}
-.pz-ctl{position:absolute;right:max(12px,env(safe-area-inset-right,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));z-index:5;display:grid;gap:8px}
+.pz-ctl{position:absolute;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(max(14px,env(safe-area-inset-bottom,0px)) + 52px);z-index:5;display:grid;gap:8px}
 .pz-ctl button{width:46px;height:46px;border-radius:50%;border:2px solid var(--oro);background:rgba(14,28,20,.82);color:var(--pergamino);font-size:1.5rem;line-height:1;cursor:pointer;padding:0}
 
 
 /* sonido, descarga, cámara vertical 9:16 */
+.cinta{position:absolute;left:62px;right:0;bottom:max(10px,env(safe-area-inset-bottom,0px));z-index:6;height:42px;overflow:hidden;pointer-events:none;display:flex;align-items:center;
+  background:var(--oro);color:#1c140d;border-block:2px solid #1c140d;box-shadow:0 4px 10px rgba(0,0,0,.45);font-size:1.02rem;line-height:1}
+.cinta-t{display:flex;width:max-content;animation:cintaRun 34s linear infinite}
+.cinta-t span{white-space:nowrap;padding-right:3.2rem}
+.cinta-t span::after{content:"✦";margin-left:3.2rem}
+@keyframes cintaRun{to{transform:translateX(-50%)}}
+.reduced .cinta{left:62px;height:auto;min-height:42px;padding:.4em .8em}.reduced .cinta-t{animation:none;width:auto}.reduced .cinta-t span:not(:first-child){display:none}.reduced .cinta-t span{white-space:normal;padding:0}.reduced .cinta-t span::after{content:none}
+@media (prefers-reduced-motion:reduce){.cinta-t{animation:none}}
 .snd{position:fixed;left:max(10px,env(safe-area-inset-left,0px));bottom:max(10px,env(safe-area-inset-bottom,0px));z-index:130;width:42px;height:42px;border-radius:50%;border:2px solid var(--oro);background:rgba(14,28,20,.8);color:var(--oro);font-size:1.2rem;line-height:1;cursor:pointer;padding:0}
 .snd.off{color:rgba(232,217,183,.5);border-color:rgba(232,217,183,.4);text-decoration:line-through}
-.pz-acts{position:absolute;left:0;right:0;bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:5;display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:center;padding:0 64px;pointer-events:none}
+.pz-acts{position:absolute;left:0;right:0;bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 52px);z-index:5;display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:center;padding:0 64px;pointer-events:none}
 .pz-dl{position:static;font-size:1.05rem;pointer-events:auto}
 .pz-dl.alt{background:rgba(14,28,20,.82);color:var(--pergamino);border-color:rgba(232,217,183,.7);box-shadow:none}
 .wiz .cam{aspect-ratio:9/16;width:min(100%,calc((100svh - 200px)*.5625));max-width:none;min-width:200px}
@@ -587,6 +595,7 @@ body.conf .stage .ribbon{top:max(52px,6vh)}
         </div>
       </div>
       <div class="pz-acts"><button class="btn pz-dl" id="dlBtn" type="button" hidden>Descargar invitación</button><button class="btn alt pz-dl conf-only" id="retakeMine" type="button">Volver a tomar mi foto</button></div>
+      <div class="cinta" role="note" aria-label="Habrá pociones mágicas, pero nunca está de más traer más extracto de murciélago para más bebidas."><div class="cinta-t" aria-hidden="true"><span>Habrá pociones mágicas, pero nunca está de más traer más extracto de murciélago para más bebidas.</span><span>Habrá pociones mágicas, pero nunca está de más traer más extracto de murciélago para más bebidas.</span><span>Habrá pociones mágicas, pero nunca está de más traer más extracto de murciélago para más bebidas.</span><span>Habrá pociones mágicas, pero nunca está de más traer más extracto de murciélago para más bebidas.</span></div></div>
       <div class="pz-ctl"><button type="button" id="zIn" aria-label="Acercar">+</button><button type="button" id="zOut" aria-label="Alejar">−</button><button type="button" id="zReset" aria-label="Ver todo">⤢</button></div>
     </div>
   </section>
