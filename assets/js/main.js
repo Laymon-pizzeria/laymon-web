@@ -592,18 +592,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // En vivo (temporal): el aviso dice "hoy" o "sonando ahora" según la hora y se quita solo al terminar el evento
-  const envivo = document.querySelector('[data-envivo]');
-  if (envivo) {
-    const ahora = Date.now(), d = envivo.dataset;
-    if (ahora >= Date.parse(d.hasta)) envivo.remove();
-    else {
-      const kicker = envivo.querySelector('[data-envivo-kicker]');
-      if (ahora >= Date.parse(d.inicio)) kicker.textContent = 'Sonando ahora en Laymon';
-      else if (ahora >= Date.parse(d.dia)) kicker.textContent = 'Hoy en Laymon';
-    }
-  }
-
   // Horario: marca el día de hoy (hora de Coacalco)
   const horario = document.querySelector('[data-horario]');
   if (horario) {

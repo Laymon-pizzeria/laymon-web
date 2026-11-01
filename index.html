@@ -52,9 +52,7 @@
   <link rel="preload" href="assets/fonts/chelsea-market.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/hero/pizza.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/main.css">
-  <link rel="stylesheet" href="assets/css/envivo.css">
   <script src="assets/js/main.js" defer></script>
-  <script src="assets/js/envivo.js" defer></script>
 </head>
 <body class="en-hero">
   <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -94,62 +92,6 @@
         <p class="hero__titulo">
           <img class="hero__best" src="assets/img/hero/best-pizzas.svg" width="289" height="310" alt="Best fuck'n pizzas">
         </p>
-      </div>
-    </section>
-
-    <!-- EN VIVO (temporal): música acústica el sábado 31 oct 2026, 6 a 9 pm. main.js lo quita solo al pasar data-hasta.
-         Para borrarlo del todo: quitar esta sección (incluye su JSON-LD), assets/css/envivo.css, assets/js/envivo.js (y su link/script en el head),
-         assets/img/envivo y el bloque "En vivo" de main.js -->
-    <section class="envivo" id="en-vivo" aria-labelledby="envivo-title" data-envivo data-dia="2026-10-31T00:00:00-06:00" data-inicio="2026-10-31T18:00:00-06:00" data-hasta="2026-10-31T21:00:00-06:00">
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "MusicEvent",
-        "name": "Música en vivo en Laymon: oldies y clásicos del rock en acústico",
-        "description": "Miguel Rocha en acústico tocando oldies y clásicos del rock en Laymon Pizzería Artesanal, Coacalco.",
-        "startDate": "2026-10-31T18:00:00-06:00",
-        "endDate": "2026-10-31T21:00:00-06:00",
-        "eventStatus": "https://schema.org/EventScheduled",
-        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "image": "https://www.laymonpizzeria.com/assets/img/og/home.jpg",
-        "url": "https://www.laymonpizzeria.com/#en-vivo",
-        "location": {
-          "@type": "Restaurant",
-          "@id": "https://www.laymonpizzeria.com/#restaurante",
-          "name": "Laymon Pizzería Artesanal",
-          "address": { "@type": "PostalAddress", "streetAddress": "C. Belisario Domínguez 38", "addressLocality": "San Francisco Coacalco", "addressRegion": "Estado de México", "addressCountry": "MX" }
-        },
-        "performer": { "@type": "Person", "name": "Miguel Rocha" },
-        "organizer": { "@type": "Organization", "name": "Laymon Pizzería Artesanal", "url": "https://www.laymonpizzeria.com/" }
-      }
-      </script>
-      <!-- Toda la sección baila al ritmo del riff: a la derecha, las 8 escenas del storyboard (assets/js/envivo.js + assets/css/envivo.css);
-           el tono de la sección cambia con la escena. El texto de la izquierda es HTML real (SEO y lectores de pantalla); el escenario es decorativo. -->
-      <div class="ev-stage" data-ev-stage aria-hidden="true">
-          <div class="ev-fr ev-s1" style="--p:0"><div class="ev-bg"></div><div class="ev-ll"></div><div class="ev-box"><div class="ev-a ev-f-brick ev-ap" style="--at:1">Este</div><div class="ev-b ev-f-brick ev-gl ev-ap" style="--at:2">Sábado</div><div class="ev-c ev-f-brick ev-ap" style="--at:3">Se prende</div><div class="ev-gh"><div class="ev-gp ev-gp-paseo" style="--k:1"></div><div class="ev-gp ev-gp-impulso" style="--k:2"></div><div class="ev-gp ev-gp-ollie" style="--k:3"></div><div class="ev-gp ev-gp-agachado" style="--k:4"></div></div></div></div>
-          <div class="ev-fr ev-s2" style="--p:0"><div class="ev-cam"><div class="ev-ph"></div><div class="ev-neon"></div></div><div class="ev-vel"></div><div class="ev-dark ev-ap" style="--at:2"></div><div class="ev-box"><div class="ev-st ev-ap" style="--at:2"><div></div></div><div class="ev-b ev-f-chel ev-ap" style="--at:3">Coacalco<br>Un lugar con fuego y alma</div></div></div>
-          <div class="ev-fr ev-s3" style="--p:0"><div class="ev-cam"><div class="ev-ph"></div><div class="ev-neon"></div></div><div class="ev-vel"></div><div class="ev-box"><div class="ev-ti ev-f-chel ev-ap" style="--at:2">Cáele a<br>escuchar a</div><div class="ev-gw ev-ap" style="--at:3;--dy:0cqw"><div class="ev-g"></div><div class="ev-gc"></div><div class="ev-gr"></div><div class="ev-gs"></div></div></div></div>
-          <div class="ev-fr ev-s4" style="--p:0"><div class="ev-bg"></div><div class="ev-box"><div class="ev-w1 ev-f-brick ev-ap" style="--at:1">Miguel</div><div class="ev-w2 ev-f-brick ev-ap" style="--at:2">Rocha</div><div class="ev-caja"><div class="ev-img"></div><div class="ev-lg ev-ap" style="--at:1"><div class="ev-l1"></div><div class="ev-l4"></div><div class="ev-l5"></div><div class="ev-l2"></div></div></div><div class="ev-rec ev-f-chel ev-ap" style="--at:3"><i></i>LIVE</div></div></div>
-          <div class="ev-fr ev-s5" style="--p:0"><div class="ev-bg"></div><div class="ev-ll"></div><div class="ev-box"><div class="ev-t1 ev-f-brick ev-ap" style="--at:1">Clásicos</div><div class="ev-t2 ev-f-brick ev-ap" style="--at:2">del rock</div><div class="ev-tw"><div class="ev-base ev-sil"></div><div class="ev-nz1 ev-sil"></div><div class="ev-nz2 ev-sil"></div><div class="ev-sc ev-sil"></div><div class="ev-band ev-sil"></div><div class="ev-rr ev-sil"></div><div class="ev-cc ev-sil"></div><div class="ev-tear ev-sil"></div></div><div class="ev-ac ev-f-chel ev-ap" style="--at:3">en<br>acústico</div></div></div>
-          <div class="ev-fr ev-s6" style="--p:0"><div class="ev-bg"></div><div class="ev-tx"></div><div class="ev-box"><div class="ev-p ev-p1 ev-ap" style="--at:1"></div><div class="ev-a ev-f-brick ev-ap" style="--at:1">Fire<br>food</div><div class="ev-p ev-p2 ev-ap" style="--at:2"></div><div class="ev-b ev-f-brick ev-ap" style="--at:2">Respect<br>the dough</div><div class="ev-p ev-p3 ev-ap" style="--at:3"></div><div class="ev-c ev-f-brick ev-ap" style="--at:3">And rock<br>and roll</div><div class="ev-gh"><div class="ev-gp ev-gp-paseo" style="--k:1"></div><div class="ev-gp ev-gp-paseo" style="--k:2"></div><div class="ev-gp ev-gp-paseo" style="--k:3"></div><div class="ev-gp ev-gp-kickflip" style="--k:4"></div></div></div></div>
-          <div class="ev-fr ev-s7" style="--p:0"><div class="ev-bg"></div><div class="ev-box"><div class="ev-a ev-f-brick ev-ap" style="--at:1">Sábado</div><div class="ev-nr ev-f-brick ev-ap" style="--at:1">31</div><div class="ev-nc ev-f-brick ev-ap" style="--at:1">31</div><div class="ev-n ev-f-brick ev-ap" style="--at:1">31</div><div class="ev-m ev-f-brick ev-ap" style="--at:2">Oct</div><div class="ev-h ev-f-brick ev-ap" style="--at:3">6:00 a 9:00 pm</div></div><div class="ev-fill"></div><div class="ev-row ev-ap" style="--at:4;bottom:-8%;transition-delay:0ms"></div><div class="ev-row ev-fx ev-ap" style="--at:4;bottom:12%;transition-delay:70ms"></div><div class="ev-row ev-ap" style="--at:4;bottom:32%;transition-delay:140ms"></div><div class="ev-row ev-fx ev-ap" style="--at:4;bottom:52%;transition-delay:210ms"></div><div class="ev-row ev-ap" style="--at:4;bottom:70%;transition-delay:280ms"></div></div>
-          <div class="ev-fr ev-s8" style="--p:0"><div class="ev-bg"></div><div class="ev-box"><div class="ev-logo ev-ap" style="--at:2"></div><div class="ev-a ev-f-brick ev-ap" style="--at:3">Aparta<br>tu mesa</div><div class="ev-gh ev-ap" style="--at:2"><div class="ev-gp ev-gp-equilibrio" style="--k:1"></div><div class="ev-gp ev-gp-equilibrio" style="--k:2"></div><div class="ev-gp ev-gp-vertical" style="--k:3"></div><div class="ev-gp ev-gp-agarre" style="--k:4"></div></div><div class="ev-b ev-f-chel ev-ap" style="--at:4">Belisario Domínguez 38<br>Coacalco Centro, CP 55700</div><div class="ev-c ev-f-chel ev-ap" style="--at:4">laymonpizzeria.com</div></div><div class="ev-cover"></div></div>
-        <div class="ev-flash"></div><div class="ev-wipe"></div><div class="ev-glitch"></div>
-      </div>
-      <div class="envivo__in">
-        <div class="envivo__texto">
-          <p class="envivo__kicker"><span class="envivo__aire" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-envivo-kicker>Este sábado en Laymon</span></p>
-          <h2 id="envivo-title" class="envivo__titulo"><span>Música</span> <span>en vivo</span></h2>
-          <img class="envivo__fantasma" src="assets/img/fantasma/poses/ollie.webp" width="375" height="422" alt="" loading="lazy">
-          <p class="envivo__fecha"><time datetime="2026-10-31T18:00-06:00">Sáb 31 oct</time> <span class="envivo__hora">6 a 9 pm</span></p>
-          <p class="envivo__lista">Miguel Rocha <span aria-hidden="true">·</span> oldies y clásicos del rock en acústico</p>
-          <p class="envivo__lead">Una guitarra y las canciones que te sabes de memoria. Tú pones la mesa llena; nosotros, la pizza recién salida del horno.</p>
-          <div class="envivo__ctas">
-            <a class="envivo__btn" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
-            <a class="envivo__llegar" href="#visitanos">Cómo llegar</a>
-          </div>
-        </div>
-        <div class="envivo__escenario" aria-hidden="true"></div>
       </div>
     </section>
 
