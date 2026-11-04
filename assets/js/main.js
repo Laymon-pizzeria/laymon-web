@@ -592,6 +592,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // En vivo (cada sábado, 6 a 9 pm): el aviso dice "hoy" o "sonando ahora" según el día y la hora de Coacalco (UTC-6, sin horario de verano)
+  const envivo = document.querySelector('[data-envivo]');
+  if (envivo) {
+    const cdmx = new Date(Date.now() - 6 * 3600e3), dia = cdmx.getUTCDay(), hora = cdmx.getUTCHours();
+    const kicker = envivo.querySelector('[data-envivo-kicker]');
+    if (dia === 6 && hora >= 18 && hora < 21) kicker.textContent = 'Sonando ahora en Laymon';
+    else if (dia === 6 && hora < 18) kicker.textContent = 'Hoy en Laymon';
+  }
+
   // Horario: marca el día de hoy (hora de Coacalco)
   const horario = document.querySelector('[data-horario]');
   if (horario) {
