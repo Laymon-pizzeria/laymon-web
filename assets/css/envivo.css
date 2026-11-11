@@ -27,7 +27,7 @@
   --i-papel: url("../img/envivo/ev/papel.jpg"); --i-p1: url("../img/envivo/ev/pz1.webp"); --i-p2: url("../img/envivo/ev/pz2.webp");
   --i-p3: url("../img/envivo/ev/pz3.webp"); --i-gafas: url("../img/envivo/ev/gafas.webp"); --i-lentes: url("../img/envivo/ev/lentes.webp");
   --i-nz1: url("../img/envivo/ev/nz1.svg"); --i-nz2: url("../img/envivo/ev/nz2.svg"); --i-logo: url("../img/logo/laymon.svg");
-  --gp-paseo:url(../img/fantasma/poses/paseo.webp);--gp-impulso:url(../img/fantasma/poses/impulso.webp);--gp-ollie:url(../img/fantasma/poses/ollie.webp);--gp-agachado:url(../img/fantasma/poses/agachado.webp);--gp-kickflip:url(../img/fantasma/poses/kickflip.webp);--gp-equilibrio:url(../img/fantasma/poses/equilibrio.webp);--gp-vertical:url(../img/fantasma/poses/vertical.webp);--gp-agarre:url(../img/fantasma/poses/agarre.webp);--gp-tabla-en-alto:url(../img/fantasma/poses/tabla-en-alto.webp);
+  --gp-paseo:url(../img/fantasma/navidad/paseo.webp);--gp-impulso:url(../img/fantasma/navidad/impulso.webp);--gp-ollie:url(../img/fantasma/navidad/ollie.webp);--gp-agachado:url(../img/fantasma/navidad/agachado.webp);--gp-kickflip:url(../img/fantasma/navidad/kickflip.webp);--gp-equilibrio:url(../img/fantasma/navidad/equilibrio.webp);--gp-vertical:url(../img/fantasma/navidad/vertical.webp);--gp-agarre:url(../img/fantasma/navidad/agarre.webp);--gp-tabla-en-alto:url(../img/fantasma/navidad/tabla-en-alto.webp);
 }
 .envivo.is-listo[data-tono="tinta"] { --ev-tex: url("../img/envivo/ev/negro.jpg"); }
 .envivo.is-listo[data-tono="papel"] { --ev-tex: url("../img/envivo/ev/papel.jpg"); }

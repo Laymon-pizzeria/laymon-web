@@ -27,6 +27,15 @@ npx http-server -p 8080
 
 Fantasma: las 9 poses oficiales están en `assets/img/fantasma/poses/` (una pose por sección). Los `skater-*.svg` solo quedan para la intro.
 
+Temporadas: `assets/img/fantasma/navidad/` tiene el fantasma navideño con los MISMOS nombres que `poses/` (cada rol tiene su pose equivalente), más `skater-1..6.webp` e `intro-sprite.webp` (intro navideña del menú de Justo, que las carga desde este sitio) y `marcador.webp`. Para cambiar todo el sitio de un golpe:
+
+```
+python3 herramientas/temporada.py navidad   # activa
+python3 herramientas/temporada.py normal    # regresa a las poses de siempre
+```
+
+El script solo cambia rutas y el alto de cada `<img>`; las poses originales nunca se tocan.
+
 ## Publicar
 
 GitHub Pages desde `main` (raíz). Vista previa: https://laymon-pizzeria.github.io/laymon-web/
