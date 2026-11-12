@@ -582,6 +582,7 @@ a { color: inherit; }
   padding: 20px 0; font-size: clamp(18px, 1.6vw, 21px); line-height: 1.3; transition: color var(--fast);
 }
 .faq__lista summary::-webkit-details-marker { display: none; }
+.faq__emo { display: inline-block; margin-right: .5em; font-size: .95em; }
 .faq__lista summary::before { content: counter(pista, decimal-leading-zero); color: var(--red); font-size: .8em; letter-spacing: .04em; }
 /* Más que gira a cruz: dos rayas, sin icono extra */
 .faq__lista summary::after {
@@ -733,27 +734,42 @@ a { color: inherit; }
 }
 
 /* ---------- Footer ---------- */
+/* Cuatro columnas con etiqueta (Visítanos, Horario, Explora, Síguenos), el logo completo como firma y una línea legal. */
 .footer { background: var(--red); color: #fff; overflow: hidden; }
 .footer__top {
-  max-width: var(--max); margin: 0 auto; padding: 40px var(--gutter) 0;
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px;
+  max-width: var(--max); margin: 0 auto; padding: clamp(48px, 6vw, 80px) var(--gutter) 0;
+  display: grid; grid-template-columns: 1.5fr 1fr .8fr .8fr; gap: clamp(28px, 4vw, 64px);
 }
-.footer__social { display: flex; gap: 24px; }
-.footer__social a { text-decoration: none; }
-.footer__social a:hover { color: var(--ink); }
-.footer__legal { margin: 0; color: rgba(255, 255, 255, .8); font-size: 14px; }
-.footer__info { display: grid; gap: 10px; }
-.footer__dir { margin: 0; font-size: 15px; }
-.footer__dir a { text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .5); }
-.footer__horario { margin: 0; font-size: 15px; }
-.footer__nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; }
-.footer__nav a { text-decoration: none; }
-.footer__nav a:hover, .footer__dir a:hover { color: var(--ink); }
-.footer__legal { align-self: end; }
-/* Supergráfico (manual v07, p. 20): logo grande recortado por abajo, dentro del 65 % permitido */
+.footer__label { margin: 0 0 14px; color: rgba(12, 11, 11, .78); font: 400 13px/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; }
+.footer__dir { margin: 0; font-size: clamp(18px, 1.7vw, 22px); line-height: 1.35; }
+.footer a { text-decoration: none; transition: color var(--fast); }
+.footer__dir a { border-bottom: 1px solid rgba(255, 255, 255, .5); }
+.footer__dir a:hover, .footer__links a:hover { color: var(--ink); }
+.footer__cta { display: inline-block; margin-top: 18px; padding: 10px 22px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 16px; transition: background var(--fast), color var(--fast); }
+.footer__cta:is(:hover, :focus-visible) { background: var(--paper); color: var(--ink); }
+.footer__horario { margin: 0; display: grid; gap: 9px; font-size: 16px; }
+.footer__horario div { display: flex; justify-content: space-between; gap: 16px; max-width: 17em; }
+.footer__horario dt { margin: 0; }
+.footer__horario dd { margin: 0; text-align: right; }
+.footer__cerrado { color: rgba(255, 255, 255, .72); }
+.footer__links { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; font-size: 16px; }
+.footer a:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+/* Firma: el logo completo, sin recortes, a todo el ancho útil */
 .footer__mark {
-  display: block; width: min(96%, 1200px); height: auto; aspect-ratio: 1759 / 1001;
-  margin: clamp(24px, 4vw, 48px) auto -9%; color: #fff;
+  display: block; width: min(calc(100% - 2 * var(--gutter)), 1100px); height: auto; aspect-ratio: 1759 / 1001;
+  margin: clamp(40px, 6vw, 80px) auto clamp(20px, 3vw, 36px); color: var(--paper);
+}
+.footer__legal {
+  max-width: var(--max); margin: 0 auto; padding: 18px var(--gutter) calc(88px + env(safe-area-inset-bottom)); /* deja libres los flotantes */
+  border-top: 1px solid rgba(255, 255, 255, .32); color: rgba(255, 255, 255, .85); font-size: 13px; line-height: 1.5;
+}
+.footer__legal a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 900px) {
+  .footer__top { grid-template-columns: 1fr 1fr; }
+  .footer__col--dir { grid-column: 1 / -1; }
+}
+@media (max-width: 420px) {
+  .footer__horario { font-size: 15px; }
 }
 
 /* ---------- Flotantes, igual que en la tienda ---------- */

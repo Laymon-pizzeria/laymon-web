@@ -157,25 +157,41 @@
 
   <footer class="footer">
     <div class="footer__top">
-      <div class="footer__info">
-        <p class="footer__dir"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">C. Belisario Domínguez 38, San Francisco Coacalco, Edo. Méx.</a></p>
-        <p class="footer__horario">Mié a vie 3 a 10 pm · Sáb 2 a 10 pm · Dom 2 a 9 pm · Lun y mar cerrado</p>
-        <nav class="footer__nav" aria-label="Laymon">
-          <a href="../">Inicio</a>
-          <a href="../puntos/">Puntos de Fuego</a>
-          <a href="../eventos/">Eventos</a>
-          <a href="https://laymonpizzeria.getjusto.com/pedir">Pide en línea</a>
-          <a href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa</a>
-        </nav>
-      </div>
-      <nav class="footer__social" aria-label="Redes">
-        <a href="https://www.instagram.com/laymonpizzeria" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.facebook.com/laymonpizzeria" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://linktr.ee/LaymonPizzeriaArtesanal" target="_blank" rel="noopener">Linktree</a>
+      <section class="footer__col footer__col--dir" aria-labelledby="f-dir">
+        <h2 class="footer__label" id="f-dir">Visítanos</h2>
+        <p class="footer__dir"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">C. Belisario Domínguez 38<br>San Francisco Coacalco<br>Estado de México</a></p>
+        <a class="footer__cta" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
+      </section>
+      <section class="footer__col" aria-labelledby="f-hor">
+        <h2 class="footer__label" id="f-hor">Horario</h2>
+        <dl class="footer__horario">
+          <div><dt>Mié a vie</dt><dd>3 a 10 pm</dd></div>
+          <div><dt>Sábado</dt><dd>2 a 10 pm</dd></div>
+          <div><dt>Domingo</dt><dd>2 a 9 pm</dd></div>
+          <div class="footer__cerrado"><dt>Lun y mar</dt><dd>Cerrado</dd></div>
+        </dl>
+      </section>
+      <nav class="footer__col" aria-labelledby="f-exp">
+        <h2 class="footer__label" id="f-exp">Explora</h2>
+        <ul class="footer__links">
+          <li><a href="../">Inicio</a></li>
+          <li><a href="../puntos/">Puntos de Fuego</a></li>
+          <li><a href="../eventos/">Eventos</a></li>
+          <li><a href="https://laymonpizzeria.getjusto.com/pedir">Pide en línea</a></li>
+        </ul>
       </nav>
-      <p class="footer__legal">© <span data-year>2026</span> Laymon Pizzería Artesanal · Ingredientes: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> (CC BY-SA 4.0)</p>
+      <nav class="footer__col" aria-labelledby="f-red">
+        <h2 class="footer__label" id="f-red">Síguenos</h2>
+        <ul class="footer__links">
+          <li><a href="https://www.instagram.com/laymonpizzeria" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/laymonpizzeria" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://linktr.ee/LaymonPizzeriaArtesanal" target="_blank" rel="noopener">Linktree</a></li>
+          <li><a href="https://api.whatsapp.com/send/?phone=525535023665" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </nav>
     </div>
     <svg class="footer__mark" viewBox="0 0 1759 1001" role="img" aria-label="Laymon"><use href="#logo-laymon"/></svg>
+    <p class="footer__legal">© <span data-year>2026</span> Laymon Pizzería Artesanal · Ingredientes: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> (CC BY-SA 4.0)</p>
   </footer>
 
   <!-- Flotantes como en la tienda: WhatsApp verde a la izquierda, "Pide ahora" abajo a la derecha cuando se esconde el header -->
