@@ -97,6 +97,62 @@
       </div>
     </section>
 
+    <!-- PUNTOS DE FUEGO: resumen del programa de recompensas; el detalle vive en /puntos/ -->
+    <section class="fuego" id="puntos-de-fuego" aria-labelledby="fuego-title">
+      <div class="fuego__in">
+        <img class="fuego__fantasma" src="assets/img/fantasma/navidad/impulso.webp" width="269" height="304" alt="" loading="lazy">
+        <div class="fuego__texto">
+          <p class="fuego__kicker">Las recompensas de Laymon</p>
+          <h2 id="fuego-title" class="display">Puntos de Fuego</h2>
+          <p class="fuego__sube"><s aria-hidden="true">2<span class="fuego__pct">%</span></s><span class="fuego__flecha" aria-hidden="true">→</span><span aria-hidden="true">5<span class="fuego__pct">%</span></span><span class="sr-only">Subieron de 2 a 5 por ciento</span></p>
+          <p class="fuego__lead">Ahora el 5% de cada compra regresa a ti en puntos. Y cada punto vale un peso.</p>
+          <ul class="fuego__datos">
+            <li><strong>Dónde</strong>Comiendo aquí o pidiendo directo en nuestra tienda en línea</li>
+            <li><strong>Cuánto</strong>1 punto = $1 en tu siguiente pedido</li>
+            <li><strong>Hasta cuándo</strong>Cada punto dura 6 meses</li>
+          </ul>
+          <div class="fuego__ctas">
+            <a class="fuego__btn" href="puntos/">Conoce Puntos de Fuego <span aria-hidden="true">→</span></a>
+            <a class="fuego__wallet" href="https://cuenta.getjusto.com/client/loyalty-start/CSEvtWoKLJ3EvJzk3" target="_blank" rel="noopener">Guarda tu tarjeta en tu cel</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VEN POR UNA: mapa con la ruta a Laymon (el fantasma la recorre) y por qué vale la pena venir -->
+    <section class="visit" id="visitanos" aria-labelledby="visit-title">
+      <h2 id="visit-title" class="display visit__title">Ven por una</h2>
+      <div class="ruta" data-ruta data-lat="19.6324866" data-lng="-99.1082052">
+        <div class="ruta__mapa" data-ruta-mapa role="region" aria-label="Mapa: Laymon en Coacalco"></div>
+        <div class="ruta__panel">
+          <button class="ruta__btn" type="button" data-ruta-btn>Trázame la ruta</button>
+          <p class="ruta__msg" data-ruta-msg aria-live="polite">Toca el botón y te dibujamos el camino desde donde estás. Tu ubicación no se guarda.</p>
+        </div>
+        <div class="ruta__ir">
+          <button class="ruta__enviar" type="button" data-ruta-enviar>Mándate la ruta al cel</button>
+          <span class="ruta__apps">Ábrela en
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener" data-ruta-gmaps>Google Maps</a> o
+            <a href="https://waze.com/ul?ll=19.6324866,-99.1082052&amp;navigate=yes" target="_blank" rel="noopener" data-ruta-waze>Waze</a></span>
+        </div>
+        <template data-ruta-pin><span class="ruta__logo"><svg viewBox="0 0 1759 1001" aria-hidden="true"><use href="#logo-laymon"/></svg></span></template>
+        <template data-ruta-rider><span class="ruta__bote"><img src="assets/img/fantasma/navidad/paseo.webp" width="311" height="418" alt=""></span></template>
+      </div>
+      <div class="visit__body">
+        <p class="visit__lead">La pizza en casa es el disco. Aquí es el concierto.</p>
+        <div class="visit__texto">
+          <p>En tu mesa la napolitana llega segundos después de salir del horno: la orilla inflada todavía cruje, el queso jala y el centro se dobla como en Nápoles.</p>
+          <p>Trae a tu banda, pide otra ronda de Cold Waves y quédate a la siguiente rola. La música la ponemos nosotros; la compañía, tú.</p>
+        </div>
+        <dl class="horario" data-horario aria-label="Horario">
+          <div data-dias="1 2"><dt>Lunes y martes</dt><dd>Cerrado</dd></div>
+          <div data-dias="3 4 5"><dt>Miércoles a viernes</dt><dd>3 a 10 pm</dd></div>
+          <div data-dias="6"><dt>Sábado</dt><dd>2 a 10 pm</dd></div>
+          <div data-dias="0"><dt>Domingo</dt><dd>2 a 9 pm</dd></div>
+        </dl>
+        <a class="visit__reserva" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
     <!-- EN VIVO (fijo): música acústica todos los sábados, 6 a 9 pm, con Miguel Rocha. main.js cambia el aviso a "hoy" o "sonando ahora"
          según el día y la hora de Coacalco. Animación: assets/js/envivo.js + assets/css/envivo.css + assets/img/envivo. -->
     <section class="envivo" id="en-vivo" aria-labelledby="envivo-title" data-envivo>
@@ -270,37 +326,21 @@
       </div>
     </section>
 
-    <!-- VEN POR UNA: mapa con la ruta a Laymon (el fantasma la recorre) y por qué vale la pena venir -->
-    <section class="visit" id="visitanos" aria-labelledby="visit-title">
-      <h2 id="visit-title" class="display visit__title">Ven por una</h2>
-      <div class="ruta" data-ruta data-lat="19.6324866" data-lng="-99.1082052">
-        <div class="ruta__mapa" data-ruta-mapa role="region" aria-label="Mapa: Laymon en Coacalco"></div>
-        <div class="ruta__panel">
-          <button class="ruta__btn" type="button" data-ruta-btn>Trázame la ruta</button>
-          <p class="ruta__msg" data-ruta-msg aria-live="polite">Toca el botón y te dibujamos el camino desde donde estás. Tu ubicación no se guarda.</p>
+    <!-- MANIFIESTO -->
+    <section class="manifesto" id="que-somos" aria-labelledby="manifesto-title">
+      <!-- Foto de la caja (de Luis), con el fondo pasado al rojo Laymon y bordes difuminados hacia el rojo de la sección -->
+      <img class="manifesto__photo" src="assets/img/caja-laymon.webp" width="896" height="1194" alt="Dos personas sostienen una caja de pizza blanca con el logo Laymon en rojo" loading="lazy">
+      <div class="manifesto__inner">
+        <h2 id="manifesto-title" class="manifesto__title">
+          <span>Fire food.</span>
+          <span>Respect the dough.</span>
+          <span>And Rock and Roll.</span>
+        </h2>
+        <!-- Fantasma al centro del hueco entre la foto y la frase; la frase va a la derecha -->
+        <div class="manifesto__row">
+          <div class="manifesto__ghostwrap"><img class="manifesto__ghost" src="assets/img/fantasma/navidad/equilibrio.webp" width="399" height="463" alt="" loading="lazy" aria-hidden="true"></div>
+          <p class="manifesto__text">El fuego transforma los ingredientes y la hospitalidad transforma la experiencia.</p>
         </div>
-        <div class="ruta__ir">
-          <button class="ruta__enviar" type="button" data-ruta-enviar>Mándate la ruta al cel</button>
-          <span class="ruta__apps">Ábrela en
-            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener" data-ruta-gmaps>Google Maps</a> o
-            <a href="https://waze.com/ul?ll=19.6324866,-99.1082052&amp;navigate=yes" target="_blank" rel="noopener" data-ruta-waze>Waze</a></span>
-        </div>
-        <template data-ruta-pin><span class="ruta__logo"><svg viewBox="0 0 1759 1001" aria-hidden="true"><use href="#logo-laymon"/></svg></span></template>
-        <template data-ruta-rider><span class="ruta__bote"><img src="assets/img/fantasma/navidad/paseo.webp" width="311" height="418" alt=""></span></template>
-      </div>
-      <div class="visit__body">
-        <p class="visit__lead">La pizza en casa es el disco. Aquí es el concierto.</p>
-        <div class="visit__texto">
-          <p>En tu mesa la napolitana llega segundos después de salir del horno: la orilla inflada todavía cruje, el queso jala y el centro se dobla como en Nápoles.</p>
-          <p>Trae a tu banda, pide otra ronda de Cold Waves y quédate a la siguiente rola. La música la ponemos nosotros; la compañía, tú.</p>
-        </div>
-        <dl class="horario" data-horario aria-label="Horario">
-          <div data-dias="1 2"><dt>Lunes y martes</dt><dd>Cerrado</dd></div>
-          <div data-dias="3 4 5"><dt>Miércoles a viernes</dt><dd>3 a 10 pm</dd></div>
-          <div data-dias="6"><dt>Sábado</dt><dd>2 a 10 pm</dd></div>
-          <div data-dias="0"><dt>Domingo</dt><dd>2 a 9 pm</dd></div>
-        </dl>
-        <a class="visit__reserva" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
       </div>
     </section>
 
@@ -341,68 +381,184 @@
       </div>
     </section>
 
-    <!-- MANIFIESTO -->
-    <section class="manifesto" id="que-somos" aria-labelledby="manifesto-title">
-      <!-- Foto de la caja (de Luis), con el fondo pasado al rojo Laymon y bordes difuminados hacia el rojo de la sección -->
-      <img class="manifesto__photo" src="assets/img/caja-laymon.webp" width="896" height="1194" alt="Dos personas sostienen una caja de pizza blanca con el logo Laymon en rojo" loading="lazy">
-      <div class="manifesto__inner">
-        <h2 id="manifesto-title" class="manifesto__title">
-          <span>Fire food.</span>
-          <span>Respect the dough.</span>
-          <span>And Rock and Roll.</span>
-        </h2>
-        <!-- Fantasma al centro del hueco entre la foto y la frase; la frase va a la derecha -->
-        <div class="manifesto__row">
-          <div class="manifesto__ghostwrap"><img class="manifesto__ghost" src="assets/img/fantasma/navidad/equilibrio.webp" width="399" height="463" alt="" loading="lazy" aria-hidden="true"></div>
-          <p class="manifesto__text">El fuego transforma los ingredientes y la hospitalidad transforma la experiencia.</p>
+    <!-- PREGUNTAS FRECUENTES: las de Squarespace (texto de Luis, 11 nov), puestas al día. /preguntas-frecuentes-1 redirige aquí;
+         si cambia horario, puntos o música, cámbialo también en el JSON-LD de abajo. Lista numerada como tracklist. -->
+    <section class="faq" id="preguntas" aria-labelledby="faq-title">
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Dónde están ubicados?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Estamos en C. Belisario Domínguez 38, San Francisco Coacalco, Estado de México."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué tipo de comida sirven?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pizzas napolitanas, smash burgers, ensaladas frescas, baguis, burritos, snacks y Cold Waves, nuestras bebidas heladas de la casa."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuál es el ambiente de Laymon?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Chill, cercano, con actitud y sin pretensiones. Ideal para venir con pareja, amistades, familia o solo a reconectar contigo."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Tienen entrega a domicilio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, repartimos en varias zonas de Coacalco. Pon tu dirección en nuestra tienda en línea (laymonpizzeria.getjusto.com/pedir) y ahí ves si llegamos y cuánto cuesta el envío."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué métodos de pago aceptan?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Efectivo, tarjeta, transferencia o link de pago. Si pides por WhatsApp te damos todas las opciones."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué días y horarios abren?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Miércoles a viernes de 3 a 10 pm, sábado de 2 a 10 pm y domingo de 2 a 9 pm. Lunes y martes cerramos."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Se puede celebrar un cumpleaños o aniversario?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "¡Claro que sí! Nosotros te ayudamos con un pequeño detalle especial. Avísanos por WhatsApp antes de venir."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Tienen programa de puntos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí: Puntos de Fuego. El 5% de cada compra, comiendo aquí o pidiendo directo en la tienda en línea, regresa a ti en puntos. Cada punto vale $1, dura 6 meses y con puntos pagas hasta la mitad de tu cuenta. Tu saldo lo ves guardando tu tarjeta en la Wallet de tu celular."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Tienen opciones vegetarianas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. Hay ensaladas y pizzas sin carne, y estamos trabajando en más opciones veggie."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Tienen tienda en línea?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, en laymonpizzeria.getjusto.com/pedir pides directo y también juntas Puntos de Fuego."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Laymon es pet friendly?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. Puedes venir con tu lomito o michi, son bienvenidos. Tenemos agüita para ellos."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Puedo ir sin reservación?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "¡Claro! Llega directo y pide lo que se te antoje. Si vienes en grupo o celebras algo, aparta tu mesa en laymonpizzeria.getjusto.com/reservas o escríbenos por WhatsApp."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué música ponen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Rock, indie, post punk y clásicos que no mueren. Los sábados de 6 a 9 pm, música en vivo con Miguel Rocha en acústico."
+            }
+          }
+        ]
+      }
+      </script>
+      <div class="faq__in">
+        <div class="faq__cabeza">
+          <p class="faq__kicker">Preguntas frecuentes</p>
+          <h2 id="faq-title" class="faq__titulo">Antes de que preguntes</h2>
+          <p class="faq__lead">Las dudas de siempre, contestadas de una vez. Si te queda otra, <a href="https://api.whatsapp.com/send/?phone=525535023665" target="_blank" rel="noopener">escríbenos por WhatsApp</a>.</p>
+          <img class="faq__fantasma" src="assets/img/fantasma/navidad/agarre.webp" width="577" height="720" alt="" loading="lazy">
         </div>
+        <ol class="faq__lista">
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">📍</span>¿Dónde están ubicados?</span></summary><p>Estamos en C. Belisario Domínguez 38, San Francisco Coacalco, Estado de México. <a href="https://share.google/cpQaQcNs0dWuhieSn" target="_blank" rel="noopener">Ábrenos en Google Maps</a> o <a href="#visitanos">trázate la ruta aquí arriba</a>.</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🍕</span>¿Qué tipo de comida sirven?</span></summary><p>Pizzas napolitanas, smash burgers, ensaladas frescas, baguis, burritos, snacks con actitud y nuestras Cold Waves 🔥</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">✨</span>¿Cuál es el ambiente de Laymon?</span></summary><p>Chill, cercano, con actitud y sin pretensiones. Ideal para venir con pareja, amistades, familia o solo a reconectar contigo 🤙</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">📦</span>¿Tienen entrega a domicilio?</span></summary><p>¡Sí! Repartimos en varias zonas de Coacalco. Pon tu dirección en <a href="https://laymonpizzeria.getjusto.com/pedir">nuestra tienda en línea</a> y ahí ves si llegamos y cuánto cuesta el envío 🛵</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">💳</span>¿Qué métodos de pago aceptan?</span></summary><p>Efectivo, tarjeta, transferencia o link de pago. Si pides por <a href="https://api.whatsapp.com/send/?phone=525535023665" target="_blank" rel="noopener">WhatsApp</a> te damos todas las opciones 🤘</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🕑</span>¿Qué días y horarios abren?</span></summary><p>Miércoles a viernes de 3 a 10 pm, sábado de 2 a 10 pm y domingo de 2 a 9 pm. Lunes y martes cerramos para prender con fuego el resto de la semana 🔥</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🎉</span>¿Se puede celebrar un cumpleaños o aniversario?</span></summary><p>¡Claro que sí! Nosotros te ayudamos con un pequeño detalle especial. <a href="https://wa.me/525535023665?text=Hola%20Laymon%20%F0%9F%94%A5%20vi%20las%20preguntas%20frecuentes%20en%20su%20sitio%20web%20y%20quiero%20reservar%20%F0%9F%A4%98" target="_blank" rel="noopener">Avísanos por WhatsApp</a> antes de venir ❤️‍🔥</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🔥</span>¿Tienen programa de puntos?</span></summary><p>Sí: Puntos de Fuego. El 5% de cada compra, comiendo aquí o pidiendo directo en la tienda en línea, regresa a ti en puntos. Cada punto vale $1, dura 6 meses y con puntos pagas hasta la mitad de tu cuenta. <a href="https://cuenta.getjusto.com/client/loyalty-start/CSEvtWoKLJ3EvJzk3" target="_blank" rel="noopener">Guarda tu tarjeta en el cel</a> para ver tu saldo, o <a href="puntos/">conoce todo aquí</a>.</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🌱</span>¿Tienen opciones vegetarianas?</span></summary><p>Sí. Hay ensaladas y pizzas sin carne, y estamos trabajando en más opciones veggie 🍃</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🛒</span>¿Tienen tienda en línea?</span></summary><p>Sí, aquí pides directo: <a href="https://laymonpizzeria.getjusto.com/pedir">laymonpizzeria.getjusto.com/pedir</a>. Y pidiendo ahí también juntas Puntos de Fuego.</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🐾</span>¿Laymon es pet friendly?</span></summary><p>Sí 🐶🐱 Puedes venir con tu lomito o michi, son bienvenidos. Tenemos agüita para ellos 💧</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🪑</span>¿Puedo ir sin reservación?</span></summary><p>¡Claro! Llega directo y pide lo que se te antoje. Si vienes en grupo o celebras algo, <a href="https://laymonpizzeria.getjusto.com/reservas">aparta tu mesa en línea</a> o <a href="https://wa.me/525535023665?text=Hola%20Laymon%20%F0%9F%94%A5%20vi%20las%20preguntas%20frecuentes%20en%20su%20sitio%20web%20y%20quiero%20reservar%20%F0%9F%A4%98" target="_blank" rel="noopener">escríbenos por WhatsApp</a> 🫶</p></details></li>
+          <li><details><summary><span><span class="faq__emo" aria-hidden="true">🎸</span>¿Qué música ponen?</span></summary><p>Pura joya: rock, indie, post punk y clásicos que no mueren. Los sábados de 6 a 9 pm, <a href="#en-vivo">música en vivo</a> con Miguel Rocha en acústico. <a href="https://open.spotify.com/playlist/6XAcaR5LWKgsEgesujMqM6?si=011638d636734e6c" target="_blank" rel="noopener">Escucha nuestra playlist en Spotify</a> 🎶</p></details></li>
+        </ol>
       </div>
     </section>
-
-    <!-- PUNTOS DE FUEGO: resumen del programa de recompensas; el detalle vive en /puntos/ -->
-    <section class="fuego" id="puntos-de-fuego" aria-labelledby="fuego-title">
-      <div class="fuego__in">
-        <img class="fuego__fantasma" src="assets/img/fantasma/navidad/impulso.webp" width="269" height="304" alt="" loading="lazy">
-        <div class="fuego__texto">
-          <p class="fuego__kicker">Las recompensas de Laymon</p>
-          <h2 id="fuego-title" class="display">Puntos de Fuego</h2>
-          <p class="fuego__sube"><s aria-hidden="true">2<span class="fuego__pct">%</span></s><span class="fuego__flecha" aria-hidden="true">→</span><span aria-hidden="true">5<span class="fuego__pct">%</span></span><span class="sr-only">Subieron de 2 a 5 por ciento</span></p>
-          <p class="fuego__lead">Ahora el 5% de cada compra regresa a ti en puntos. Y cada punto vale un peso.</p>
-          <ul class="fuego__datos">
-            <li><strong>Dónde</strong>Comiendo aquí o pidiendo directo en nuestra tienda en línea</li>
-            <li><strong>Cuánto</strong>1 punto = $1 en tu siguiente pedido</li>
-            <li><strong>Hasta cuándo</strong>Cada punto dura 6 meses</li>
-          </ul>
-          <div class="fuego__ctas">
-            <a class="fuego__btn" href="puntos/">Conoce Puntos de Fuego <span aria-hidden="true">→</span></a>
-            <a class="fuego__wallet" href="https://cuenta.getjusto.com/client/loyalty-start/CSEvtWoKLJ3EvJzk3" target="_blank" rel="noopener">Guarda tu tarjeta en tu cel</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <footer class="footer">
     <div class="footer__top">
-      <div class="footer__info">
-        <p class="footer__dir"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">C. Belisario Domínguez 38, San Francisco Coacalco, Edo. Méx.</a></p>
-        <p class="footer__horario">Mié a vie 3 a 10 pm · Sáb 2 a 10 pm · Dom 2 a 9 pm · Lun y mar cerrado</p>
-        <nav class="footer__nav" aria-label="Laymon">
-          <a href="./">Inicio</a>
-          <a href="puntos/">Puntos de Fuego</a>
-          <a href="https://laymonpizzeria.getjusto.com/pedir">Pide en línea</a>
-          <a href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa</a>
-        </nav>
-      </div>
-      <nav class="footer__social" aria-label="Redes">
-        <a href="https://www.instagram.com/laymonpizzeria" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.facebook.com/laymonpizzeria" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://linktr.ee/LaymonPizzeriaArtesanal" target="_blank" rel="noopener">Linktree</a>
+      <section class="footer__col footer__col--dir" aria-labelledby="f-dir">
+        <h2 class="footer__label" id="f-dir">Visítanos</h2>
+        <p class="footer__dir"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=19.6324866,-99.1082052" target="_blank" rel="noopener">C. Belisario Domínguez 38<br>San Francisco Coacalco<br>Estado de México</a></p>
+        <a class="footer__cta" href="https://laymonpizzeria.getjusto.com/reservas">Aparta tu mesa <span aria-hidden="true">→</span></a>
+      </section>
+      <section class="footer__col" aria-labelledby="f-hor">
+        <h2 class="footer__label" id="f-hor">Horario</h2>
+        <dl class="footer__horario">
+          <div><dt>Mié a vie</dt><dd>3 a 10 pm</dd></div>
+          <div><dt>Sábado</dt><dd>2 a 10 pm</dd></div>
+          <div><dt>Domingo</dt><dd>2 a 9 pm</dd></div>
+          <div class="footer__cerrado"><dt>Lun y mar</dt><dd>Cerrado</dd></div>
+        </dl>
+      </section>
+      <nav class="footer__col" aria-labelledby="f-exp">
+        <h2 class="footer__label" id="f-exp">Explora</h2>
+        <ul class="footer__links">
+          <li><a href="./">Inicio</a></li>
+          <li><a href="puntos/">Puntos de Fuego</a></li>
+          <li><a href="#preguntas">Preguntas frecuentes</a></li>
+          <li><a href="https://laymonpizzeria.getjusto.com/pedir">Pide en línea</a></li>
+        </ul>
       </nav>
-      <p class="footer__legal">© <span data-year>2026</span> Laymon Pizzería Artesanal · Ingredientes: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> (CC BY-SA 4.0)</p>
+      <nav class="footer__col" aria-labelledby="f-red">
+        <h2 class="footer__label" id="f-red">Síguenos</h2>
+        <ul class="footer__links">
+          <li><a href="https://www.instagram.com/laymonpizzeria" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/laymonpizzeria" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://linktr.ee/LaymonPizzeriaArtesanal" target="_blank" rel="noopener">Linktree</a></li>
+          <li><a href="https://api.whatsapp.com/send/?phone=525535023665" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </nav>
     </div>
     <svg class="footer__mark" viewBox="0 0 1759 1001" role="img" aria-label="Laymon"><use href="#logo-laymon"/></svg>
+    <p class="footer__legal">© <span data-year>2026</span> Laymon Pizzería Artesanal · Ingredientes: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> (CC BY-SA 4.0)</p>
   </footer>
 
   <!-- Flotantes como en la tienda: WhatsApp verde a la izquierda, "Pide ahora" abajo a la derecha cuando se esconde el header -->
