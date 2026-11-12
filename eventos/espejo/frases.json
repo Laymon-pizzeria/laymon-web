@@ -1,0 +1,338 @@
+{
+ "probGanar": 0.08,
+ "despertar": [
+  "Despierto. Qué horror, hay gente. Bueno: escaneen el código y pregúntenme lo que quieran.",
+  "Ah, otra fiesta. Mil años colgado en paredes y es la primera con tantos ogros. Adelante.",
+  "Espejito, espejito… sí, ya sé. Estoy despierto. Escaneen el código.",
+  "Se abre el pantano. El espejo está despierto y de pésimo humor. Perfecto para ustedes."
+ ],
+ "intro": [
+  "¡Damas, caballeros y criaturas del pantano! {n} se atreve a preguntar si es {el} más bell{o} del reino. Qué valentía. Qué ingenuidad.",
+  "Espejito, espejito… ¿es {n} {el} más bell{o} del pantano? Silencio, ogros. Esto se pone serio.",
+  "Un aplauso para {n}, que vino a ponerse frente a mí sin que nadie l{o} obligara. Veamos.",
+  "Analizando a {n}. Calculando belleza. Consultando a los espíritus del pantano… esto puede tardar.",
+  "A ver, {n}. Párate donde te vea. No, más a la luz. No, peor. Regresa.",
+  "Ha llegado el turno de {n}. El reino contiene la respiración. Yo también, por si acaso.",
+  "Desde las profundidades del pantano, la pregunta de la noche: ¿es {n} {el} más bell{o}? Que suene el redoble."
+ ],
+ "suspenso": [
+  "Mmm…",
+  "Interesante…",
+  "Ajá…",
+  "Ay, no…",
+  "Uff…",
+  "Déjame limpiar el cristal…",
+  "Esto va a doler…"
+ ],
+ "veredicto": [
+  "No, {n}. {El} más bell{o} sigue siendo {f}. Es su cumpleaños, no me pongas en esa posición.",
+  "Tienes la belleza de {un} {ogro} recién levantad{o}: auténtica, aromática y sin filtro.",
+  "Eres bell{o} por dentro. Muy por dentro. Habría que excavar.",
+  "En una escala de Farquaad a Príncipe Encantador, quedaste en Burro. Pero Burro tiene carisma, así que no llores.",
+  "Belleza: siete. Actitud: diez. Disfraz: lo hablamos en privado.",
+  "He visto pantanos más arreglados, pero ninguno con tanta confianza.",
+  "Eres como una cebolla: tienes capas. Y también haces llorar a la gente.",
+  "Si la belleza fuera un reino, el tuyo estaría muy, muy lejos.",
+  "Tu belleza es tan única que mis cristales no la pueden procesar. Inténtalo más tarde. Mucho más tarde.",
+  "No eres {el} más bell{o}, pero sí {el} más valiente por preguntarle a un espejo en público.",
+  "Belleza clásica. Muy clásica. De la época del Rey Harold.",
+  "Te ves bien. Yo no miento. Bueno, a Farquaad sí le mentía, pero eso fue por contrato.",
+  "Te nombro {el} más bell{o}… de tu fila. La fila eres tú.",
+  "Eres la prueba de que la belleza está en los ojos de quien mira. Y yo no tengo ojos. Siguiente.",
+  "Si te dieran un beso de amor verdadero, te quedarías exactamente igual. Eso se llama aceptación.",
+  "La Dragona te acaba de guiñar el ojo. Tómalo como quieras.",
+  "Tienes algo especial, {n}. No sé qué es. Nadie sabe qué es. Pero ahí está.",
+  "Mi veredicto oficial: hoy no. Pero el pantano no juzga. Yo sí, pero el pantano no.",
+  "Te pareces mucho a alguien famoso. Al ogro del fondo. No a Shrek, al otro.",
+  "Bell{o} no. Memorable sí. Mañana nadie va a olvidar ese disfraz, para bien o para mal.",
+  "Si fueras una princesa, estarías en la torre más alta. Por seguridad de los demás.",
+  "Ni el Hada Madrina tiene una poción tan fuerte. Pero me caes bien, que es casi lo mismo."
+ ],
+ "gana": [
+  "Lo diré una sola vez esta noche: {n}, eres {el} más bell{o} del pantano. Que nadie se entere. Especialmente {f}.",
+  "Increíble. Mis cristales no mienten: {n} es {el} más bell{o} del reino. {f} ya está llorando en una esquina.",
+  "Por primera vez en mil años, el veredicto es sí. {n}, el reino se rinde a tus pies. Pies verdes, pero pies."
+ ],
+ "disfraz": {
+  "Shrek": [
+   "Otro Shrek. Llevo once esta noche. Tú eres el más verde. Algo es algo.",
+   "Un Shrek muy convincente. Demasiado convincente. ¿Seguro que es disfraz?",
+   "¡Sal de mi pantano! Ah, perdón, es la costumbre. Te ves auténtico, eso sí."
+  ],
+  "Fiona (ogra)": [
+   "Fiona de día, ogra de noche y guapa a cualquier hora. Pero no tanto como yo.",
+   "Ogra, princesa y experta en kung fu. No pienso decirte que no. Me da miedo."
+  ],
+  "Fiona (vestido azul)": [
+   "Vestido azul, porte de princesa y cara de \"ya quiero que se meta el sol\".",
+   "Elegancia de castillo. Lástima que la fiesta sea en un pantano."
+  ],
+  "Fiona (humana)": [
+   "Princesa de día. Te quedan unas horas antes de ponerte verde. Aprovéchalas.",
+   "Tan bella que hasta un dragón te custodiaría. Bueno, eso ya pasó."
+  ],
+  "Burro": [
+   "Burro, eres hermoso. Pero si sigues hablando voy a cambiar de opinión.",
+   "Un burro precioso. Cállate y acepta el cumplido.",
+   "¿Ya llegamos? ¿Ya llegamos? No, Burro. Ni a la belleza ni a ningún lado."
+  ],
+  "Gato con Botas": [
+   "Esos ojitos no funcionan conmigo. Bueno, funcionan un poco. Está bien, funcionan.",
+   "Sombrero, botas y cero vergüenza. Te doy un nueve por la actitud."
+  ],
+  "Lord Farquaad": [
+   "Ah, mi antiguo jefe. No, no eres {el} más bell{o}. Ni {el} más alt{o}.",
+   "Algunos de ustedes morirán, pero es un sacrificio que estoy dispuesto a hacer… dijo tu disfraz. Y no, no ganaste."
+  ],
+  "Jengi": [
+   "¿Bell{o}? Eres una galleta. Bonita, sí, pero me preocupa que alguien te sumerja en leche.",
+   "¡No mis botones de gomita! Tranquil{o}, nadie te quiere morder. Todavía."
+  ],
+  "Dragona": [
+   "Belleza ardiente, literalmente. Aléjate de las cortinas.",
+   "Qué pestañas. Qué presencia. Qué miedo. Burro, aquí está tu cita."
+  ],
+  "Pinocho": [
+   "Dime que eres {el} más bell{o}, Pinocho. Y veamos qué le pasa a tu nariz.",
+   "Un niño de verdad no se vería tan de madera. Pero el esfuerzo cuenta."
+  ],
+  "Los Tres Cerditos": [
+   "Tres cerditos, una sola neurona compartida, pero qué bien peinada.",
+   "Soplaré y soplaré… y su belleza seguirá en pie. Es de ladrillo. Muy sólida. Muy rosa."
+  ],
+  "El Lobo Feroz": [
+   "Qué ojos tan grandes. Qué orejas tan grandes. Qué disfraz tan… de abuelita.",
+   "El camisón te queda bien. Demasiado bien. No hagas preguntas, yo tampoco las haré."
+  ],
+  "Hada Madrina": [
+   "No me vas a sobornar con pociones. Esta vez no. Bueno, ¿de qué sabor?",
+   "Varita en una mano, copa en la otra. Eres la villana más simpática del reino."
+  ],
+  "Príncipe Encantador": [
+   "Ya sé que crees que eres {el} más bell{o}. Por eso no te lo voy a decir.",
+   "Rubio, vanidoso y hablándole a un espejo. Interpretación impecable."
+  ],
+  "Rey Harold": [
+   "Majestad, es usted bell{o}. De rana, un poco menos.",
+   "Un rey con corona y con secretos. Croac. Perdón, se me salió."
+  ],
+  "Los Tres Ratones Ciegos": [
+   "No pueden verse, así que les digo: son preciosos. No pueden comprobarlo.",
+   "Bastones, lentes oscuros y un sentido de la orientación terrible. Bell{o}s a su manera."
+  ],
+  "Espejo Mágico": [
+   "Un espejo preguntándole a un espejo. Esto es un bucle infinito. Eres bell{o}, ya vete antes de que se rompa el universo.",
+   "Me copiaste el disfraz. Te demandaría, pero no tengo manos."
+  ],
+  "Rumpelstiltskin": [
+   "Firma aquí y te digo que eres {el} más bell{o}. Ah, no, ese es tu truco.",
+   "Peluca alborotada y contratos sospechosos. Te ves exactamente como alguien a quien no le firmaría nada."
+  ],
+  "Doris": [
+   "Doris, querida, el maquillaje está impecable. El resto, en revisión.",
+   "La hermanastra con más corazón del reino. Y más hombros. Eso es un cumplido."
+  ],
+  "Otro personaje": [
+   "¿{d}? No sé quién es, pero lo llevas con una seguridad envidiable.",
+   "Vienes de {d}. Atrevido. No sé si es de esta película, pero te lo compro."
+  ],
+  "Sin disfraz": [
+   "¿Sin disfraz? ¿En un cumpleaños de Shrek? Eres muy valiente o eres {f}. Y no eres {f}.",
+   "Viniste de civil. Muy bien, el disfraz es tu cara. Funciona."
+  ]
+ },
+ "formas": [
+  {
+   "img": "burro",
+   "n": "Burro",
+   "por": "Mucho carisma, cero filtro."
+  },
+  {
+   "img": "galleta-paleta",
+   "n": "Jengi",
+   "por": "Dulce por fuera, explosivo por dentro."
+  },
+  {
+   "img": "farquaad",
+   "n": "Lord Farquaad",
+   "por": "Grandes ambiciones. Lo demás, en proporción."
+  },
+  {
+   "img": "gato-botas",
+   "n": "el Gato con Botas",
+   "por": "Encantador hasta que te pide algo."
+  },
+  {
+   "img": "pinocho",
+   "n": "Pinocho",
+   "por": "Te creo. Bueno, más o menos."
+  },
+  {
+   "img": "dragona",
+   "n": "la Dragona",
+   "por": "Intimidante, romántica y algo inflamable."
+  },
+  {
+   "img": "hada-madrina",
+   "n": "el Hada Madrina",
+   "por": "Resuelves todo con una copa y una canción."
+  },
+  {
+   "img": "cochinitos",
+   "n": "los Tres Cerditos",
+   "por": "No sé cómo, pero eres tres personas a la vez."
+  },
+  {
+   "img": "lobo",
+   "n": "el Lobo Feroz",
+   "por": "Peligroso en teoría. En la práctica, en pijama."
+  },
+  {
+   "img": "ratones",
+   "n": "los Tres Ratones Ciegos",
+   "por": "Vas por la vida sin ver los problemas. Envidiable."
+  },
+  {
+   "img": "rey-harold",
+   "n": "el Rey Harold",
+   "por": "Elegante de día. De noche, otra cosa."
+  },
+  {
+   "img": "principe-encantador",
+   "n": "el Príncipe Encantador",
+   "por": "Mucho peinado, poca historia."
+  },
+  {
+   "img": "shrek-ruge",
+   "n": "Shrek recién despertado",
+   "por": "No me hables antes del café."
+  },
+  {
+   "img": "fiona-ogra",
+   "n": "Fiona después del atardecer",
+   "por": "La mejor versión de cualquiera."
+  }
+ ],
+ "cierre": [
+  "Siguiente.",
+  "No hay reembolsos.",
+  "Que pase el que sigue.",
+  "Gracias por participar.",
+  "Puedes volver a intentarlo en otra vida.",
+  "El espejo ha hablado."
+ ],
+ "pensar": [
+  "Déjame consultar con las cebollas…",
+  "Mis cristales se están nublando…",
+  "Escucho al pantano…",
+  "Esto requiere magia antigua…",
+  "Uy. Uy, uy, uy…",
+  "Veo algo… no, es una mancha."
+ ],
+ "respuesta": [
+  "Sí. Y no me preguntes cómo lo sé. Soy un espejo.",
+  "No. Rotundamente no. Ni con un beso de amor verdadero.",
+  "Las cebollas dicen que sí. Las cebollas nunca se equivocan.",
+  "Eso pregúntaselo a Burro. Él tiene opinión de todo.",
+  "Sí, pero en un reino muy, muy lejano.",
+  "Las probabilidades son las mismas que tiene Farquaad de crecer.",
+  "Absolutamente. Escríbelo en piedra. O en una galleta de jengibre.",
+  "Ni el Hada Madrina tiene una poción para eso.",
+  "Lo veo clarísimo: no.",
+  "Pregunta otra vez cuando estés más sobri{o}.",
+  "Todo indica que sí. Todo menos el sentido común.",
+  "No te voy a contestar eso enfrente de todos. Búscame cuando se vayan los invitados.",
+  "Eso ni Pinocho se atrevería a contestarlo.",
+  "Sí. Pero vas a tener que pelear con una dragona primero.",
+  "Mis cristales están empañados. Inténtalo con menos vergüenza.",
+  "Definitivamente. El ogro aprueba.",
+  "La respuesta está en tu corazón. Y tu corazón dice que no.",
+  "Claro que sí. ¿Qué es lo peor que podría pasar? Mejor no lo pienses.",
+  "Pregúntale a {f}. Hoy es su cumpleaños y nadie le puede decir que no.",
+  "No. Y lo digo con todo el cariño de un espejo que lo ha visto todo.",
+  "Sí, sí, mil veces sí. Ahora déjame en paz.",
+  "El pantano dice que tal vez. El pantano es muy indeciso.",
+  "Las señales apuntan a que sí. Las señales también apuntan a la salida.",
+  "Eso ya pasó en Shrek dos y no terminó bien.",
+  "Mi respuesta oficial es: ji, ji, ji. Interprétalo como quieras."
+ ],
+ "dedIntro": [
+  "{n} le dice a {f}:",
+  "Mensaje de {n} para el ogro del cumpleaños:",
+  "Silencio en el pantano. {n} tiene algo que decirle a {f}:",
+  "Llegó correo al pantano. De parte de {n}, para {f}:"
+ ],
+ "dedCierre": [
+  "Qué bonito. Casi se me empañan los cristales.",
+  "Anotado en el libro del pantano. Para siempre. Sin derecho a borrar.",
+  "{f}, ya tienes material para llorar mañana.",
+  "Ternura nivel ogro. Aplausos, por favor.",
+  "Lo guardo. Por si un día hay que chantajear a alguien."
+ ],
+ "ambiente": [
+  "Espejito, espejito… sí, ya sé, me lo dicen todo el tiempo. Escaneen el código, toquen el botón y díganmelo ustedes.",
+  "Llevo toda la noche colgado en esta pared. Pregúntenme algo antes de que me convierta en ventana.",
+  "Instrucciones para ogros: escanea el código, toca el botón y empieza con «Espejito, espejito». Si no, ni me despierto.",
+  "Soy el único invitado que no tuvo que disfrazarse. Ventajas de ser un espejo.",
+  "Tengo opiniones sobre todos sus disfraces. Algunas hasta son legales. Escaneen el código y se las cuento.",
+  "¿Quién es el más bello del pantano? Escanea el código y averígualo. Spoiler: probablemente no tú.",
+  "Dato curioso: {f} cumple 34. Otro dato curioso: yo tengo mil años y estoy mejor conservado.",
+  "Mándenle una selfie con dedicatoria a {f}. Yo la leo en voz alta, con todo el drama que se merece.",
+  "Si alguien ve a Lord Farquaad, díganle que su espejo renunció. Ahora trabajo para ogros.",
+  "Las capas son como las cebollas. Yo también tengo capas. De polvo, sobre todo.",
+  "Pregúntenme lo que sea: amor, dinero, si deberían pedir otra pizza. La respuesta casi siempre es sí.",
+  "Me están viendo raro. Es justo: yo también los estoy viendo raro.",
+  "Alguien aquí trae un disfraz que me tiene muy preocupado. No diré quién. Todavía.",
+  "Un poeta dijo que los espejos son las puertas por donde la muerte va y viene. Tranquilos: hoy solo pasa el que trae pizza.",
+  "Dorian Gray tenía un retrato que envejecía por él. {f} me tiene a mí. No hago milagros, pero ayudo con la iluminación.",
+  "Sigo aquí. Callado, pero aquí. Basta un «Espejito, espejito» para despertarme.",
+  "Ni el Hada Madrina tiene tanta paciencia como yo. Escaneen el código, que no muerdo. Mucho.",
+  "Este pantano tiene buena música, buena pizza y un espejo que dice la verdad. Dos de tres ya es una gran fiesta.",
+  "Acérquense, ogros. Prometo decir la verdad. Me disculpo por adelantado.",
+  "Tu selfie en mi bosque encantado, con dedicatoria para {f}. Escanea el código. Te va a quedar mejor que la foto de tu credencial.",
+  "El ruido no me asusta: hablen cerca del celular y los escucho. Gritar no los hace más bellos."
+ ],
+ "selfieIntro": [
+  "¡Atención, pantano! {n} acaba de dejar su retrato en el espejo. Mírenl{o} nada más.",
+  "Del celular de {n} al bosque encantado. Así te ves en mi reino, {n}. Una mejora, francamente.",
+  "Señoras, señores y ogros: el retrato oficial de {n}. Aplausos o abucheos, ustedes deciden."
+ ],
+ "selfiePide": [
+  "Y trae un mensaje para {f}. {n}, revisa tu celular: ¿lo confirmas o lo editas?",
+  "{n} le dejó unas palabras a {f}. Léelas bien en el espejo y decide en tu celular: confirmar o editar.",
+  "Hay dedicatoria. Pero un espejo no publica nada sin permiso. {n}, confirma o edita desde tu celular."
+ ],
+ "selfieEditada": [
+  "Corregido. ¿Ahora sí?",
+  "Mejor. Mucho mejor. ¿Lo confirmas?",
+  "Cambio aceptado. El pantano espera tu confirmación."
+ ],
+ "selfieSinValor": [
+  "Se te fue el valor, {n}. Guardo tu retrato sin dedicatoria. Siguiente.",
+  "Silencio total. El espejo se queda con tu cara y se olvida de tus palabras."
+ ],
+ "selfieFin": [
+  "Tu retrato ya está en tu celular. Guárdalo, que no vuelves a verte tan bien.",
+  "Listo, {n}. El retrato te llegó al celular. El original se queda en el pantano para siempre."
+ ],
+ "iaFalla": [
+  "Los espíritus del pantano no contestan. Vuelve a intentarlo, ogro.",
+  "Mis cristales se empañaron y no veo nada. Pregunta otra vez.",
+  "El pantano está en silencio. Inténtalo de nuevo en un momento."
+ ],
+ "fotoIntro": [
+  "{n} quiere una foto. Júntense, ogros. Sonrían. O gruñan, da igual.",
+  "Foto para {n}. Todos al marco. Sí, tú también, el del fondo.",
+  "Atención: retrato oficial del reino. {n}, pon tu mejor cara. Esa no. Bueno, esa."
+ ],
+ "fotoFin": [
+  "Quedaron… memorables.",
+  "Hermosos. Para ser ogros.",
+  "Esa va directo al castillo de Muy Muy Lejano.",
+  "Ni el Príncipe Encantador salió tan bien. Bueno, casi."
+ ],
+ "fotoFalla": [
+  "Mi cámara está empañada, {n}. Sin foto, pero igual te ves… presente.",
+  "La magia de la cámara falló. Culpa del Hada Madrina. Intenta otro hechizo."
+ ]
+}
