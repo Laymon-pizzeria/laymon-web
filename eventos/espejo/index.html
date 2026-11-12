@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#182B22">
+<meta name="robots" content="noindex">
+<title>Espejo Mágico</title>
+<style>
+@font-face{font-family:'Chelsea Market';src:url(assets/fonts/chelsea.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122;font-display:swap}
+@font-face{font-family:'Chelsea Market';src:url(assets/fonts/chelsea-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF;font-display:swap}
+@font-face{font-family:'UnifrakturMaguntia';src:url(assets/fonts/unifraktur.woff2) format('woff2');font-display:swap}
+:root{--pantano:#182B22;--musgo:#304B35;--hoja:#637C48;--liquen:#A3A66A;--corteza:#382B22;--madera:#79583D;--oro:#C6A875;--papel:#E8D9B7;--rojo:#EA1D3B;--brillo:#8CFFB4}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Chelsea Market',system-ui,sans-serif;min-height:100vh;min-height:100dvh;background:radial-gradient(120% 60% at 50% 0%,#2a4a37 0%,var(--pantano) 55%,#0c1611 100%);color:var(--papel);padding:20px 16px 40px;font-size:17px}
+.gotica{font-family:'UnifrakturMaguntia',serif;font-weight:400}
+main{max-width:460px;margin:0 auto}
+h1{text-align:center;color:var(--oro);font-size:42px;margin:6px 0 2px;text-shadow:0 0 18px rgba(140,255,180,.3)}
+.lema{text-align:center;color:var(--liquen);margin:0 0 22px;font-size:15px}
+.vista{display:none}.vista.ve{display:block}
+label{display:block;margin:16px 0 6px;color:var(--liquen);font-size:15px}
+input,select,textarea{width:100%;font:inherit;font-size:17px;padding:13px 14px;border-radius:12px;border:2px solid var(--hoja);background:rgba(8,18,13,.75);color:var(--papel);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--brillo)}
+textarea{resize:none}
+.dos{display:flex;gap:10px}.dos button{flex:1}
+.op{font:inherit;padding:13px;border-radius:12px;border:2px solid var(--hoja);background:transparent;color:var(--papel);font-size:17px}
+.op.si{background:var(--hoja);border-color:var(--liquen);color:#fff}
+.boton{display:block;width:100%;font:inherit;font-size:19px;padding:16px;border:0;border-radius:14px;background:var(--rojo);color:#fff;margin-top:22px;box-shadow:0 6px 0 #9c1027;text-align:center;text-decoration:none}
+.boton:active{transform:translateY(3px);box-shadow:0 3px 0 #9c1027}
+.boton[disabled]{opacity:.5}
+.boton.sec{background:transparent;border:2px solid var(--oro);color:var(--oro);box-shadow:none;font-size:16px;padding:12px}
+.hechizo{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:var(--corteza);background:var(--papel);border:0;border-radius:16px;padding:14px 16px;margin:12px 0;box-shadow:0 5px 0 var(--madera)}
+.hechizo:active{transform:translateY(3px);box-shadow:0 2px 0 var(--madera)}
+.hechizo img{width:58px;height:70px;object-fit:contain;flex:none}
+.hechizo b{display:block;font-weight:400;font-size:19px}
+.hechizo small{display:block;color:var(--madera);font-size:14px;margin-top:2px}
+.quien{text-align:center;color:var(--liquen);font-size:14px;margin-top:6px}
+.quien a{color:var(--oro)}
+.cuenta{text-align:right;font-size:13px;color:var(--liquen);margin-top:4px}
+.error{background:rgba(234,29,59,.15);border:1px solid var(--rojo);color:#ffd5db;padding:12px 14px;border-radius:12px;margin-top:16px;display:none}
+.error.ve{display:block}
+.espera{text-align:center;padding:10px 0}
+.espera .num{font-size:84px;color:var(--brillo);line-height:1;margin:8px 0;text-shadow:0 0 24px rgba(140,255,180,.5)}
+.espera p{margin:8px 0}
+.dijo{background:var(--papel);color:var(--corteza);border-radius:16px;padding:18px;margin-top:16px;font-size:18px;line-height:1.4;text-align:left}
+.dijo small{display:block;color:var(--madera);font-size:13px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em}
+.dijo img{width:100%;border-radius:10px;margin-top:12px}
+.orbe{width:120px;height:120px;margin:10px auto;border-radius:50%;background:radial-gradient(circle at 40% 35%,#e9fff0,#7fd3a0 40%,#1d4a35 75%,transparent 76%);animation:latido 2.2s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(140,255,180,.5))}
+@keyframes latido{0%,100%{transform:scale(.94);opacity:.8}50%{transform:scale(1.04);opacity:1}}
+.cam{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:220px;border:2px dashed var(--oro);border-radius:16px;background:rgba(8,18,13,.6);color:var(--oro);text-align:center;padding:12px;cursor:pointer;overflow:hidden}
+.cam img{max-width:100%;max-height:340px;border-radius:10px;display:none}
+.cam.lista img{display:block}.cam.lista span{font-size:14px;color:var(--liquen)}
+.cam .gran{font-size:52px;line-height:1}
+.nota{font-size:14px;color:var(--liquen);text-align:center}
+.micbtn{display:flex;align-items:center;gap:12px;width:100%;font:inherit;font-size:18px;color:#fff;background:var(--musgo);border:2px solid var(--hoja);border-radius:14px;padding:10px 14px;margin:10px 0 4px}
+.micbtn .ic{flex:none;width:46px;height:46px;border-radius:50%;background:var(--rojo);display:flex;align-items:center;justify-content:center}
+.micbtn .ic svg{width:24px;height:24px;fill:#fff}
+.micbtn.on{border-color:var(--brillo);background:#1f4a33}
+.micbtn.pensando{opacity:.75}.micbtn.pensando .ic{animation:latido .5s ease-in-out infinite}
+.micbtn.on .ic{animation:latido .9s ease-in-out infinite;box-shadow:0 0 0 6px rgba(234,29,59,.3)}
+.micst{display:block;font-size:13px;color:#ffc2cc;min-height:0}
+.mictip{display:block;font-size:12px;color:rgba(232,217,183,.5);margin-bottom:6px}
+.bigmic{padding:16px 18px;font-size:20px;margin:14px 0 8px}
+.bigmic .ic{width:58px;height:58px}.bigmic .ic svg{width:30px;height:30px}
+.trans{min-height:84px;border:2px dashed var(--hoja);border-radius:14px;padding:12px 14px;font-size:19px;line-height:1.4;color:var(--papel);background:rgba(8,18,13,.6);display:flex;align-items:center;justify-content:center;text-align:center}
+.trans:empty::before{content:attr(data-vacio);color:rgba(232,217,183,.4);font-size:15px}
+.trans.vivo{border-color:var(--brillo);border-style:solid}
+.envia{margin-top:10px;text-align:center;color:var(--liquen);font-size:15px}
+.pie{text-align:center;font-size:12px;color:rgba(232,217,183,.4);margin-top:30px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <h1 class="gotica">Espejo Mágico</h1>
+  <p class="lema">Pregunta lo que quieras. Asume las consecuencias.</p>
+
+  <section class="vista" id="vSinEspejo">
+    <div class="orbe"></div>
+    <h2 class="gotica" style="text-align:center;color:var(--oro);font-size:30px;margin:8px 0;font-weight:400">El espejo no está aquí</h2>
+    <p style="text-align:center">Este enlace no trae el hechizo completo. Escanea el código del cartel que está junto al espejo.</p>
+  </section>
+
+  <section class="vista" id="vSinVoz">
+    <div class="orbe"></div>
+    <h2 class="gotica" style="text-align:center;color:var(--oro);font-size:30px;margin:8px 0;font-weight:400">Este navegador no te escucha</h2>
+    <p style="text-align:center">Al espejo solo se le habla con la voz. <span id="sinVozMsg">Abre esta misma dirección con <b style="color:var(--brillo);font-weight:400">Chrome</b> (Android) o con <b style="color:var(--brillo);font-weight:400">Safari</b> (iPhone).</span></p>
+    <button class="boton" id="copiaLink" type="button" style="margin-top:14px">Copiar enlace</button>
+    <p id="copiaOk" style="text-align:center;color:var(--brillo);min-height:1.4em"></p>
+  </section>
+
+  <!-- 1. quién eres -->
+  <section class="vista" id="vQuien">
+    <label for="nombre">¿Cómo te llamas?</label>
+    <input id="nombre" maxlength="24" autocomplete="given-name" placeholder="Así te va a llamar el espejo">
+    <label>¿Ogro u ogra?</label>
+    <div class="dos"><button class="op" data-g="o" type="button">Ogro</button><button class="op" data-g="a" type="button">Ogra</button></div>
+    <label for="disfraz">¿De qué vienes disfrazad<span class="g">o</span>?</label>
+    <select id="disfraz"></select>
+    <input id="otro" maxlength="40" placeholder="¿De quién?" style="display:none;margin-top:8px">
+    <button class="boton" id="listo" type="button">Entrar al espejo</button>
+    <div class="error" id="err1"></div>
+  </section>
+
+  <!-- 2. menú -->
+  <section class="vista" id="vMenu">
+    <button class="hechizo" data-t="pregunta" type="button"><img src="assets/personajes/hada-madrina.webp" alt=""><span><b>Háblale al espejo</b><small>Con tu voz. Pregúntale lo que quieras o dile: «Espejito, espejito, ¿quién es <span class="art">el</span> más bell<span class="g">o</span>?»</small></span></button>
+    <button class="hechizo" data-t="selfie" type="button"><img src="assets/personajes/shrek-saluda.webp" alt=""><span><b>Selfie + dedicatoria para <span class="fest">Luis</span></b><small>Tu retrato aparece en el espejo, en el bosque encantado.</small></span></button>
+    <p class="quien">Eres <b id="yo"></b> · <a href="#" id="cambiar">no soy yo</a></p>
+  </section>
+
+  <!-- 3. hablar -->
+  <section class="vista" id="vTexto">
+    <label>Di: «Espejito, espejito…» y tu pregunta</label>
+    <button class="micbtn bigmic" id="mic1" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V22h2v-3.1a7 7 0 0 0 6-6.9z"/></svg></span><span class="lbl">Toca y habla</span></button>
+    <div class="trans" id="trans1" data-vacio="Lo que digas aparece aquí"></div>
+    <small class="micst" id="st1"></small>
+    <div class="envia" id="envio" style="display:none"><button class="boton" id="mandar" type="button">Mandar al espejo</button><button class="boton sec" id="repetir" type="button">Borrar y repetir</button></div>
+    <small class="mictip">Toca el botón y empieza con <b>«Espejito, espejito…»</b> y tu pregunta. Cuando te calles, el espejo lo descifra solo (o toca otra vez). Si te pide el micrófono: <b>Permitir</b>.</small>
+    <button class="boton sec" id="volver1" type="button">Mejor no</button>
+    <div class="error" id="err2"></div>
+  </section>
+
+  <!-- 3b. selfie -->
+  <section class="vista" id="vSelfie">
+    <label>1 · Tu selfie (o con tu gente)</label>
+    <label class="cam" for="archivo"><span class="gran">📸</span><img id="prev" alt=""><span id="camTxt">Toca para tomarte la selfie</span></label>
+    <input type="file" id="archivo" accept="image/*" capture="user" hidden>
+    <label>2 · Tu dedicatoria para <span class="fest">Luis</span> (opcional): díctala y luego corrígela si hace falta</label>
+    <button class="micbtn bigmic" id="mic2" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V22h2v-3.1a7 7 0 0 0 6-6.9z"/></svg></span><span class="lbl">Toca y díctala</span></button>
+    <div class="trans" id="trans2" data-vacio="" style="min-height:0;padding:0;border:0"></div>
+    <small class="micst" id="st2"></small>
+    <div id="dedBox" style="display:none"><textarea id="ded" rows="4" maxlength="160" placeholder="Tu dedicatoria"></textarea>
+      <div class="cuenta"><span id="dedN"></span> · <a href="#" id="dedBorra" style="color:var(--oro)">quitar</a></div>
+      <small class="mictip">Revísala y corrígela aquí antes de mandarla. Así sale en el espejo.</small></div>
+    <button class="boton" id="enviarSelfie" type="button">Mandar al espejo</button>
+    <button class="boton sec" id="volver3" type="button">Mejor no</button>
+    <div class="error" id="err3"></div>
+  </section>
+
+  <!-- 4. en la fila -->
+  <section class="vista" id="vFila">
+    <div class="espera">
+      <div class="orbe"></div>
+      <div id="filaTxt"></div>
+      <div class="dijo" id="dijo" style="display:none"><small>El espejo dijo</small><span></span><img alt="" style="display:none"><a class="boton" id="bajar" download="retrato-espejo-magico.jpg" style="display:none">Guardar mi retrato</a></div>
+      <button class="boton sec" id="volver2" type="button" style="display:none">Otro hechizo</button>
+    </div>
+  </section>
+  <p class="pie">Fiesta de <span class="fest">Luis</span> · El espejo no se hace responsable</p>
+</main>
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const LS={get(k,d){try{const v=localStorage.getItem('espejo.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('espejo.'+k,JSON.stringify(v))}catch(e){}}};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const azar=a=>a[Math.floor(Math.random()*a.length)];
+
+/* ---------- ¿a qué espejo hablo? ?s=<id de la implementación de Apps Script> (o ?gas=<url completa> para pruebas) ---------- */
+const Q=new URLSearchParams(location.search);
+if(Q.get('s'))LS.set('s',Q.get('s'));if(Q.get('gas'))LS.set('gas',Q.get('gas'));
+const GAS=Q.get('gas')||(Q.get('s')?'https://script.google.com/macros/s/'+Q.get('s')+'/exec':(LS.get('gas',null)||(LS.get('s',null)?'https://script.google.com/macros/s/'+LS.get('s','')+'/exec':'')));
+async function api(a,datos,ms){const c=new AbortController(),to=setTimeout(()=>c.abort(),ms||30000);
+  try{const r=await fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({a},datos||{})),signal:c.signal,redirect:'follow'});
+    return await r.json()}finally{clearTimeout(to)}}
+
+let yo=LS.get('yo',null),cid=LS.get('cid',null),tipo='',poll=null,info={festejado:'Luis',vertical:false};
+if(!cid){cid=Math.random().toString(36).slice(2)+Date.now().toString(36);LS.set('cid',cid)}
+function vista(id){document.querySelectorAll('.vista').forEach(v=>v.classList.toggle('ve',v.id===id));scrollTo(0,0)}
+function genero(g){document.querySelectorAll('.g').forEach(e=>e.textContent=g==='a'?'a':'o');document.querySelectorAll('.art').forEach(e=>e.textContent=g==='a'?'la':'el');
+  document.querySelectorAll('.op').forEach(b=>b.classList.toggle('si',b.dataset.g===g))}
+function err(id,t){const e=$(id);e.textContent=t||'';e.classList.toggle('ve',!!t)}
+
+/* ---------- disfraces: los mismos nombres que frases.json ---------- */
+const sel=$('#disfraz');
+const DISFRACES_BASE=['Shrek','Fiona','Burro','Gato con Botas','Dragona','Lord Farquaad','Jengi (Galleta)','Pinocho','Hada Madrina','Príncipe Encantador'];
+function llenaDisfraces(lista){const v=sel.value;sel.innerHTML='';
+  [['','Elige…'],...lista.map(d=>[d,d]),['Otro personaje','Otro personaje'],['Sin disfraz','Sin disfraz (qué valor)']].forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o)});
+  sel.value=v}
+llenaDisfraces(DISFRACES_BASE);
+fetch('frases.json',{cache:'no-store'}).then(r=>r.json()).then(F=>{if(F&&F.disfraz){llenaDisfraces(Object.keys(F.disfraz).filter(d=>d!=='Otro personaje'&&d!=='Sin disfraz'));if(yo)sel.value=yo.disfraz}}).catch(()=>{});
+sel.onchange=()=>{$('#otro').style.display=sel.value==='Otro personaje'?'':'none'};
+let g='o';document.querySelectorAll('.op').forEach(b=>b.onclick=()=>{g=b.dataset.g;genero(g)});
+
+$('#listo').onclick=()=>{const n=$('#nombre').value.trim();
+  if(!n)return err('#err1','El espejo necesita un nombre. "Ogro anónimo" no cuenta.');
+  if(!sel.value)return err('#err1','Elige tu disfraz. Si no traes, también hay opción para eso.');
+  yo={nombre:n,genero:g,disfraz:sel.value,otro:$('#otro').value.trim()};LS.set('yo',yo);err('#err1');menu()};
+$('#cambiar').onclick=e=>{e.preventDefault();quien()};
+function quien(){vista('vQuien');if(yo){$('#nombre').value=yo.nombre;g=yo.genero;sel.value=yo.disfraz;$('#otro').value=yo.otro||'';sel.onchange()}genero(g)}
+function menu(){$('#yo').textContent=yo.nombre+(yo.disfraz?' ('+(yo.disfraz==='Otro personaje'&&yo.otro?yo.otro:yo.disfraz)+')':'');genero(yo.genero);vista('vMenu')}
+
+document.querySelectorAll('.hechizo').forEach(b=>b.onclick=()=>{tipo=b.dataset.t;
+  if(tipo==='selfie'){foto=null;recorte=null;$('#ded').value='';$('#dedBox').style.display='none';$('#prev').src='';$('.cam').classList.remove('lista');$('#camTxt').textContent='Toca para tomarte la selfie';$('#trans2').textContent='';$('#st2').textContent='';err('#err3');vista('vSelfie');segmentador();return}
+  if(PUEDE&&!Oido.listo())Oido.preparar().catch(x=>{$('#st1').textContent=Oido.errTexto(x)});
+  cancelaEnvio();$('#trans1').textContent='';$('#st1').textContent='';err('#err2');vista('vTexto')});
+function cancelaEnvio(){$('#envio').style.display='none'}
+function enviaPregunta(t){let tx=t;
+  if(/qui[eé]n\b.*\b(bell|herm|guap|lind|chul)/i.test(tx)){tipo='veredicto';if(/\b(bella|hermosa|guapa|linda|chula)\b/i.test(tx))yo.genero='a';tx=''}else tipo='pregunta';
+  enviar(tx.slice(0,160))}
+
+/* ---------- micrófono: graba en el celular y la nube transcribe (igual en iPhone y Android) ---------- */
+const AC=window.AudioContext||window.webkitAudioContext;
+const PUEDE=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&AC);
+const UA=navigator.userAgent,IOS=/iPhone|iPad|iPod/i.test(UA)||(/Macintosh/.test(UA)&&navigator.maxTouchPoints>1);
+function wav16(f,sr){const n=f.length;
+  let pico=0;for(let i=0;i<n;i+=2){const a=Math.abs(f[i]);if(a>pico)pico=a}
+  const gan=pico>0.003?Math.min(16,0.9/pico):1;
+  const r=sr/16000,m=Math.floor(n/r),pcm=new Int16Array(m);
+  for(let i=0;i<m;i++){const a=Math.floor(i*r),b=Math.min(n,Math.max(a+1,Math.floor((i+1)*r)));let t=0;for(let k=a;k<b;k++)t+=f[k];let v=t/Math.max(1,b-a);v=Math.max(-1,Math.min(1,v*gan));pcm[i]=v<0?v*32768:v*32767}
+  const buf=new ArrayBuffer(44+m*2),d=new DataView(buf),w=(p,s)=>{for(let i=0;i<s.length;i++)d.setUint8(p+i,s.charCodeAt(i))};
+  w(0,'RIFF');d.setUint32(4,36+m*2,true);w(8,'WAVE');w(12,'fmt ');d.setUint32(16,16,true);d.setUint16(20,1,true);d.setUint16(22,1,true);d.setUint32(24,16000,true);d.setUint32(28,32000,true);d.setUint16(32,2,true);d.setUint16(34,16,true);w(36,'data');d.setUint32(40,m*2,true);
+  new Int16Array(buf,44).set(pcm);return new Blob([buf],{type:'audio/wav'})}
+function picoDe(f){let p=0;for(let i=0;i<f.length;i+=3){const a=Math.abs(f[i]);if(a>p)p=a}return p}
+function aBase64(blob){return new Promise((ok,mal)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=mal;r.readAsDataURL(blob)})}
+const Oido=(()=>{
+  let ac=null,flujo=null,src=null,an=null,chunks=null,mr=null,partes=null,pidiendo=null,lat=null;
+  const vivo=()=>flujo&&flujo.getAudioTracks().some(t=>t.readyState==='live'&&t.enabled!==false);
+  function errTexto(x){const n=x&&x.name;
+    if(n==='NotAllowedError'||n==='SecurityError')return IOS?'El micrófono está bloqueado. Toca «aA» en la barra de la dirección → Ajustes del sitio web → Micrófono → Permitir. Luego toca otra vez el botón.':'El micrófono está bloqueado. Toca el candado junto a la dirección → Permisos → Micrófono → Permitir. Luego toca otra vez el botón.';
+    if(n==='NotFoundError'||n==='OverconstrainedError')return 'Este celular no tiene micrófono disponible.';
+    if(n==='NotReadableError'||n==='AbortError')return 'Otra app está usando el micrófono (¿llamada, WhatsApp, cámara?). Ciérrala y vuelve a intentar.';
+    return 'No pude abrir el micrófono. Recarga esta página.'}
+  async function preparar(){
+    if(!PUEDE)throw {name:'Nada'};
+    if(!ac||ac.state==='closed'){ac=new AC();src=null}
+    if(ac.state!=='running'){try{ac.resume()}catch(e){}}
+    if(!vivo()){
+      if(!pidiendo)pidiendo=navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}})
+        .catch(()=>navigator.mediaDevices.getUserMedia({audio:true})).finally(()=>{pidiendo=null});
+      const f=await pidiendo;if(f!==flujo){flujo=f;src=null}
+      flujo.getAudioTracks().forEach(t=>t.onended=()=>{src=null});
+    }
+    if(ac.state!=='running'){try{await ac.resume()}catch(e){}}
+    if(!src){
+      src=ac.createMediaStreamSource(flujo);an=ac.createAnalyser();an.fftSize=1024;
+      const proc=ac.createScriptProcessor(4096,1,1),mudo=ac.createGain();mudo.gain.value=0;
+      proc.onaudioprocess=e=>{if(chunks)chunks.push(new Float32Array(e.inputBuffer.getChannelData(0)))};
+      src.connect(an);src.connect(proc);proc.connect(mudo);mudo.connect(ac.destination);ac._proc=proc}
+  }
+  function nivel(){if(!an)return 0;const d=new Uint8Array(an.fftSize);an.getByteTimeDomainData(d);let s=0;for(let i=0;i<d.length;i++){const v=(d[i]-128)/128;s+=v*v}return Math.sqrt(s/d.length)}
+  function grabar(cb,maxMs){
+    if(ac.state!=='running'){try{ac.resume()}catch(e){}}
+    chunks=[];partes=[];mr=null;
+    if(window.MediaRecorder){try{const tipo=(IOS?['audio/mp4','audio/aac','audio/webm;codecs=opus','audio/webm']:['audio/webm;codecs=opus','audio/mp4','audio/webm','audio/ogg']).find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t));
+      mr=new MediaRecorder(flujo,tipo?{mimeType:tipo}:undefined);mr.ondataavailable=e=>{if(e.data&&e.data.size)partes.push(e.data)};mr.start(250)}catch(e){mr=null}}
+    let piso=.01,habla=0,calla=0,t0=Date.now(),ult=t0;clearInterval(lat);
+    lat=setInterval(()=>{const now=Date.now(),dt=now-ult;ult=now;const v=nivel();
+      piso=v<piso?piso+(v-piso)*.3:piso+(v-piso)*.004;
+      const umbral=Math.max(.018,piso*1.9),hay=v>umbral;
+      cb.nivel&&cb.nivel(Math.min(1,v/.25),hay);
+      if(hay){habla+=dt;calla=0}else calla+=dt;
+      if((habla>500&&calla>1600)||now-t0>maxMs){clearInterval(lat);cb.calla&&cb.calla()}},70)}
+  async function decodifica(blob){const buf=await blob.arrayBuffer();
+    const ab=await new Promise((ok,mal)=>{const p=ac.decodeAudioData(buf,ok,mal);if(p&&p.then)p.then(ok,mal)});
+    return{f:ab.getChannelData(0),sr:ab.sampleRate}}
+  async function parar(){clearInterval(lat);
+    const pcm=chunks||[];chunks=null;
+    let blobMR=null;
+    if(mr&&mr.state!=='inactive'){blobMR=await new Promise(ok=>{const to=setTimeout(()=>ok(null),1800);mr.onstop=()=>{clearTimeout(to);ok(new Blob(partes,{type:mr.mimeType||'audio/mp4'}))};try{mr.requestData&&mr.requestData()}catch(e){};try{mr.stop()}catch(e){ok(null)}})}
+    let n=0;for(const c of pcm)n+=c.length;const f=new Float32Array(n);let o=0;for(const c of pcm){f.set(c,o);o+=c.length}
+    const dur=n/ac.sampleRate;
+    if(n&&picoDe(f)>0.003)return{wav:wav16(f,ac.sampleRate),dur};
+    if(blobMR&&blobMR.size>800){try{const d=await decodifica(blobMR);if(picoDe(d.f)>0.003)return{wav:wav16(d.f,d.sr),dur:d.f.length/d.sr}}catch(e){}}
+    try{flujo.getTracks().forEach(t=>t.stop())}catch(e){}flujo=null;src=null;try{ac.close()}catch(e){}ac=null;
+    throw {mudo:true,dur}}
+  return{preparar,grabar,parar,errTexto,listo:()=>!!(ac&&vivo()&&src)}})();
+
+function conectarMic(btn,trans,st,alTexto,opc){opc=opc||{};
+  const lbl=btn.querySelector('.lbl'),base=lbl.textContent;let estado='libre';
+  const pon=(e,l)=>{estado=e;btn.classList.toggle('on',e==='grabando');btn.classList.toggle('pensando',e==='procesando'||e==='abriendo');lbl.textContent=l||base};
+  const terminar=async()=>{if(estado!=='grabando')return;pon('procesando','Descifrando tu voz…');trans.classList.remove('vivo');trans.textContent='Descifrando tu voz…';
+    let r;try{r=await Oido.parar()}catch(x){pon('libre');trans.textContent='';
+      st.textContent=x&&x.mudo?'Tu micrófono no mandó sonido. Toca otra vez el botón (si sigue igual, recarga la página).':'No pude grabarte. Toca otra vez.';return}
+    if(r.dur<.6){pon('libre');trans.textContent='';st.textContent='Muy corto. Toca el botón, habla y espera.';return}
+    try{const j=await api('oir',{wav:await aBase64(r.wav)},40000);pon('libre');
+      if(j.error){trans.textContent='';st.textContent=j.error;return}
+      if(!j.texto){trans.textContent='';st.textContent='No te oí bien. Habla más cerca del celular y otra vez.';return}
+      st.textContent='';alTexto(j.texto)
+    }catch(e){pon('libre');trans.textContent='';st.textContent='Tu voz no llegó al espejo. ¿Sigues con internet? Intenta otra vez.'}};
+  btn.addEventListener('click',async e=>{e.preventDefault();
+    if(estado==='grabando'){terminar();return}
+    if(estado!=='libre')return;
+    st.textContent='';opc.alEmpezar&&opc.alEmpezar();
+    if(!Oido.listo()){pon('abriendo','Abriendo micrófono…');trans.textContent='';
+      try{await Oido.preparar()}catch(x){pon('libre');st.textContent=Oido.errTexto(x);return}}
+    pon('grabando','Te escucho… toca al terminar');trans.classList.add('vivo');trans.textContent='Habla…';
+    Oido.grabar({nivel:(v,hay)=>{if(estado!=='grabando')return;const k=Math.round(v*12);trans.textContent=(hay?'Te oigo ':'Habla… ')+'▮'.repeat(k)+'▯'.repeat(12-k)},calla:terminar},opc.max||20000)});
+}
+const FRASE=/^\W*(?:oye\W+)?espej\w*[\s,.;:!¡¿-]+(?:espej\w*[\s,.;:!¡¿-]*)?/i;
+let pend='';
+if(PUEDE){
+  conectarMic($('#mic1'),$('#trans1'),$('#st1'),t=>{$('#trans1').textContent='«'+t+'»';const m=t.match(FRASE),e=$('#envio');
+    if(!m){pend='';e.style.display='';$('#mandar').style.display='none';$('#st1').textContent='El espejo solo despierta si empiezas con «Espejito, espejito…». Toca el botón y dilo otra vez.';return}
+    pend=t.slice(m[0].length).trim();
+    if(pend.length<3){pend='';e.style.display='';$('#mandar').style.display='none';$('#st1').textContent='Después de «Espejito, espejito» di tu pregunta (o «¿quién es '+(yo&&yo.genero==='a'?'la más bella':'el más bello')+'?»).';return}
+    $('#st1').textContent='¿Eso dijiste? Mándalo, o repítelo.';$('#mandar').style.display='';e.style.display=''},{alEmpezar:()=>{pend='';cancelaEnvio()}});
+  conectarMic($('#mic2'),$('#trans2'),$('#st2'),t=>{$('#trans2').textContent='';$('#ded').value=t.slice(0,160);$('#dedBox').style.display='';cuentaDed()},{max:25000});
+}
+$('#mandar').onclick=()=>{if(!pend)return;const t=pend;pend='';cancelaEnvio();enviaPregunta(t)};
+$('#repetir').onclick=()=>{pend='';cancelaEnvio();$('#trans1').textContent='';$('#st1').textContent='Toca el botón y di «Espejito, espejito…» y tu pregunta.'};
+function cuentaDed(){$('#dedN').textContent=$('#ded').value.length+'/160'}
+$('#ded').addEventListener('input',cuentaDed);
+$('#dedBorra').onclick=e=>{e.preventDefault();$('#ded').value='';$('#dedBox').style.display='none'};
+
+/* ---------- selfie: el recorte y el retrato se hacen aquí, en el celular (el Roku solo lo muestra) ---------- */
+let seg=null,segFalla=false,segCargando=null,foto=null,recorte=null,retratoURL='';
+function segmentador(){if(seg||segFalla)return Promise.resolve(seg);
+  if(!segCargando)segCargando=(async()=>{try{const base=new URL('mp/',location.href).href;const v=await import(base+'vision_bundle.mjs');const fs=await v.FilesetResolver.forVisionTasks(base.replace(/\/$/,''));
+      seg=await v.ImageSegmenter.createFromOptions(fs,{baseOptions:{modelAssetPath:base+'segmentador.tflite'},runningMode:'IMAGE',outputCategoryMask:false,outputConfidenceMasks:true})}
+    catch(e){console.warn('sin recorte',e);segFalla=true}return seg})();
+  return segCargando}
+async function recorta(img){const s=await segmentador();if(!s)return null;
+  let out=null;
+  try{s.segment(img,res=>{const bg=res.confidenceMasks[0],w=bg.width,h=bg.height,arr=bg.getAsFloat32Array();
+    const mc=document.createElement('canvas');mc.width=w;mc.height=h;const mx=mc.getContext('2d'),id=mx.createImageData(w,h);
+    const uno=res.confidenceMasks.length===1;for(let i=0;i<arr.length;i++){const a=((uno?arr[i]:1-arr[i])-.2)/.6;id.data[i*4+3]=a<=0?0:a>=1?255:a*255}
+    mx.putImageData(id,0,0);
+    const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;const x=c.getContext('2d');
+    x.drawImage(img,0,0);x.globalCompositeOperation='destination-in';x.filter='blur(2px)';x.drawImage(mc,0,0,c.width,c.height);x.filter='none';
+    let llenos=0;for(let i=3;i<id.data.length;i+=40)if(id.data[i]>128)llenos++;
+    if(llenos>arr.length/40*.06)out=c})}catch(e){console.warn(e)}
+  return out}
+function carga(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src})}
+const FONDO=new Image();FONDO.src='assets/bosque-escena.webp';
+const POPS=['shrek-saluda','burro','gato-botas','dragona','galleta-paleta','hada-madrina','pinocho','fiona-ogra','cochinitos','lobo'].map(n=>{const i=new Image();i.src='assets/personajes/'+n+'.webp';return i});
+function envuelve(x,txt,maxW){const pal=txt.split(' '),ls=[];let l='';for(const p of pal){const t=l?l+' '+p:p;if(x.measureText(t).width>maxW&&l){ls.push(l);l=p}else l=t}if(l)ls.push(l);return ls}
+function rr(x,a,b,w,h,r){x.beginPath();if(x.roundRect)x.roundRect(a,b,w,h,r);else{x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}}
+function componer(cv,foto,recorte,m,texto,pops){const W=cv.width,H=cv.height,V=H>W,x=cv.getContext('2d');x.clearRect(0,0,W,H);
+  if(FONDO.complete&&FONDO.naturalWidth){const k=Math.max(W/FONDO.naturalWidth,H/FONDO.naturalHeight);x.drawImage(FONDO,(W-FONDO.naturalWidth*k)/2,(H-FONDO.naturalHeight*k)/2,FONDO.naturalWidth*k,FONDO.naturalHeight*k)}else{x.fillStyle='#182B22';x.fillRect(0,0,W,H)}
+  x.fillStyle='rgba(10,30,20,.25)';x.fillRect(0,0,W,H);
+  const hay=!!texto;const cx=V?W/2:(hay?560:800),cy=V?(hay?H*.68:H*.58):H*.55;
+  const g=x.createRadialGradient(cx,cy,40,cx,cy,V?640:520);g.addColorStop(0,'rgba(150,255,190,.45)');g.addColorStop(1,'rgba(150,255,190,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  if(recorte){const h=V?(hay?H*.64:H*.9):H*.94,w=h*recorte.width/recorte.height,ww=Math.min(w,V?W*.95:(hay?820:1200)),hh=ww*recorte.height/recorte.width;
+    x.save();x.shadowColor='rgba(140,255,180,.7)';x.shadowBlur=40;x.drawImage(recorte,cx-ww/2,H-hh,ww,hh);x.restore()}
+  else{const rh=V?(hay?H*.56:H*.78):H*.78,rw=V?Math.min(rh*.78,W*.88):rh*.78,oy=V?(hay?H*.37:H*.07):H*.08;x.save();x.beginPath();x.ellipse(cx,oy+rh/2,rw/2,rh/2,0,0,Math.PI*2);x.closePath();
+    x.shadowColor='rgba(140,255,180,.8)';x.shadowBlur=50;x.fillStyle='#000';x.fill();x.shadowBlur=0;x.clip();
+    const k=Math.max(rw/foto.naturalWidth,rh/foto.naturalHeight);x.drawImage(foto,cx-foto.naturalWidth*k/2,oy+rh/2-foto.naturalHeight*k/2,foto.naturalWidth*k,foto.naturalHeight*k);x.restore();
+    x.lineWidth=14;x.strokeStyle='#C6A875';x.beginPath();x.ellipse(cx,oy+rh/2,rw/2,rh/2,0,0,Math.PI*2);x.stroke()}
+  pops.forEach((im,i)=>{if(!im.complete||!im.naturalWidth)return;const h=330,w=h*im.naturalWidth/im.naturalHeight;const px=i===0?20:((hay&&!V)?cx+300:W-20-w);x.drawImage(im,px,H-h,w,h)});
+  if(hay){const bx=V?60:990,by=V?60:110,bw=V?W-120:560,bh=V?500:600;x.save();x.shadowColor='rgba(0,0,0,.6)';x.shadowBlur=30;x.fillStyle='#E8D9B7';rr(x,bx,by,bw,bh,22);x.fill();x.restore();
+    x.strokeStyle='#79583D';x.lineWidth=6;rr(x,bx+14,by+14,bw-28,bh-28,14);x.stroke();
+    x.fillStyle='#304B35';x.textAlign='center';x.textBaseline='alphabetic';x.font=(V?64:58)+"px UnifrakturMaguntia";x.fillText('Para '+info.festejado,bx+bw/2,by+100);
+    let fs=44;let ls;do{x.font=fs+"px 'Chelsea Market'";ls=envuelve(x,'«'+texto+'»',bw-90);fs-=3}while(ls.length*fs*1.3>bh-230&&fs>22);
+    x.fillStyle='#382B22';const lh=(fs+3)*1.3,y0=by+150+((bh-250)-ls.length*lh)/2+lh*.8;ls.forEach((l,i)=>x.fillText(l,bx+bw/2,y0+i*lh));
+    x.font="34px 'Chelsea Market'";x.fillStyle='#79583D';x.fillText('— '+m.nombre,bx+bw/2,by+bh-50)}
+  x.fillStyle='rgba(24,43,34,.8)';x.fillRect(0,H-56,W,56);x.fillStyle='#E8D9B7';x.textAlign='center';x.font="30px 'Chelsea Market'";
+  x.fillText(m.nombre+' · en la fiesta de '+info.festejado+' · Espejo Mágico',W/2,H-18)}
+async function achica(file){const url=URL.createObjectURL(file);try{const img=new Image();img.src=url;await img.decode();
+  const M=1280,k=Math.min(1,M/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);
+  c.getContext('2d').drawImage(img,0,0,c.width,c.height);return await carga(c.toDataURL('image/jpeg',.9))}finally{URL.revokeObjectURL(url)}}
+$('#archivo').onchange=async e=>{const f=e.target.files[0];if(!f)return;$('#camTxt').textContent='Revelando…';recorte=null;
+  try{foto=await achica(f);$('#prev').src=foto.src;$('.cam').classList.add('lista');$('#camTxt').textContent='Toca para repetirla';
+    recorte=recorta(foto)}   // el recorte corre mientras dictas la dedicatoria
+  catch(x){foto=null;$('#camTxt').textContent='Esa foto no se pudo abrir. Intenta otra.'}
+  e.target.value=''};
+$('#volver3').onclick=menu;
+$('#enviarSelfie').onclick=async()=>{if(!foto)return err('#err3','Primero la selfie. El espejo no retrata fantasmas.');err('#err3');
+  const b=$('#enviarSelfie');b.disabled=true;b.textContent='Pintando tu retrato…';
+  try{
+    try{await document.fonts.load("44px 'Chelsea Market'");await document.fonts.load('58px UnifrakturMaguntia')}catch(x){}
+    const rec=await recorte;const texto=$('#ded').value.replace(/\s+/g,' ').trim().slice(0,160);
+    const cv=document.createElement('canvas');cv.width=info.vertical?900:1600;cv.height=info.vertical?1600:900;
+    const d=yo.disfraz==='Otro personaje'&&yo.otro?yo.otro:yo.disfraz;
+    componer(cv,foto,rec,{nombre:yo.nombre},texto,[azar(POPS),azar(POPS)]);
+    let q=.85,data=cv.toDataURL('image/jpeg',q);while(data.length>1.6e6&&q>.4){q-=.12;data=cv.toDataURL('image/jpeg',q)}
+    retratoURL=data;LS.set('retrato',null);
+    b.textContent='Mandando al espejo…';
+    await enviar(texto,data);
+  }finally{b.disabled=false;b.textContent='Mandar al espejo'}};
+$('#volver1').onclick=menu;$('#volver2').onclick=()=>{LS.set('turno',null);menu()};
+
+async function enviar(texto,img){
+  const d=yo.disfraz==='Otro personaje'&&yo.otro?yo.otro:yo.disfraz;
+  try{
+    const r=await api('enviar',{tipo,nombre:yo.nombre,genero:yo.genero,disfraz:d,texto,cid,imagen:img||''},60000);
+    if(r.error){if(tipo==='selfie')err('#err3',r.error);else err('#err2',r.error);return}
+    LS.set('turno',{id:r.id,tipo});seguir(r.id);
+  }catch(e){const m='No llegué al espejo. ¿Tienes internet? Intenta otra vez.';tipo==='selfie'?err('#err3',m):err('#err2',m)}
+}
+function muestraError(t){$('#filaTxt').innerHTML='';const p=document.createElement('p');p.textContent=t;$('#filaTxt').append(p);$('#dijo').style.display='none';$('#volver2').style.display=''}
+function seguir(id){vista('vFila');$('#dijo').style.display='none';$('#volver2').style.display='none';clearTimeout(poll);
+  $('#filaTxt').innerHTML='<p>Tu mensaje ya está en la fila del espejo…</p>';
+  const paso=async()=>{let r;try{r=await api('estado',{id,cid},20000)}catch(e){$('#filaTxt').innerHTML='<p>Se perdió la señal del pantano. Reintentando…</p>';poll=setTimeout(paso,5000);return}
+    const f=$('#filaTxt');
+    if(r.estado==='aprobado'||r.estado==='pendiente'){
+      f.innerHTML=`<p>Tu lugar en la fila</p><div class="num">${r.pos}</div><p>${r.pos<=1?'¡Ya casi! Acércate al espejo.':'Unos '+Math.max(1,Math.round((r.pos-1)*25/60))+' min. Ve por un trago y vuelve.'}</p>${r.estado==='pendiente'?'<p style="color:var(--liquen);font-size:14px">El ogro mayor revisa los mensajes antes de que salgan.</p>':''}${!r.espejoVivo?'<p style="color:#ffb3bf;font-size:14px">El espejo está dormido. Despertará pronto.</p>':''}`;
+      poll=setTimeout(paso,3500)}
+    else if(r.estado==='leyendo'){f.innerHTML='<div class="num" style="font-size:40px">¡Es tu turno!</div><p>Mira al espejo. Te está hablando a ti.</p>'+(tipo==='selfie'?'<p>Tu retrato está saliendo en el bosque encantado.</p>':'');poll=setTimeout(paso,2500)}
+    else if(r.estado==='leido'){f.innerHTML='';const dj=$('#dijo');dj.style.display='';dj.querySelector('span').textContent=r.dicho||'El espejo habló. No quedó registro. Mejor así.';
+      const im=dj.querySelector('img'),a=$('#bajar');if(tipo==='selfie'&&retratoURL){im.src=retratoURL;im.style.display='';a.href=retratoURL;a.style.display=''}else{im.style.display='none';a.style.display='none'}
+      $('#volver2').style.display='';LS.set('turno',null)}
+    else if(r.estado==='rechazado'){muestraError('El espejo decidió ignorar tu mensaje. Pasa hasta en las mejores familias.');LS.set('turno',null)}
+    else{muestraError('El espejo perdió tu mensaje. Inténtalo otra vez.');LS.set('turno',null)}
+  };paso()}
+
+function arranque(){const t=LS.get('turno',null);
+  if(!yo)quien();else if(t){tipo=t.tipo;genero(yo.genero);seguir(t.id)}else menu()}
+(async()=>{
+  if(!GAS){vista('vSinEspejo');return}
+  api('info',{},15000).then(r=>{info=Object.assign(info,r);document.querySelectorAll('.fest').forEach(e=>e.textContent=r.festejado)}).catch(()=>{});
+  if(!PUEDE){vista('vSinVoz');
+    const ios=/iPhone|iPad|iPod/.test(UA),otro=/CriOS|FxiOS|EdgiOS|OPiOS|GSA/.test(UA);
+    if(ios&&otro)$('#sinVozMsg').innerHTML='Estás en un navegador de iPhone que no deja usar el micrófono. Toca <b style="color:var(--brillo);font-weight:400">Copiar enlace</b>, abre <b style="color:var(--brillo);font-weight:400">Safari</b> y pégalo en la barra de arriba.';
+    $('#copiaLink').onclick=async()=>{const u=location.href.split('#')[0];let ok=false;try{await navigator.clipboard.writeText(u);ok=true}catch(e){}
+      $('#copiaOk').textContent=ok?'Enlace copiado. Pégalo en Safari.':u};
+    return}
+  arranque()})();
+</script>
+</body>
+</html>

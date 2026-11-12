@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#182B22">
+<meta name="robots" content="noindex">
+<title>Panel del ogro mayor</title>
+<style>
+@font-face{font-family:'Chelsea Market';src:url(assets/fonts/chelsea.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'UnifrakturMaguntia';src:url(assets/fonts/unifraktur.woff2) format('woff2');font-display:swap}
+:root{--pantano:#182B22;--musgo:#304B35;--hoja:#637C48;--liquen:#A3A66A;--corteza:#382B22;--madera:#79583D;--oro:#C6A875;--papel:#E8D9B7;--rojo:#EA1D3B;--brillo:#8CFFB4}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Chelsea Market',system-ui,sans-serif;background:var(--pantano);color:var(--papel);padding:16px;font-size:16px}
+main{max-width:720px;margin:0 auto}
+h1{font-family:'UnifrakturMaguntia',serif;font-weight:400;color:var(--oro);font-size:38px;margin:4px 0 12px;text-align:center}
+h2{font-weight:400;color:var(--oro);font-size:20px;margin:22px 0 8px;border-bottom:1px solid var(--musgo);padding-bottom:4px}
+input,select,textarea{font:inherit;padding:10px 12px;border-radius:10px;border:2px solid var(--hoja);background:#0e1a14;color:var(--papel);width:100%}
+button{font:inherit;background:var(--rojo);color:#fff;border:0;border-radius:10px;padding:10px 16px;cursor:pointer}
+button.sec{background:var(--musgo)}
+.fila{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}.fila>*{flex:1;min-width:140px}
+label{display:block;color:var(--liquen);font-size:14px;margin:8px 0 4px}
+.estado{padding:10px 12px;border-radius:10px;background:#0e1a14;margin:8px 0}
+.ok{color:var(--brillo)}.mal{color:#ff8a9c}
+.msg{background:#0e1a14;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:15px}
+.msg b{color:var(--oro);font-weight:400}.msg small{color:var(--liquen)}
+.msg .acc{display:flex;gap:6px;margin-top:6px}.msg .acc button{padding:6px 10px;font-size:14px}
+pre{white-space:pre-wrap;font-size:13px;color:var(--liquen);background:#0e1a14;padding:10px;border-radius:10px}
+a{color:var(--oro)}
+#qr{background:#fff;padding:12px;border-radius:12px;display:inline-block}
+@media(max-width:480px){.fila>*{min-width:100%}}
+</style>
+</head>
+<body>
+<main>
+<h1>Panel del ogro mayor</h1>
+<section id="vPin">
+  <label>PIN del espejo</label>
+  <div class="fila"><input id="pin" type="password" inputmode="numeric" autocomplete="off"><button id="entrar">Entrar</button></div>
+  <p id="pinErr" class="mal"></p>
+</section>
+<section id="vPanel" hidden>
+  <div class="estado" id="estado">Cargando…</div>
+
+  <h2>Que el espejo diga…</h2>
+  <div class="fila"><input id="decir" maxlength="300" placeholder="Ya llegó el pastel. Todos al centro del pantano."><button id="bDecir" style="flex:0 0 auto">Decir</button></div>
+
+  <h2>Fila</h2>
+  <div class="fila"><button id="bPausa" class="sec">Pausar fila</button><button id="bRefrescar" class="sec">Actualizar</button></div>
+  <div id="cola"></div>
+
+  <h2>Ajustes</h2>
+  <div class="fila">
+    <div><label>Festejado</label><input id="festejado" maxlength="40"></div>
+    <div><label>Frase sola cada (segundos, 0 = nunca)</label><input id="ambiente" type="number" min="0" max="900"></div>
+  </div>
+  <div class="fila">
+    <div><label>IA de Gemini</label><select id="ia_activa"><option value="si">Encendida</option><option value="no">Apagada (solo frases)</option></select></div>
+    <div><label>Groserías</label><select id="con_filtro"><option value="no">Sin filtro (fiesta de adultos)</option><option value="si">Con filtro ("cebolla")</option></select></div>
+    <div><label>Moderación</label><select id="moderacion"><option value="auto">Automática</option><option value="manual">Manual (yo apruebo)</option></select></div>
+  </div>
+  <div class="fila">
+    <div><label>Voz de Gemini</label><input id="voz" placeholder="Algenib, Charon, Gacrux, Fenrir…"></div>
+    <div><label>Llave de Gemini (aistudio.google.com)</label><input id="gemini_key" placeholder="pega aquí para cambiarla" autocomplete="off"></div>
+  </div>
+  <div class="fila"><button id="bGuardar">Guardar ajustes</button><button id="bProbar" class="sec">Probar IA</button></div>
+  <pre id="prueba" hidden></pre>
+
+  <h2>Cartel para los invitados</h2>
+  <p>Imprímelo y pégalo junto al espejo: <a id="lCartel" target="_blank">abrir cartel</a>. Este es el código que escanean:</p>
+  <div id="qr"></div>
+  <p id="lHoja"></p>
+</section>
+</main>
+<script src="qrcode.js"></script>
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const Q=new URLSearchParams(location.search);
+const S=Q.get('s')||localStorage.getItem('espejo.s')&&JSON.parse(localStorage.getItem('espejo.s'))||'';
+const GAS=Q.get('gas')||(S?'https://script.google.com/macros/s/'+S+'/exec':'');
+let PIN=sessionStorage.getItem('espejo.pin')||'';
+async function api(a,d){const r=await fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({a,pin:PIN},d||{}))});return r.json()}
+function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+const urlCel=new URL('./',location.href).href+(Q.get('gas')?'?gas='+encodeURIComponent(GAS):'?s='+S);
+let cfg={};
+async function entrar(){PIN=$('#pin').value.trim()||PIN;const r=await api('cola').catch(e=>({error:'Sin conexión'}));
+  if(r.error){$('#pinErr').textContent=r.error;return}
+  sessionStorage.setItem('espejo.pin',PIN);$('#vPin').hidden=true;$('#vPanel').hidden=false;pinta(r);pintaQR()}
+function pinta(r){cfg=r.cfg;
+  $('#estado').innerHTML=(r.espejoVivo?'<span class="ok">● El espejo (Roku) está vivo</span>':'<span class="mal">● El Roku no ha llamado en 20 s</span>')+
+    ' · IA: '+(cfg.ia_activa==='si'?(cfg.gemini_key?'encendida':'<span class="mal">sin llave</span>'):'apagada')+(cfg.pausa==='si'?' · <b class="mal">FILA EN PAUSA</b>':'')+
+    (r.ult_error?'<br><small class="mal">Último error: '+esc(r.ult_error.slice(0,220))+'</small>':'');
+  ['festejado','ambiente','ia_activa','con_filtro','moderacion','voz'].forEach(k=>{const e=$('#'+k);if(document.activeElement!==e)e.value=cfg[k]||''});
+  $('#gemini_key').placeholder=cfg.gemini_key?'actual: '+cfg.gemini_key+' (pega otra para cambiarla)':'pega aquí tu llave';
+  $('#bPausa').textContent=cfg.pausa==='si'?'Seguir la fila':'Pausar fila';
+  $('#cola').innerHTML=r.mensajes.map(m=>`<div class="msg"><b>#${m.id} ${esc(m.nombre)}</b> <small>${esc(m.tipo)} · ${esc(m.estado)}${m.disfraz?' · '+esc(m.disfraz):''}</small>
+    ${m.texto?'<div>«'+esc(m.texto)+'»</div>':''}${m.respuesta?'<div><small>IA: '+esc(m.respuesta)+'</small></div>':''}${m.dicho?'<div><small>Dijo: '+esc(m.dicho.slice(0,200))+'</small></div>':''}
+    <div class="acc">${m.estado==='pendiente'?`<button data-a="aprobar" data-id="${m.id}">Aprobar</button>`:''}${['pendiente','aprobado'].includes(m.estado)?`<button class="sec" data-a="rechazar" data-id="${m.id}">Rechazar</button>`:''}${m.estado==='leyendo'?`<button class="sec" data-a="saltar" data-id="${m.id}">Dar por dicho</button>`:''}${['leido','rechazado'].includes(m.estado)&&m.tipo!=='anuncio'?`<button class="sec" data-a="reponer" data-id="${m.id}">Repetir</button>`:''}</div></div>`).join('')||'<p>La fila está vacía.</p>';
+  if(r.hoja)$('#lHoja').innerHTML='Todo lo que se dijo queda en el <a target="_blank" href="'+r.hoja+'">Libro del pantano (Hoja de Google)</a>; los retratos, en Drive › Espejo Mágico (Roku).'}
+function pintaQR(){const q=qrcode(0,'M');q.addData(urlCel);q.make();$('#qr').innerHTML=q.createSvgTag({cellSize:5,margin:2});$('#lCartel').href='cartel.html'+(Q.get('gas')?'?gas='+encodeURIComponent(GAS):'?s='+S)}
+async function refresca(){const r=await api('cola').catch(()=>null);if(r&&!r.error)pinta(r)}
+$('#entrar').onclick=entrar;$('#pin').onkeydown=e=>{if(e.key==='Enter')entrar()};
+$('#bRefrescar').onclick=refresca;
+$('#cola').onclick=async e=>{const b=e.target.closest('button');if(!b)return;b.disabled=true;await api('accion',{id:+b.dataset.id,que:b.dataset.a});refresca()};
+$('#bPausa').onclick=async()=>{await api('config',{cfg:{pausa:cfg.pausa==='si'?'no':'si'}});refresca()};
+$('#bDecir').onclick=async()=>{const t=$('#decir').value.trim();if(!t)return;await api('decir',{texto:t});$('#decir').value='';refresca()};
+$('#bGuardar').onclick=async()=>{const c={};['festejado','ambiente','ia_activa','con_filtro','moderacion','voz','gemini_key'].forEach(k=>c[k]=$('#'+k).value.trim());
+  const r=await api('config',{cfg:c});$('#gemini_key').value='';$('#bGuardar').textContent=r.ok?'Guardado ✓':'Error';setTimeout(()=>$('#bGuardar').textContent='Guardar ajustes',1800);refresca()};
+$('#bProbar').onclick=async()=>{const p=$('#prueba');p.hidden=false;p.textContent='Probando (tarda unos 10 s)…';const r=await api('probar').catch(e=>({error:String(e)}));p.textContent=JSON.stringify(r,null,2)};
+if(!GAS){document.querySelector('main').innerHTML+='<p class="mal">Falta ?s=… en la dirección (el id de tu Apps Script).</p>';$('#vPin').hidden=true}
+else if(PIN)entrar();
+setInterval(()=>{if(!$('#vPanel').hidden)refresca()},8000);
+</script>
+</body>
+</html>

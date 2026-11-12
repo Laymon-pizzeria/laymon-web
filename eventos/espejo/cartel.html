@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cartel · Espejo Mágico</title>
+<style>
+@font-face{font-family:'Chelsea Market';src:url(assets/fonts/chelsea.woff2) format('woff2')}
+@font-face{font-family:'UnifrakturMaguntia';src:url(assets/fonts/unifraktur.woff2) format('woff2')}
+@page{size:letter;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;background:#182B22}
+.hoja{width:8.5in;height:11in;margin:0 auto;padding:.6in .6in;background:radial-gradient(120% 70% at 50% 0%,#2a4a37,#182B22 60%,#0c1611);color:#E8D9B7;font-family:'Chelsea Market',sans-serif;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:space-between;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+h1{font-family:'UnifrakturMaguntia',serif;font-weight:400;color:#C6A875;font-size:84px;margin:0;line-height:1}
+.lema{font-size:26px;color:#A3A66A;margin:10px 0 0}
+#qr{background:#E8D9B7;padding:22px;border-radius:24px;box-shadow:0 0 50px rgba(140,255,180,.3)}
+#qr svg{display:block;width:3.6in;height:3.6in}
+ol{text-align:left;font-size:24px;line-height:1.5;margin:0;padding-left:1.2em;color:#E8D9B7}
+ol b{color:#8CFFB4;font-weight:400}
+.pie{font-size:15px;color:rgba(232,217,183,.6)}
+.centro{display:flex;align-items:flex-end;justify-content:center;gap:.15in;width:100%}
+.centro img{height:2.6in;width:auto}
+@media screen{body{padding:20px 0}.hoja{box-shadow:0 10px 40px #000}}
+</style>
+</head>
+<body>
+<div class="hoja">
+  <div><h1>Espejo Mágico</h1><p class="lema">Pregunta lo que quieras. Asume las consecuencias.</p></div>
+  <div class="centro"><img src="assets/personajes/shrek-saluda.webp" alt=""><div id="qr"></div><img src="assets/personajes/burro.webp" alt=""></div>
+  <ol>
+    <li>Escanea con la cámara de tu celular.</li>
+    <li>Toca el botón y di <b>«Espejito, espejito…»</b> y tu pregunta.</li>
+    <li>O mándale tu <b>selfie con dedicatoria</b> para <span class="fest">Luis</span>.</li>
+    <li>Mira el espejo: cuando sea tu turno, te habla a ti.</li>
+  </ol>
+  <p class="pie">iPhone: usa Safari · Android: usa Chrome · Necesitas internet</p>
+</div>
+<script src="qrcode.js"></script>
+<script>
+const Q=new URLSearchParams(location.search);
+const url=new URL('./',location.href).href+(Q.get('gas')?'?gas='+encodeURIComponent(Q.get('gas')):'?s='+(Q.get('s')||''));
+const q=qrcode(0,'M');q.addData(url);q.make();document.getElementById('qr').innerHTML=q.createSvgTag({cellSize:6,margin:0});
+if(Q.get('f'))document.querySelectorAll('.fest').forEach(e=>e.textContent=Q.get('f'));
+</script>
+</body>
+</html>
