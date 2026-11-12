@@ -273,10 +273,10 @@ a { color: inherit; }
 .pz:hover .pz__nombre, .pz:focus-visible .pz__nombre { background: var(--red); color: #fff; }
 .pizzas__concepto {
   position: absolute; left: var(--gutter); bottom: clamp(32px, 4vw, 56px); z-index: 60;
-  max-width: 34ch; font-size: clamp(15px, 1.2vw, 18px);
+  max-width: max(34ch, 30vw); font-size: clamp(15px, 1.2vw, 18px);
 }
 .pizzas__concepto p { margin: 0 0 .7em; }
-.pizzas__title { margin: 0 0 .35em; font: 400 clamp(34px, 3.6vw, 56px)/.95 var(--font-display); color: var(--red); }
+.pizzas__title { margin: 0 0 .3em; font: 400 clamp(52px, 6.6vw, 104px)/.88 var(--font-display); color: var(--red); }
 .pizzas__menu { color: var(--red); }
 @media (max-width: 820px) {
   .pizzas { min-height: 0; padding-top: 460px; }
@@ -322,7 +322,10 @@ a { color: inherit; }
   /* La fila arranca en el borde de la foto: el fantasma queda centrado entre foto y frase */
   .manifesto__inner { max-width: none; padding-left: calc(var(--photo-w) + 2vw); }
   .manifesto__title { font-size: clamp(48px, 6.6vw, 104px); }
-  .manifesto__row { margin-left: calc(-2vw - var(--photo-w) * .25); }
+  /* Fantasma y frase repartidos a partes iguales en el espacio libre a la derecha de la foto: ninguno toca la foto ni el borde */
+  .manifesto__row { justify-content: space-evenly; gap: clamp(24px, 3vw, 48px); margin-left: 0; margin-right: 0; padding-right: var(--gutter); }
+  .manifesto__ghostwrap { flex: none; }
+  .manifesto__text { text-align: left; max-width: 26ch; }
 }
 /* Tablet: foto más chica y completa, centrada en vertical, para que el rojo la rodee */
 @media (min-width: 821px) and (max-width: 1100px) {
@@ -337,7 +340,7 @@ a { color: inherit; }
   display: grid; grid-template-columns: 1fr 1.25fr; grid-template-areas: "titulo ruta" "datos ruta";
   column-gap: clamp(32px, 5vw, 80px); align-items: start;
 }
-.visit__title { grid-area: titulo; margin: 0; align-self: end; }
+.visit__title { grid-area: titulo; margin: 0; align-self: end; font-size: clamp(52px, 7.4vw, 116px); line-height: .9; text-wrap: balance; }
 .visit__body { grid-area: datos; }
 .visit__lead { margin: clamp(20px, 2.4vw, 32px) 0 0; font-size: clamp(20px, 1.9vw, 25px); line-height: 1.3; }
 .visit__texto p { margin: 16px 0 0; color: var(--label); font-size: clamp(16px, 1.3vw, 18px); line-height: 1.55; max-width: 46ch; }
@@ -540,7 +543,7 @@ a { color: inherit; }
 }
 .fuego__fantasma { justify-self: center; width: min(100%, 240px); height: auto; filter: drop-shadow(0 18px 18px rgba(12, 11, 11, .28)); }
 .fuego__kicker { margin: 0 0 6px; color: rgba(255, 253, 250, .82); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; }
-.fuego .display { color: var(--paper); }
+.fuego .display { color: var(--paper); font-size: clamp(60px, 8.6vw, 128px); line-height: .9; }
 .fuego__sube { display: flex; align-items: baseline; gap: .18em; margin: 10px 0 0; color: var(--paper); font: 400 clamp(72px, 10vw, 148px)/.85 var(--font-display); }
 .fuego__sube s { color: rgba(12, 11, 11, .55); font-family: var(--font-body); font-size: .36em; text-decoration-thickness: .08em; text-decoration-color: var(--ink); }
 /* El % de Brick parece ":/", así que va en Chelsea */

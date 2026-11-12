@@ -1,5 +1,5 @@
-// En vivo (cada sábado): las 8 escenas del storyboard aprobado, al ritmo del riff de Miguel (0.4988 s por pulso).
-// 4 pulsos = 1 escena, 8 escenas = 16 s en bucle. Cada pulso cambia --p en la escena; el tono de la sección
+// En vivo (cada sábado): 3 escenas del storyboard aprobado (Miguel, pizzas, cierre), al ritmo del riff de Miguel (0.4988 s por pulso).
+// 4 pulsos = 1 escena, 3 escenas = 6 s en bucle. Cada pulso cambia --p en la escena; el tono de la sección
 // (tinta, rojo o papel) cambia con la escena. Sin sonido. Se carga al asomarse y se pausa fuera de pantalla.
 (() => {
   const sec = document.querySelector('[data-envivo]');
@@ -7,7 +7,7 @@
   if (!stage) return;
   const escenas = [...stage.querySelectorAll('.ev-fr')];
   const flash = stage.querySelector('.ev-flash'), wipe = stage.querySelector('.ev-wipe'), glitch = stage.querySelector('.ev-glitch');
-  const P = 0.4988, B = 4 * P, L = 8 * B, LEAD = 0.12;
+  const P = 0.4988, B = 4 * P, ORD = [3, 5, 7], L = ORD.length * B, LEAD = 0.12;
   const tonos = ['tinta', 'tinta', 'tinta', 'rojo', 'tinta', 'rojo', 'tinta', 'papel'];
   const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const muestra = (s, p) => {
@@ -26,13 +26,10 @@
     if (!activo) return;
     requestAnimationFrame(cuadro);
     const u = Math.max(0, ((ms - t0) / 1000) % L);
-    const s = Math.floor(u / B), en = u - s * B;
+    const k = Math.floor(u / B), s = ORD[k], en = u - k * B;
     const p = Math.floor(en / P) + 1;
     if (s !== escena) {
       muestra(s, 0); escena = s; pulso = -1; pz = -1;
-      if (s === 1 || s === 6) dispara(flash, 140);
-      if (s === 3) dispara(wipe, 240);
-      if (s === 4) { stage.classList.add('ev-inv'); setTimeout(() => stage.classList.remove('ev-inv'), 40); }
     }
     if (p !== pulso) { escenas[s].style.setProperty('--p', p); pulso = p; if (s === 7) sec.dataset.tono = p >= 2 ? 'papel' : 'tinta'; }
     if (s === 5) { // las pizzas empiezan a caer un poco antes para aterrizar justo en el golpe
@@ -48,7 +45,7 @@
   };
   const precarga = () => {
     if (cargada) return; cargada = true; sec.classList.add('is-listo');
-    const urls = ['g1.webp', 'g2.webp', 'lugar.jpg', 'negro.jpg', 'llamas2.webp', 'papel.jpg', 'pz1.webp', 'pz2.webp', 'pz3.webp'].map(f => 'assets/img/envivo/ev/' + f);
+    const urls = ['g1.webp', 'g2.webp', 'negro.jpg', 'llamas2.webp', 'papel.jpg', 'pz1.webp', 'pz2.webp', 'pz3.webp'].map(f => 'assets/img/envivo/ev/' + f);
     const listo = Promise.all(urls.map(u => new Promise(ok => { const i = new Image(); i.onload = i.onerror = ok; i.src = u; })));
     return Promise.race([listo, new Promise(ok => setTimeout(ok, 1500))]);
   };
